@@ -7,16 +7,6 @@
 (function (L, d3, topojson, searchBar, localization) {
   "use strict";
 
-  /***** Configuration *****/
-  var parties = [
-    {name: "Bloc Québécois", color: "#6ba7d9", abbreviation: "BQ"},
-    {name: "Conservateur", color: "#194f99", abbreviation: "PCC"},
-    {name: "Libéral", color: "#e9332f", abbreviation: "PLC"},
-    {name: "Indépendant", color: "grey", abbreviation: "Ind."},
-    {name: "Parti Vert", color: "#7bbd51", abbreviation: "PV"},
-    {name: "NPD-Nouveau Parti Démocratique", color: "#f28135", abbreviation: "NPD"}
-  ];
-
   var panel = d3.select("#panel");
   var map = L.map('map', {
     'worldCopyJump': true
@@ -52,21 +42,30 @@
 
   /***** Loading data *****/
   var promises = [];
-  promises.push(d3.json("./data/canada.json"));
-  promises.push(d3.csv("./data/data.csv"));
+  promises.push(d3.csv("./data/Montréal.csv"));
+  promises.push(d3.csv("./data/Québec.csv"));
+  promises.push(d3.csv("./data/Canada.csv"));
+  promises.push(d3.csv("./data/Montréal-Population.csv"));
+  promises.push(d3.csv("./data/Québec-Population.csv"));
+  promises.push(d3.csv("./data/Canada-Population.csv"));
 
   Promise.all(promises)
     .then(function (results) {
-      var canadaTopoJson = results[0];
-      var canada = topojson.feature(canadaTopoJson, canadaTopoJson.objects.Canada);
-      var data = results[1];
+      var cases = {};
+      cases['montreal'] = results[0];
+      cases['quebec'] = results[1];
+      cases['canada'] = results[2];
+
+      var populations = {};
+      populations['montreal'] = results[3];
+      populations['quebec'] = results[4];
+      populations['canada'] = results[5];
+      
 
       /***** Data preprocessing *****/
-      data.forEach(function (d) {
-        d.percent = d.percent.replace(".", ",");
-      });
-      colorScale(color, parties);
-      convertNumbers(data);
+      convertNumbers(cases, populations);
+      var data = createPercentage(cases, populations);  
+      console.log(data)
       var sources = createSources(data);
 
       /***** Map initialization *****/
