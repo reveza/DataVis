@@ -24,15 +24,15 @@ function createAxes(g, xAxis, yAxis, height, width) {
     .attr("class", "x label")
     .text("Groupe d'âge")
     //Theres probably a better way to do this than just hardcode it
-    .attr("transform", "translate(" + (width - 190) + "," + (height - 10) +")");
-  g.append("g")
+    .attr("transform", "translate(" + (width - 50) + "," + (height + 30) +")");
+  /*g.append("g")
     .attr("class","y axis")
     .call(yAxis);
   g.append("text")
     .attr("class","y label")
     .text("Nombre d'individus")
     //Same here
-    .attr("transform","translate(" + 17 + "," + 100 + "), rotate(-90)");
+    .attr("transform","translate(" + 17 + "," + 100 + "), rotate(-90)");*/
 }
 
 /**
@@ -46,24 +46,40 @@ function createAxes(g, xAxis, yAxis, height, width) {
  * @param color   Scale for the circles' color.
  * @param tip     Tooltip to show when a circle is hovered.
  */
-function createBubbleChart(g, data, x, y, r, color, tip) {
-  // TODO: Draw the graph's circles by using the specified scales.
-  //       Make sure you add the tooltip when a circle is hovered.
-  g.selectAll("dot")
+
+  
+    function createBarChart(g, data, x, y, r, color, tip) {
+      var bars=g.selectAll(".bar,.label")
       .data(data)
       .enter()
-      // .append("g")
       .append("circle")
-      .attr("cx", function(d) { return x(d.lifeExpectancy);} )
-      .attr("cy", function(d) { return y(d.income);} )
-      .attr("r", function(d) { return r(d.population);} )
-      .style("fill", function(d) { return color(d.zone);} )
-      .style("opacity", "0.9")
-      .on("mouseover", function(d){
-        tip.show(d);
-      })
-      .on("mouseout", function(d){
-        tip.hide();
-      });
+      .attr("class","dot")
+      .attr("cx",function(d){
   
-  }
+        return x(d.ageGroup)+x.bandwidth()/2;
+      })
+      //.attr("height", x.bandwidth())
+      .attr("cy",function (d,i) {
+        return y(i*10);
+      })
+      .attr("r",function(d){
+        return 5;
+      })
+      .style("fill",function(d){
+        //if (color.domain().includes(d.status))
+          return color(d.status);
+        //else
+         // return "grey"
+      });
+    //Add percentage to the right of each bars
+    /*bars.append("text")
+      .attr("class", "label")
+      .attr("cy", function (d) {
+        return 10;
+      })
+      .attr("x", function (d) {
+        return 10 + 3;
+      });
+*/
+
+    }

@@ -36,7 +36,7 @@
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var files = ["./data/Stats_de_nerds.csv"]
-
+  var dataset=[];
   /***** Data loading *****/
   Promise.all(files.map(url => d3.csv(url))).then(function (results) {
       var tip = d3.tip()
@@ -45,11 +45,13 @@
 
       /***** Data preprocessing *****/
       results.forEach(function (data) {
-        initializeData(data);
+        dataset=initializeData(data);
         data.sort(function(a, b) {
-          return d3.ascending(a.name, b.name);
+          return d3.ascending(a.date, b.date);
         })
       });
+      //console.log(dataset)
+    
       domainX(x);
       domainY(y);
       //domainColor(color, currentData);
@@ -57,13 +59,13 @@
 
       /***** Creation of the bubble chart *****/
       createAxes(bubbleChartGroup, xAxis, yAxis, height, width);
-      createBubbleChart(bubbleChartGroup, currentData, x, y, r, color, tip);
+      createBarChart(bubbleChartGroup, dataset, x, y, r, color, tip);
 
       /***** Transitions between the year 2000 and 2014. *****/
       var toggleButtons = d3.selectAll(".toggle-buttons > button");
       toggleButtons.on("click", function(d, i) {
           currentYear = d3.select(this).text();
-          currentData = results[i];
+          currentData = dataset[i];
           toggleButtons.classed("active", function() {
             return currentYear === d3.select(this).text();
           });

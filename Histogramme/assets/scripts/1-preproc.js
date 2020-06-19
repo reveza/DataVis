@@ -41,7 +41,9 @@ function initializeData(data) {
         dataset.push(person);
       }
     });
-  //console.log(dataset);
+    //console.log(dataset);
+    return dataset;
+  
 }
 
 /**
@@ -51,7 +53,7 @@ function initializeData(data) {
  */
 function domainX(x) {
   // Set the domain for the variable "x" by specifying the minimum and maximum values: 35 and 90.
-  var ageBracket=["20-39","40-49","50-59","60-69","70-79","80+"]
+  var ageBracket=["0-19","20-39","40-49","50-59","60-69","70-79","80+"]
   x.domain(ageBracket);
 }
 
@@ -73,7 +75,7 @@ function domainY(y) {
  */
 function domainColor(color, data) {
   // TODO: Precise the scale domain for the color. Make sure that each world region has a distinct value and no color is reused.
-  var worldRegions = [...new Set(data.map(x => x.zone))];
+  var worldRegions = [...new Set(data.map(x => x.status))];
   color = d3.scaleOrdinal(d3.SchemeCategory + worldRegions.size);
   // color.domain(worldRegions);
 }
