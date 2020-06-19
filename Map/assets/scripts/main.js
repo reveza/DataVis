@@ -22,7 +22,6 @@
   var barChartHeight = 150 - barChartMargin.top - barChartMargin.bottom;
 
   /***** Scales *****/
-  var color = d3.scaleOrdinal();
   var x = d3.scaleLinear().range([0, barChartWidth]);
   var y = d3.scaleBand().range([0, barChartHeight]).padding(0.1);
 
@@ -48,25 +47,34 @@
   promises.push(d3.csv("./data/Montréal-Population.csv"));
   promises.push(d3.csv("./data/Québec-Population.csv"));
   promises.push(d3.csv("./data/Canada-Population.csv"));
+  promises.push(d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/canada.geojson"));
+  promises.push(d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/quebec.geojson"));
+  promises.push(d3.json("./data/montreal_map.geojson"));
 
   Promise.all(promises)
     .then(function (results) {
-      var cases = {};
+      let cases = {};
       cases['montreal'] = results[0];
       cases['quebec'] = results[1];
       cases['canada'] = results[2];
 
-      var populations = {};
+      let populations = {};
       populations['montreal'] = results[3];
       populations['quebec'] = results[4];
       populations['canada'] = results[5];
       
+      let canadaBorders = results[6];
+      let quebecBorders = results[7];
+      let montrealBorders = results[8];
 
       /***** Data preprocessing *****/
       convertNumbers(cases, populations);
-      var data = createPercentage(cases, populations);  
-      console.log(data)
-      var sources = createSources(data);
+
+      let mtlAConfirmer = cases['montreal'].pop()['caseDates'];
+
+      let sources = createProportions(cases, populations);
+
+      console.log(sources)
 
       /***** Map initialization *****/
       initTileLayer(L, map);
@@ -77,18 +85,18 @@
 	  }
       var path = createPath();
 
-      createDistricts(g, path, canada, sources, color, showPanel);
+      createDistricts(g, path, canadaBorders, sources, showPanel);
       map.on("viewreset", function () {
-        updateMap(mapSvg, g, path, canada);
+        updateMap(mapSvg, g, path, canadaBorders);
       });
-      updateMap(mapSvg, g, path, canada);
+      updateMap(mapSvg, g, path, canadaBorders);
 
       /***** Search for a district *****/
       var autoCompleteSources = d3.nest()
         .key(function (d) {
           return d.id;
         })
-        .entries(data)
+        .entries(cases)
         .map(function (d) {
           return {
             id: +d.values[0].id,

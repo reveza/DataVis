@@ -1,48 +1,20 @@
 "use strict";
 
 /**
- * File to generate the display of the map. 
- */
-
-
-/**
- * Initializes the background of the map that must be used and the position of the initial display. 
- *
- * @param L     The Leaflet context.
- * @param map   The Leaflet map.
- *
  * @see https://gist.github.com/d3noob/9211665
  */
+
 function initTileLayer(L, map) {
-
-    /* TODO: Initialize the "tileLayer" with the following properties:
-       - URL du fond de carte: https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png;
-       - Zoom maximum: 10;
-       - Zoom minimum: 1.
-
-     Set the initial view of the map with the following values:
-       - Coordonnées: [57.3, -94.7];
-       - Niveau de zoom: 4.
-   */
 
   L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-      maxZoom: 10,
-      minZoom: 1
+      maxZoom: 12,
+      minZoom: 2
   }).addTo(map);
   map.setView([57.3, -94.7], 4);
 }
 
-/**
- * Initializes the SVG context to be used on top of the Leaflet map. 
- *
- * @param map   The Leaflet map. 
- * @return      the created SVG element. 
- *
- * @see https://gist.github.com/d3noob/9211665
- */
 function initSvgLayer(map) {
-  // TODO: Create the SVG element basing yourself on the above example. Make sure to create a "g" element in the SVG element. 
   let svg = d3.select(map.getPanes().overlayPane).append("svg");
   svg.append("g").attr("class", "leaflet-zoom-hide");
       
@@ -59,23 +31,14 @@ function initSvgLayer(map) {
  * @param color         The color scale mapping to each party. 
  * @param showPanel     The function called to display the panel. 
  */
-function createDistricts(g, path, canada, sources, color, showPanel) {
-  /* TODO: Create the traces for the districts. Make sur to follow these specs: 
-       - The color of the district should correspond to the party of the winning candidate
-       - The fill-opacity should be 80%;
-       - The color of the strokes should be "#333";
-       - When a district is clicked, it should get selected (class "selected") and the information panel 
-         associated with the riding should appear (use showPanel). Note it is only possible to select one
-         riding at a time. 
-   */
-  
-  g.selectAll('g')
+function createDistricts(g, path, canada, sources, showPanel) {
+  g.selectAll('path')
     .data(canada.features)
     .enter()
       .append('path')
       .attr('d', path)
       .attr('class', 'district')
-      .style('fill', d => { return color(sources.find(element => element.id === d.properties.NUMCF).results[0].party)})
+      .style('fill', '#99ccff')
       .on('click', function(d) {
         d3.selectAll(".district").classed("selected",false);
         d3.select(this).classed("selected",true);
@@ -96,7 +59,6 @@ function createDistricts(g, path, canada, sources, color, showPanel) {
  * @see https://gist.github.com/d3noob/9211665
  */
 function updateMap(svg, g, path, canada) {
-  // TODO: Update the SVG element, the postion of the group "g" and the display of the traces based on the provided example
   let bounds = path.bounds(canada);
 
   let leftBound = bounds[0][0];
