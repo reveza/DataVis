@@ -22,6 +22,8 @@
   var barChartHeight = 150 - barChartMargin.top - barChartMargin.bottom;
 
   /***** Scales *****/
+  var projection = d3.geoMercator().center([-114, 67.5]).scale(625)
+  var circles = d3.geoPath().projection(projection)
   var x = d3.scaleLinear().range([0, barChartWidth]);
   var y = d3.scaleBand().range([0, barChartHeight]).padding(0.1);
 
@@ -85,7 +87,8 @@
 	  }
       var path = createPath();
 
-      createDistricts(g, path, canadaBorders, sources, showPanel);
+      createBorders(g, path, canadaBorders, showPanel);
+      createCircles(g, canadaBorders, sources, circles)
       map.on("viewreset", function () {
         updateMap(mapSvg, g, path, canadaBorders);
       });
@@ -132,7 +135,7 @@
        * @param districtId    The number of the district to use to show the right information.
        */
       function showPanel(districtId) {
-        var districtSource = sources.find(function (e) {
+        /*var districtSource = sources.find(function (e) {
           return districtId === e.id;
         });
 
@@ -140,6 +143,7 @@
         updateDomains(districtSource, x, y);
         updatePanelInfo(panel, districtSource, localization.getFormattedNumber);
         updatePanelBarChart(barChartBarsGroup, barChartAxisGroup, districtSource, x, y, yAxis, color, parties)
+        */
       }
     });
 

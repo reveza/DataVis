@@ -21,17 +21,7 @@ function initSvgLayer(map) {
   return svg;
 }
 
-/**
- * Creates the traces for the districts on the SVG context aboove the Leaflet map. 
- *
- * @param g             The group where you should create the traces for the districts. 
- * @param path          The function used to trace the geometric entities according to the appropriate projection
- * @param canada        The geographic entities used to trace the districts. 
- * @param sources       The data containing the information on each district. 
- * @param color         The color scale mapping to each party. 
- * @param showPanel     The function called to display the panel. 
- */
-function createDistricts(g, path, canada, sources, showPanel) {
+function createBorders(g, path, canada, showPanel) {
   g.selectAll('path')
     .data(canada.features)
     .enter()
@@ -43,7 +33,18 @@ function createDistricts(g, path, canada, sources, showPanel) {
         d3.selectAll(".district").classed("selected",false);
         d3.select(this).classed("selected",true);
         showPanel(d.properties.NUMCF);
-      })
+      });
+}
+
+function createCircles(g, canada, sources, circles) {
+  g.selectAll('.symbol')
+    .data(canada.features)
+    .enter()
+      .append('circle')
+      .attr('r', 10)
+      .attr('class', 'district')
+      .attr('transform', function(d) { return 'translate(' + circles.centroid(d) + ')'; })
+      .style('fill', '#C52A0D');
 }
 
 /**
