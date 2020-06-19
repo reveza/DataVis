@@ -37,7 +37,7 @@ function initializeData(data) {
       else if (row["Hospitalisation "]=="non"){
         person.status="healthy"
       }
-      if (person.status !="unknown"){
+      if (person.status !="unknown" && person.ageGroup !="non déclaré"){
         dataset.push(person);
       }
     });
@@ -64,7 +64,7 @@ function domainX(x) {
  */
 function domainY(y) {
   // TODO: Set the domain for the variable "y" by specifying the minimum and maximum values: 0 USD and 140000 USD.
-  y.domain([0, 1000]);
+  y.domain([0, 500]);
 }
 
 /**

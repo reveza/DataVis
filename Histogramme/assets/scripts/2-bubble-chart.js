@@ -49,27 +49,37 @@ function createAxes(g, xAxis, yAxis, height, width) {
 
   
     function createBarChart(g, data, x, y, r, color, tip) {
+      var y_iterators= [0,0,0,0,0,0,0]
+      var x_iterators= [0,0,0,0,0,0,0]
+      var maxCircle=0
       var bars=g.selectAll(".bar,.label")
       .data(data)
       .enter()
       .append("circle")
       .attr("class","dot")
       .attr("cx",function(d){
-  
-        return x(d.ageGroup)+x.bandwidth()/2;
+        var index=x.domain().findIndex(function(n){return n==d.ageGroup})
+        var position = 2*r*x_iterators[index]
+        if(position<x.bandwidth()-10){
+          x_iterators[index]+=1;
+          return x(d.ageGroup)+position;
+        }
+        else{
+          maxCircle=x_iterators[index];
+          x_iterators[index]=0;
+          return x(d.ageGroup);
+        }
       })
       //.attr("height", x.bandwidth())
-      .attr("cy",function (d,i) {
-        return y(i*10);
+      .attr("cy",function (d) {
+        var index=x.domain().findIndex(function(n){return n==d.ageGroup})
+        var position = 2*r*Math.floor(y_iterators[index]/(maxCircle+1));
+        y_iterators[index]+=1
+        return y(position+r);
       })
-      .attr("r",function(d){
-        return 5;
-      })
+      .attr("r",r)
       .style("fill",function(d){
-        //if (color.domain().includes(d.status))
           return color(d.status);
-        //else
-         // return "grey"
       });
     //Add percentage to the right of each bars
     /*bars.append("text")

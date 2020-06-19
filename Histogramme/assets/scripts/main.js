@@ -21,7 +21,7 @@
   var color = d3.scaleOrdinal(d3.schemeCategory10);
   var x = d3.scaleBand().range([0, width]).padding(0.1);
   var y = d3.scaleLinear().range([height, 0]);
-  var r = d3.scaleSqrt().range([5, 20]);
+  var r = 5;
 
   var xAxis = d3.axisBottom(x);
   var yAxis = d3.axisLeft(y).tickFormat(localization.getFormattedNumber);
