@@ -142,6 +142,10 @@ body {
   stroke: #333;
 }
 
+.circle {
+  color: #C52A0D;
+}
+
 .selected {
   animation: flash-animation 0.8s ease-out infinite;
   animation-direction: alternate;
