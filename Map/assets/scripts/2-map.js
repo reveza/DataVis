@@ -11,7 +11,7 @@ function initTileLayer(L, map) {
       maxZoom: 12,
       minZoom: 2
   }).addTo(map);
-  map.setView([57.3, -94.7], 4);
+  map.setView([65, -94.7], 4);
 }
 
 function initSvgLayer(map) {

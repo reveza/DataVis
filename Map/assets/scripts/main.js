@@ -23,7 +23,7 @@
   var barChartHeight = 150 - barChartMargin.top - barChartMargin.bottom;
 
   /***** Scales *****/
-  var projection = d3.geoMercator().center([-114, 67.5]).scale(625)
+  var projection = d3.geoMercator().center([-140, 73.1]).scale(625)
   var circles = d3.geoPath().projection(projection)
   var x = d3.scaleLinear().range([0, barChartWidth]);
   var y = d3.scaleBand().range([0, barChartHeight]).padding(0.1);
