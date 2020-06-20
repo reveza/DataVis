@@ -1,46 +1,19 @@
 /**
- * Main file for the map. This file uses the other files
- * you must complete. 
- *
- * /!\ No modification is needed in this file!
+ * Main file for the map.
  */
-(function (L, d3, topojson, searchBar, localization) {
+
+(function (L, d3, topojson, localization) {
   "use strict";
 
   var panel = d3.select("#panel");
   var map = L.map('map', {
     'worldCopyJump': true,
-    'scrollWheelZoom': false
+    // 'scrollWheelZoom': false
   });
-
-  var barChartMargin = {
-    top: 0,
-    right: 40,
-    bottom: 0,
-    left: 40
-  };
-  var barChartWidth = 300 - barChartMargin.left - barChartMargin.right;
-  var barChartHeight = 150 - barChartMargin.top - barChartMargin.bottom;
-
+  
   /***** Scales *****/
-  var projection = d3.geoMercator().center([-140, 73.1]).scale(625)
+  var projection = d3.geoMercator().center([-125, 68]).scale(625)
   var circles = d3.geoPath().projection(projection)
-  var x = d3.scaleLinear().range([0, barChartWidth]);
-  var y = d3.scaleBand().range([0, barChartHeight]).padding(0.1);
-
-  var yAxis = d3.axisLeft(y);
-
-  /***** Creation of bar chart elements *****/
-  var barChartSvg = panel.select("svg")
-    .attr("width", barChartWidth + barChartMargin.left + barChartMargin.right)
-    .attr("height", barChartHeight + barChartMargin.top + barChartMargin.bottom);
-
-  var barChartGroup = barChartSvg.append("g")
-    .attr("transform", "translate(" + barChartMargin.left + "," + barChartMargin.top + ")");
-
-  var barChartBarsGroup = barChartGroup.append("g");
-  var barChartAxisGroup = barChartGroup.append("g")
-    .attr("class", "axis y");
 
   /***** Loading data *****/
   var promises = [];
@@ -73,7 +46,7 @@
       /***** Data preprocessing *****/
       convertNumbers(cases, populations);
 
-      // let mtlAConfirmer = cases['montreal'].pop()['caseDates'];
+      let mtlAConfirmer = cases['montreal'].pop()['caseDates'];
 
       let data = createProportions(cases, populations);
       let sources = createSources(data)
@@ -89,40 +62,11 @@
       var path = createPath();
 
       createBorders(g, path, canadaBorders, showPanel);
-      // createBorders(g, path, quebecBorders, showPanel)
       createCircles(g, canadaBorders, sources, circles)
-      map.on("viewreset", function () {
-        updateMap(mapSvg, g, path, canadaBorders);
+      map.on("moveend", function () {
+        updateMap(mapSvg, g, path, canadaBorders, circles);
       });
-      updateMap(mapSvg, g, path, canadaBorders);
-
-      /***** Search for a district *****/
-      var autoCompleteSources = d3.nest()
-        .key(function (d) {
-          return d.id;
-        })
-        .entries(cases)
-        .map(function (d) {
-          return {
-            id: +d.values[0].id,
-            name: d.values[0].name
-          };
-        })
-        .sort(function (a, b) {
-          return d3.ascending(a.name, b.name);
-        });
-
-      var searchBarElement = searchBar(autoCompleteSources);
-      searchBarElement.search = function (id) {
-        var feature = canada.features.find(function (d) {
-          return d.properties["NUMCF"] === id;
-        });
-        var bound = d3.geoBounds(feature);
-        search(map, g, id, [
-          [bound[0][1], bound[0][0]],
-          [bound[1][1], bound[1][0]]
-        ], showPanel);
-      };
+      updateMap(mapSvg, g, path, canadaBorders, circles);
 
       /***** Information panel management *****/
       panel.select("button")
@@ -170,4 +114,4 @@
     return d3.geoPath().projection(transform);
   }
 
-})(L, d3, topojson, searchBar, localization);
+})(L, d3, topojson, localization);

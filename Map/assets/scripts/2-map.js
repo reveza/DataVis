@@ -11,7 +11,7 @@ function initTileLayer(L, map) {
       maxZoom: 12,
       minZoom: 2
   }).addTo(map);
-  map.setView([65, -94.7], 4);
+  map.setView([62, -97], 4);
 }
 
 function initSvgLayer(map) {
@@ -21,8 +21,13 @@ function initSvgLayer(map) {
   return svg;
 }
 
+var getCentroid = function (arr) { 
+  return arr.reduce(function (x,y) {
+      return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length] 
+  }, [0,0]) 
+}
+
 function createBorders(g, path, canada, showPanel) {
-  console.log(canada)
   g.selectAll('path')
     .data(canada.features)
     .enter()
@@ -38,13 +43,14 @@ function createBorders(g, path, canada, showPanel) {
 }
 
 function createCircles(g, canada, sources, circles) {
-  g.selectAll('.symbol')
+  g.selectAll('circle')
     .data(canada.features)
     .enter()
       .append('circle')
       .attr('r', 10)
       .attr('class', 'district')
-      .attr('transform', function(d) {console.log(circles.centroid(d)); return 'translate(' + circles.centroid(d) + ')'; })
+      .attr('cx', function(d) {return circles.centroid(d)[0];})
+      .attr('cy', function(d) {return circles.centroid(d)[1];})
       .style('fill', '#C52A0D');
 }
 
@@ -60,19 +66,22 @@ function createCircles(g, canada, sources, circles) {
  *
  * @see https://gist.github.com/d3noob/9211665
  */
-function updateMap(svg, g, path, canada) {
-      
+function updateMap(svg, g, path, canada, circles) {
   let bounds = path.bounds(canada);
-
+  
   let leftBound = bounds[0][0];
   let rightBound = bounds[1][0];
   let topBound = bounds[0][1];
   let bottomBound = bounds[1][1];
-
+  
 	svg.attr("width", rightBound - leftBound)
-		 .attr("height", bottomBound - topBound)
-		 .style("left", leftBound + "px")
-		 .style("top", topBound + "px");
+  .attr("height", bottomBound - topBound)
+  .style("left", leftBound + "px")
+  .style("top", topBound + "px");
+  
+  /*g.selectAll('circle')
+    .attr('cx', function(d) {return circles.centroid(d)[0];})
+    .attr('cy', function(d) {return circles.centroid(d)[1];})*/
 
   g.attr("transform", "translate(" + -leftBound + "," + -topBound + ")");
 

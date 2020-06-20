@@ -1,4 +1,3 @@
-
 function convertNumbers(cases, populations) {
   for(var key in cases){
     cases[key].forEach(region => {
@@ -22,21 +21,18 @@ function convertNumbers(cases, populations) {
 }
 
 function createProportions(cases, populations){
-  // console.log(cases, populations)
   for(var key in cases){
     for(var i = 0; i < cases[key].length; i++){
       for(var date in cases[key][i]['caseDates']) {
-        //TODO - pour territoire à confirmer
         try{
-          let casesOnDate = cases[key][i]['caseDates'][date] || undefined;
-          let populationAtLocation = populations[key][i]["Population"] || undefined;
-          cases[key][i]['caseDates'][date] = casesOnDate / populationAtLocation
+          let casesOnDate = cases[key][i]['caseDates'][date] || 0;
+          let populationAtLocation = populations[key][i]["Population"] || 0;
+          cases[key][i]['caseDates'][date] = [casesOnDate, casesOnDate / populationAtLocation];
+          cases[key][i]['population'] = populationAtLocation;
         }
         catch(err){
-          // console.log(err.message)
+          console.log(err.message)
         }
-
-          
       }  
     }
   }
@@ -46,11 +42,7 @@ function createProportions(cases, populations){
 
 
 function createSources(data) {
-  // TODO: Return the object with the format described above. Make sure to sort the table "results" for each entry 
-  // in decreasing order of the votes (the winning candidate must be the first element of the table)
-
   let ressources = {};
-  // console.log(data) 
   for(var key in data)
   {
     let regionArray = data[key];
@@ -63,16 +55,15 @@ function createSources(data) {
         }
         ressources[date].push({
             date: date,
-            name: region['Nom'],
+            name: region.Nom,
             region: key,
-            percentage: caseDates[date]
-          }
-        )
-      
-        
+            percentage: caseDates[date][1],
+            cases: caseDates[date][0],
+            population: region.population
+        })
       }
     })
-
   }
+
   return ressources;
 }
