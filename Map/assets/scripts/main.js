@@ -9,7 +9,8 @@
 
   var panel = d3.select("#panel");
   var map = L.map('map', {
-    'worldCopyJump': true
+    'worldCopyJump': true,
+    'scrollWheelZoom': false
   });
 
   var barChartMargin = {
@@ -72,10 +73,10 @@
       /***** Data preprocessing *****/
       convertNumbers(cases, populations);
 
-      let mtlAConfirmer = cases['montreal'].pop()['caseDates'];
+      // let mtlAConfirmer = cases['montreal'].pop()['caseDates'];
 
-      let sources = createProportions(cases, populations);
-
+      let data = createProportions(cases, populations);
+      let sources = createSources(data)
       console.log(sources)
 
       /***** Map initialization *****/
@@ -88,6 +89,7 @@
       var path = createPath();
 
       createBorders(g, path, canadaBorders, showPanel);
+      // createBorders(g, path, quebecBorders, showPanel)
       createCircles(g, canadaBorders, sources, circles)
       map.on("viewreset", function () {
         updateMap(mapSvg, g, path, canadaBorders);

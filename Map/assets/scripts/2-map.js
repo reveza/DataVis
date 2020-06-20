@@ -22,6 +22,7 @@ function initSvgLayer(map) {
 }
 
 function createBorders(g, path, canada, showPanel) {
+  console.log(canada)
   g.selectAll('path')
     .data(canada.features)
     .enter()
@@ -43,7 +44,7 @@ function createCircles(g, canada, sources, circles) {
       .append('circle')
       .attr('r', 10)
       .attr('class', 'district')
-      .attr('transform', function(d) { return 'translate(' + circles.centroid(d) + ')'; })
+      .attr('transform', function(d) {console.log(circles.centroid(d)); return 'translate(' + circles.centroid(d) + ')'; })
       .style('fill', '#C52A0D');
 }
 
@@ -60,6 +61,7 @@ function createCircles(g, canada, sources, circles) {
  * @see https://gist.github.com/d3noob/9211665
  */
 function updateMap(svg, g, path, canada) {
+      
   let bounds = path.bounds(canada);
 
   let leftBound = bounds[0][0];
