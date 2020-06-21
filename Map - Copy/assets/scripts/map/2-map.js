@@ -4,11 +4,12 @@
  * @see https://gist.github.com/d3noob/9211665
  */
 
-export function initMap(L, map) {
+function initMap(L, map) {
   L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
       maxZoom: 12,
-      minZoom: 2
+      minZoom: 2,
+      fullscreenControl: true
   }).addTo(map);
   map.setView([62, -97], 4);
 
@@ -18,7 +19,7 @@ export function initMap(L, map) {
   return svg;
 }
 
-export function createMapBorders(g, path, canada, showPanel) {
+function createMapBorders(g, path, canada, showPanel) {
   g.selectAll('path')
     .data(canada.features)
     .enter()
@@ -33,7 +34,7 @@ export function createMapBorders(g, path, canada, showPanel) {
       });
 }
 
-export function createMapCircles(g, canada, sources, circles) {
+function createMapCircles(g, canada, sources, circles) {
   g.selectAll('circle')
     .data(canada.features)
     .enter()
@@ -57,7 +58,7 @@ export function createMapCircles(g, canada, sources, circles) {
  *
  * @see https://gist.github.com/d3noob/9211665
  */
-export function updateMap(svg, g, path, canada, circles) {
+function updateMap(svg, g, path, canada, circles) {
   let bounds = path.bounds(canada);
   
   let leftBound = bounds[0][0];
