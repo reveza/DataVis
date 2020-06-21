@@ -7,9 +7,6 @@
 function initMap(L, map) {
   L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-      maxZoom: 12,
-      minZoom: 2,
-      fullscreenControl: true
   }).addTo(map);
   map.setView([62, -97], 4);
 
