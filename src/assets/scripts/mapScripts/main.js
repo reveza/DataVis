@@ -8,7 +8,7 @@
   var panel = d3.select("#panel");
   var map = L.map('map', {
     'worldCopyJump': true,
-    // 'scrollWheelZoom': false
+    'scrollWheelZoom': false
   });
 
   /***** Loading data *****/
