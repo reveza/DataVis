@@ -1,9 +1,7 @@
 /**
  * Main file allowing to display the required chart. This file uses the other files that you have to complete.
- *
-*  /!\ No modification is needed in this file!
- * /!\ IMPORTANT : DO NOT MODIFY THIS FILE
  */
+
 (function (d3, localization) {
   "use strict";
 
@@ -73,33 +71,6 @@
           domainRadius(r, currentData);
           transition(bubbleChartGroup, currentData, x, y, r);
         });
-
-      /***** Search bar handling *****/
-
-      // Init of the autocomplete
-      new autoComplete({
-        selector: "#search-bar input",
-        minChars: 1,
-        source: function(term, suggest) {
-          term = term.toLowerCase();
-          var matches = [];
-          currentData.forEach(function(d) {
-            if (~d.name.toLowerCase().indexOf(term)) {
-              matches.push(d);
-            }
-          });
-          suggest(matches);
-        },
-        renderItem: function(item, search) {
-          search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-          var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-          return "<div class='autocomplete-suggestion' data-val='"
-            + item.name + "'>" + item.name.replace(re, "<b>$1</b>") + "</div>";
-        },
-        onSelect: function(e, term, item) {
-          search(item.getAttribute("data-val"), bubbleChartGroup);
-        }
-      });
 
       // Adding event handler for the input search bar and its associated button. 
       var searchBarInput = d3.select("#search-bar input");

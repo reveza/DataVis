@@ -12,8 +12,6 @@
  * @param data    Data that comes from a CSV file
  */
 function initializeData(data) {
-
-  // Change the properties "income", "lifeExpectancy" and "population" to the "number" type for each entry.
   var dateParser = d3.timeParse("%m/%d/%Y");
   var dateFormatter = d3.timeFormat("%Y-%m-%d");
   var dataset = [];
@@ -52,7 +50,6 @@ function initializeData(data) {
  * @param x     X scale to use.
  */
 function domainX(x) {
-  // Set the domain for the variable "x" by specifying the minimum and maximum values: 35 and 90.
   var ageBracket=["0-19","20-39","40-49","50-59","60-69","70-79","80+"]
   x.domain(ageBracket);
 }
@@ -63,7 +60,6 @@ function domainX(x) {
  * @param y     Y scale to use.
  */
 function domainY(y) {
-  // TODO: Set the domain for the variable "y" by specifying the minimum and maximum values: 0 USD and 140000 USD.
   y.domain([0, 500]);
 }
 
@@ -74,7 +70,6 @@ function domainY(y) {
  * @param data    Data that comes from a CSV file
  */
 function domainColor(color, data) {
-  // TODO: Precise the scale domain for the color. Make sure that each world region has a distinct value and no color is reused.
   var worldRegions = [...new Set(data.map(x => x.status))];
   color = d3.scaleOrdinal(d3.SchemeCategory + worldRegions.size);
   // color.domain(worldRegions);
@@ -87,7 +82,5 @@ function domainColor(color, data) {
  * @param data    Data that comes from a CSV file
  */
 function domainRadius(r, data) {
-  // TODO: Set the domain scale of the variable "r" by specifying the value extremas of the population (minimum and maximum).
-  
   r.domain(d3.extent(data, d => d.population));
 }

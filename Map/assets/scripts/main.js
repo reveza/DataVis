@@ -10,10 +10,6 @@
     'worldCopyJump': true,
     // 'scrollWheelZoom': false
   });
-  
-  /***** Scales *****/
-  var projection = d3.geoMercator().center([-125, 68]).scale(625)
-  var circles = d3.geoPath().projection(projection)
 
   /***** Loading data *****/
   var promises = [];
@@ -53,20 +49,19 @@
       console.log(sources)
 
       /***** Map initialization *****/
-      initTileLayer(L, map);
-      var mapSvg = initSvgLayer(map);
-	  var g = undefined;
-	  if (mapSvg) {
-		g = mapSvg.select("g");
-	  }
+      var mapSvg = initMap(L, map);
+	    var g = undefined;
+	    if (mapSvg) {
+		    g = mapSvg.select("g");
+	    }
       var path = createPath();
 
       createBorders(g, path, canadaBorders, showPanel);
-      createCircles(g, canadaBorders, sources, circles)
+      createCircles(g, canadaBorders, sources, path)
       map.on("moveend", function () {
-        updateMap(mapSvg, g, path, canadaBorders, circles);
+        updateMap(mapSvg, g, path, canadaBorders, path);
       });
-      updateMap(mapSvg, g, path, canadaBorders, circles);
+      updateMap(mapSvg, g, path, canadaBorders, path);
 
       /***** Information panel management *****/
       panel.select("button")

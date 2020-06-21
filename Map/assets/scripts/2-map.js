@@ -4,27 +4,18 @@
  * @see https://gist.github.com/d3noob/9211665
  */
 
-function initTileLayer(L, map) {
-
+function initMap(L, map) {
   L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
       maxZoom: 12,
       minZoom: 2
   }).addTo(map);
   map.setView([62, -97], 4);
-}
 
-function initSvgLayer(map) {
   let svg = d3.select(map.getPanes().overlayPane).append("svg");
   svg.append("g").attr("class", "leaflet-zoom-hide");
       
   return svg;
-}
-
-var getCentroid = function (arr) { 
-  return arr.reduce(function (x,y) {
-      return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length] 
-  }, [0,0]) 
 }
 
 function createBorders(g, path, canada, showPanel) {
@@ -79,9 +70,9 @@ function updateMap(svg, g, path, canada, circles) {
   .style("left", leftBound + "px")
   .style("top", topBound + "px");
   
-  /*g.selectAll('circle')
+  g.selectAll('circle')
     .attr('cx', function(d) {return circles.centroid(d)[0];})
-    .attr('cy', function(d) {return circles.centroid(d)[1];})*/
+    .attr('cy', function(d) {return circles.centroid(d)[1];})
 
   g.attr("transform", "translate(" + -leftBound + "," + -topBound + ")");
 
