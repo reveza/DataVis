@@ -63,7 +63,7 @@ class ScrollerStep {
  *
  * @type {{down: string, up: string}}
  */
-export const scrollDirections = {
+const scrollDirections = {
   down: 'down',
   up: 'up'
 };
@@ -77,7 +77,7 @@ export const scrollDirections = {
  * @param callbacks   A multi-dimensional array of callbacks to use with each step.
  * @returns {*}       The instance of the scroller.
  */
-export function scroller(callbacks) {
+function scroller(callbacks) {
   let _offsetTop = 0;
   let _offsetBottom = 0;
 
@@ -88,6 +88,7 @@ export function scroller(callbacks) {
   let viz = [];
   let visibleSteps = [];
   const vizSections = document.querySelectorAll('.viz-section');
+  console.log(vizSections)
   if (vizSections.length !== callbacks.length) {
     throw new Error(`The number of viz sections (${vizSections.length}) mismatch with the length of the first ` +
       `dimension of the callbacks array (${callbacks.length}). Please, be sure that the two elements ` +

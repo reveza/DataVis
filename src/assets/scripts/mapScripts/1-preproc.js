@@ -1,4 +1,4 @@
-export function mapConvertNumbers(cases, populations) {
+function mapConvertNumbers(cases, populations) {
   for(var key in cases){
     cases[key].forEach(region => {
       region['caseDates'] = {}
@@ -20,7 +20,7 @@ export function mapConvertNumbers(cases, populations) {
   }
 }
 
-export function mapCreateProportions(cases, populations){
+function mapCreateProportions(cases, populations){
   for(var key in cases){
     for(var i = 0; i < cases[key].length; i++){
       for(var date in cases[key][i]['caseDates']) {
@@ -41,7 +41,7 @@ export function mapCreateProportions(cases, populations){
 }
 
 
-export function mapCreateSources(data) {
+function mapCreateSources(data) {
   let ressources = {};
   for(var key in data)
   {
