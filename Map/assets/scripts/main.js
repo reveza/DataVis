@@ -78,7 +78,8 @@ var abbreviations = [
   var date = "20/04/26";
   var region = "canada"
   var map = L.map('map', {
-    'worldCopyJump': true
+    'worldCopyJump': true,
+    'scrollWheelZoom': false
   });
   var tip = d3.tip()
         .attr('class', 'd3-tip')

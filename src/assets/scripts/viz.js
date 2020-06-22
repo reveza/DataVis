@@ -13,6 +13,7 @@
 async function initialize(L, d3, topojson, localization){
   
   const dates = await d3.csv('./data/dates.csv');
+  dateIndex = 0;
 
   const config = {
     height: 500,
@@ -27,7 +28,7 @@ async function initialize(L, d3, topojson, localization){
   const fullWidth = config.margin.left + config.width + config.margin.right;
   const fullHeight = config.margin.top + config.height + config.margin.bottom;
   
-  const visContainer = d3.select('#viz');
+  // const visContainer = d3.select('#viz');
   const mapContainer = d3.select('#map');
 
   const svg = mapContainer.append('svg')
@@ -47,11 +48,13 @@ async function initialize(L, d3, topojson, localization){
   //   .style('fill', 'green');
 
   return dates.map(d => {
+
     return direction => {
+      if (direction == "up")
+      {
+       
+      }
       console.log(direction); // Log the current scroll direction.
-      myMap.transition()
-        .duration(300)
-        .style('fill', d.color);
     }
   });
   return 

@@ -72,14 +72,27 @@ var abbreviations = [
   {name: "WESTMOUNT", abbreviation: "Westmount"}
 ];
 
-(function (L, d3) {
+// class mapSettings{
+//   constructor(mapSvg, g, path, canadaBorders, sources, date, region) {
+//     this.mapSvg = mapSvg;
+//     this.g = g;
+//     this.path = path;
+//     this.canadaBorders = canadaBorders;
+//     this.sources = sources;
+//     this.date = date;
+//     this.region = region;
+//   }
+// }
+(function (L, d3, topojson, localization) {
   "use strict";
 
   var date = "20/04/26";
   var region = "canada"
   var map = L.map('map', {
-    'worldCopyJump': true
+    'worldCopyJump': true,
+    'scrollWheelZoom': false
   });
+
   var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0]);
@@ -105,7 +118,7 @@ var abbreviations = [
   promises.push(d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/canada.geojson"));
   promises.push(d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/quebec.geojson"));
   promises.push(d3.json("./data/montreal_map.geojson"));
-  promises.push(d3.json("./data/abbreviations.json"))
+  // promises.push(d3.json("./data/abbreviations.json"))
 
   Promise.all(promises)
     .then(function (results) {
@@ -123,7 +136,6 @@ var abbreviations = [
       let quebecBorders = results[7];
       let montrealBorders = results[8];
 
-      console.log(results[9])
 
       /***** Data preprocessing *****/
       mapConvertNumbers(cases, populations);
@@ -144,9 +156,9 @@ var abbreviations = [
       createMapBorders(g, path, canadaBorders);
       createMapCircles(g, canadaBorders, sources, path, abbreviations, date, tip, region)
       map.on("moveend", function () {
-        updateMap(mapSvg, g, path, canadaBorders);
+        updateMap(mapSvg, g, path, canadaBorders, sources, date, region);
       });
-      updateMap(mapSvg, g, path, canadaBorders);
+      updateMap(mapSvg, g, path, canadaBorders, sources, date, region);
 
       /***** Creation of the tooltip *****/
       tip.html(function(d) {
@@ -161,4 +173,4 @@ var abbreviations = [
       g.call(tip);
     });
 
-})(L, d3);
+})(L, d3, topojson, localization);
