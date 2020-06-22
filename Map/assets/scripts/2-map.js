@@ -26,7 +26,6 @@ function createMapBorders(g, path, borders) {
 }
 
 function createMapCircles(g, borders, sources, path, abbreviations, date, tip, region) {
-  console.log(sources)
   g.selectAll('circle')
     .data(borders.features)
     .enter()
