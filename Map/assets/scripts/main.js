@@ -76,7 +76,7 @@ var abbreviations = [
   "use strict";
 
   var date = "20/04/26";
-  var region = "montreal"
+  var region = "canada"
   var map = L.map('map', {
     'worldCopyJump': true
   });
@@ -105,6 +105,7 @@ var abbreviations = [
   promises.push(d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/canada.geojson"));
   promises.push(d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/quebec.geojson"));
   promises.push(d3.json("./data/montreal_map.geojson"));
+  promises.push(d3.json("./data/abbreviations.json"))
 
   Promise.all(promises)
     .then(function (results) {
@@ -118,9 +119,11 @@ var abbreviations = [
       populations['quebec'] = results[4];
       populations['canada'] = results[5];
       
-      let canadaBorders = results[8];
+      let canadaBorders = results[6];
       let quebecBorders = results[7];
       let montrealBorders = results[8];
+
+      console.log(results[9])
 
       /***** Data preprocessing *****/
       mapConvertNumbers(cases, populations);
