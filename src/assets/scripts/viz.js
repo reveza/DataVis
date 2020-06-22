@@ -11,7 +11,8 @@
  * @returns {Promise<*>}  A promise that contains a list of callbacks.
  */
 async function initialize(L, d3, topojson, localization){
-  const data = await d3.csv('./data/data.csv');
+  
+  const dates = await d3.csv('./data/dates.csv');
 
   const config = {
     height: 500,
@@ -45,12 +46,12 @@ async function initialize(L, d3, topojson, localization){
   //   .attr('height', config.height)
   //   .style('fill', 'green');
 
-  return data.map(d => {
+  return dates.map(d => {
     return direction => {
       console.log(direction); // Log the current scroll direction.
-      // rect.transition()
-      //   .duration(300)
-      //   .style('fill', d.color);
+      myMap.transition()
+        .duration(300)
+        .style('fill', d.color);
     }
   });
   return 
