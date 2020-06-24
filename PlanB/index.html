@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>INF8808 - Projet</title>
+  <link rel="stylesheet" href="assets/css/leaflet.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <h1>Titre</h1>
+  <div class="container">
+    <div class="timeline">
+        <ul>
+            <li>
+                <div class="point"></div>
+                <div class="date">
+                    <h5>January 2019</h5>
+                </div>
+            </li>
+            <li>
+                <div class="point"></div>
+                <div class="date">
+                    <h5>January 2019</h5>
+                </div>
+            </li>
+            <li>
+                <div class="point"></div>
+                <div class="date">
+                    <h5>January 2019</h5>
+                </div>
+            </li>
+            <li>
+                <div class="point"></div>
+                <div class="date">
+                    <h5>January 2019</h5>
+                </div>
+            </li>
+            <li>
+                <div class="point"></div>
+                <div class="date">
+                    <h5>January 2019</h5>
+                </div>
+            </li>
+            <li>
+              <div class="point"></div>
+                <div class="date">
+                    <h5>January 2019</h5>
+                </div>
+            </li>
+            <li>
+              <div class="point"></div>
+                <div class="date">
+                    <h5>January 2019</h5>
+                </div>
+            </li>
+            <li>
+              <div class="point"></div>
+                <div class="date">
+                    <h5>January 2019</h5>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="mapwrapper">
+      <div id="map" width="200" height="200"></div>
+    </div>
+</div>
+  <span id="histogram"></span>
+  <aside id="panel">
+    <h1 id="district-name">Nom circonscription [# Numéro]</h1>
+    <h2>Député élu</h2>
+    <p id="elected-candidate">Nom du député élu (parti)</p>
+    <hr>
+    <h2>Résultats</h2>
+    <svg></svg>
+    <span class="pull-right" id="votes-count">Nombre total de votes</span>
+  </aside>
+
+  <script type="text/javascript" src="assets/libs/d3.js"></script>
+  <script type="text/javascript" src="assets/libs/d3-tip.js"></script>
+  <script type="text/javascript" src="assets/libs/leaflet.js"></script>
+  <script type="text/javascript" src="assets/libs/topojson.v1.js"></script>
+  <script type="text/javascript" src="assets/libs/localization-fr.js"></script>
+  <script type="text/javascript" src="assets/scripts/timeline.js"></script>
+  <script type="text/javascript" src="assets/scripts/map/1-preproc.js"></script>
+  <script type="text/javascript" src="assets/scripts/map/2-map.js"></script>
+  <script type="text/javascript" src="assets/scripts/map/4-panel.js"></script>
+  <script type="text/javascript" src="assets/scripts/main.js"></script>
+
+  <script type="text/javascript" src="assets/scripts/histogramme/1-preproc.js"></script>
+  <script type="text/javascript" src="assets/scripts/histogramme/2-bubble-chart.js"></script>
+  <script type="text/javascript" src="assets/scripts/histogramme/3-transition.js"></script>
+  <script type="text/javascript" src="assets/scripts/histogramme/5-tooltip.js"></script>
+</body>
+</html>
