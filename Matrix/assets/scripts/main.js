@@ -12,11 +12,11 @@
     bottom: 50,
     left: 80
   };
-  var width = 1000 - margin.left - margin.right;
+  var width = 1300 - margin.left - margin.right;
   var height = 800 - margin.top - margin.bottom;
 
   /***** Scales *****/
-  var color = d3.scaleOrdinal(d3.schemeCategory10); 
+  var color = d3.scaleOrdinal();
   var x = d3.scaleBand().range([0, width]).padding(0.1);
   var y = d3.scaleBand().range([height, 0]).padding(0.1);
   var r = 5;
@@ -40,7 +40,7 @@
       var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0]);
-
+      console.log(results[0]);
       /***** Data preprocessing *****/
       results.forEach(function (data) {
         dataset = initializeData(data);
@@ -48,17 +48,16 @@
           return d3.ascending(a.date, b.date);
         })
       });
-      //console.log(dataset)
     
       domainX(x);
       domainY(y);
-      //domainColor(color, currentData);
+      domainColor(color, results, null);
       //domainRadius(r, currentData);
-
       /***** Creation of the bubble chart *****/
-      createAxes(matrixChartGroup, xAxis, yAxis, height, width);
-      createBarChart(matrixChartGroup, dataset, x, y, r, color, tip);
-
+      // createAxes(matrixChartGroup, xAxis, yAxis, height, width);
+      getLegend(matrixChartGroup, width, height, color, results, null);
+      createBubbleMatrix(matrixChartGroup, dataset, width, height, r, color, tip, x.domain(), y.domain());
+      
       /***** Creation of the tooltip *****/
       tip.html(function(d) {
         return getToolTipText.call(this, d)
