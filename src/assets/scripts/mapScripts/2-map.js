@@ -26,7 +26,6 @@ function createMapBorders(g, path, borders) {
 }
 
 function createMapCircles(g, borders, sources, path, abbreviations, date, tip, region) {
-  console.log(sources)
   g.selectAll('circle')
     .data(borders.features)
     .enter()
@@ -48,14 +47,30 @@ function createMapCircles(g, borders, sources, path, abbreviations, date, tip, r
       .on("mouseout", tip.hide);
 }
 
-function updateMap(svg, g, path, borders, sources, date, region) {
+function updateMapCircles(g, sources, abbreviations, date, region){
+
+  g.selectAll('circle')
+    .attr('r', function(d) {
+      var zone;
+      // console.log(d)
+      if(region == "montreal")
+        zone = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
+      else
+        zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
+      let result = Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*200;
+      console.log(result)
+      return result
+    })
+}
+
+function updateMap(svg, g, path, borders) {
   let bounds = path.bounds(borders);
   
   let leftBound = bounds[0][0];
   let rightBound = bounds[1][0];
   let topBound = bounds[0][1];
   let bottomBound = bounds[1][1];
-
+  
 	svg.attr("width", rightBound - leftBound)
   .attr("height", bottomBound - topBound)
   .style("left", leftBound + "px")
@@ -64,15 +79,6 @@ function updateMap(svg, g, path, borders, sources, date, region) {
   g.selectAll('circle')
     .attr('cx', function(d) {return path.centroid(d)[0];})
     .attr('cy', function(d) {return path.centroid(d)[1];})
-    .attr('r', function(d) {
-      var zone;
-      if(region == "montreal")
-        zone = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
-      else
-        zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
-      
-      return Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*200;   
-    })
 
   g.attr("transform", "translate(" + -leftBound + "," + -topBound + ")");
 

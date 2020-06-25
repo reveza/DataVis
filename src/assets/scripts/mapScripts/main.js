@@ -72,105 +72,119 @@ var abbreviations = [
   {name: "WESTMOUNT", abbreviation: "Westmount"}
 ];
 
-// class mapSettings{
-//   constructor(mapSvg, g, path, canadaBorders, sources, date, region) {
-//     this.mapSvg = mapSvg;
-//     this.g = g;
-//     this.path = path;
-//     this.canadaBorders = canadaBorders;
-//     this.sources = sources;
-//     this.date = date;
-//     this.region = region;
-//   }
-// }
-(function (L, d3, topojson, localization) {
-  "use strict";
+/**
+ * Main file for the map.
+ */
 
-  var date = "20/04/26";
-  var region = "canada"
-  var map = L.map('map', {
-    'worldCopyJump': true,
-    'scrollWheelZoom': false
-  });
-
-  var tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 0]);
-
-  function projectPoint(x, y) {
-    var point = map.latLngToLayerPoint(new L.LatLng(y, x));
-    this.stream.point(point.x, point.y);
+class mapSettings{
+  constructor(L, d3, date, region) {
+    this.L = L;
+    this.d3 = d3;
+    this.date = date;
+    this.region = region
   }
 
-  function createPath() {
-    var transform = d3.geoTransform({point: projectPoint});
+
+  // projectPoint(x, y) {
+  //   var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+  //   this.stream.point(point.x, point.y);
+  // }
+  
+  createPath() {
+    var map = this.map;
+    var transform = d3.geoTransform({point: function(x,y){
+      var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+      this.stream.point(point.x, point.y);
+    }});
     return d3.geoPath().projection(transform);
   }
 
-  /***** Loading data *****/
-  var promises = [];
-  promises.push(d3.csv("./data/Montréal.csv"));
-  promises.push(d3.csv("./data/Québec.csv"));
-  promises.push(d3.csv("./data/Canada.csv"));
-  promises.push(d3.csv("./data/Montréal-Population.csv"));
-  promises.push(d3.csv("./data/Québec-Population.csv"));
-  promises.push(d3.csv("./data/Canada-Population.csv"));
-  promises.push(d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/canada.geojson"));
-  promises.push(d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/quebec.geojson"));
-  promises.push(d3.json("./data/montreal_map.geojson"));
-  // promises.push(d3.json("./data/abbreviations.json"))
+  mapSettingsInitViz(){   
 
-  Promise.all(promises)
-    .then(function (results) {
-      let cases = {};
-      cases['montreal'] = results[0];
-      cases['quebec'] = results[1];
-      cases['canada'] = results[2];
-
-      let populations = {};
-      populations['montreal'] = results[3];
-      populations['quebec'] = results[4];
-      populations['canada'] = results[5];
-      
-      let canadaBorders = results[6];
-      let quebecBorders = results[7];
-      let montrealBorders = results[8];
-
-
-      /***** Data preprocessing *****/
-      mapConvertNumbers(cases, populations);
-
-      let mtlAConfirmer = cases['montreal'].pop()['caseDates'];
-
-      let data = mapCreateProportions(cases, populations);
-      let sources = mapCreateSources(data)
-
-      /***** Map initialization *****/
-      var mapSvg = initMap(L, map);
-	    var g = undefined;
-	    if (mapSvg) {
-		    g = mapSvg.select("g");
-	    }
-      var path = createPath();
-
-      createMapBorders(g, path, canadaBorders);
-      createMapCircles(g, canadaBorders, sources, path, abbreviations, date, tip, region)
-      map.on("moveend", function () {
-        updateMap(mapSvg, g, path, canadaBorders, sources, date, region);
-      });
-      updateMap(mapSvg, g, path, canadaBorders, sources, date, region);
-
-      /***** Creation of the tooltip *****/
-      tip.html(function(d) {
-        var zoneName;
-        if(region == "montreal")
-          zoneName = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
-        else
-          zoneName = abbreviations.find(zone => zone.name == d.properties['name']).abbreviation;
-        var zone = sources[date].find(variable => variable['name'] == zoneName);
-        return showZoneInfo.call(this, zone)
-      });
-      g.call(tip);
+    this.map = L.map('map', {
+      'worldCopyJump': true,
+      'scrollWheelZoom': false
     });
+    this.tip = d3.tip()
+          .attr('class', 'd3-tip')
+          .offset([-10, 0]);
+  }
 
-})(L, d3, topojson, localization);
+
+  async mapSettingsCreateSources(){
+    /***** Loading data *****/
+    var promises = [];
+    promises.push(this.d3.csv("./data/Montréal.csv"));
+    promises.push(this.d3.csv("./data/Québec.csv"));
+    promises.push(this.d3.csv("./data/Canada.csv"));
+    promises.push(this.d3.csv("./data/Montréal-Population.csv"));
+    promises.push(this.d3.csv("./data/Québec-Population.csv"));
+    promises.push(this.d3.csv("./data/Canada-Population.csv"));
+    promises.push(this.d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/canada.geojson"));
+    promises.push(this.d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/quebec.geojson"));
+    promises.push(this.d3.json("./data/montreal_map.geojson"));
+
+    let cases = {};
+
+    cases['montreal'] = await promises[0];
+    cases['quebec'] = await promises[1];
+    cases['canada'] = await promises[2];
+
+    let populations = {};
+    populations['montreal'] = await promises[3];
+    populations['quebec'] = await promises[4];
+    populations['canada'] = await promises[5];
+    
+    this.canadaBorders = await promises[6];
+    this.quebecBorders = await promises[7];
+    this.montrealBorders = await promises[8];
+
+    /***** Data preprocessing *****/
+    mapConvertNumbers(cases, populations);
+    let mtlAConfirmer = cases['montreal'].pop()['caseDates'];
+    let data = mapCreateProportions(cases, populations);
+    this.sources = mapCreateSources(data)
+  }
+
+  /***** Map initialization *****/
+  mapSettingsInitMap(){
+    this.mapSvg = initMap(this.L, this.map);
+    this.g = undefined;
+    if (this.mapSvg) {
+      this.g = this.mapSvg.select("g");
+    }
+    this.path = this.createPath();
+    
+
+    createMapBorders(this.g, this.path, this.canadaBorders);
+    createMapCircles(this.g, this.canadaBorders, this.sources, this.path, abbreviations, this.date, this.tip, this.region);
+    this.map.on("moveend", () => {
+      updateMap(this.mapSvg, this.g, this.path, this.canadaBorders);
+    });
+    updateMap(this.mapSvg, this.g, this.path, this.canadaBorders);
+  }
+
+  mapSettingsCreateTooltip(){
+    let region = this.region;
+    let date = this.date;
+    let sources= this.sources;
+
+    this.tip.html(function(d) {
+      var zoneName;
+
+      if(region == "montreal")
+        zoneName = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
+      else
+        zoneName = abbreviations.find(zone => zone.name == d.properties['name']).abbreviation;
+      var zone = sources[date].find(variable => variable['name'] == zoneName);
+      return showZoneInfo.call(this, zone)
+    });
+    this.g.call(this.tip);
+  }
+
+  mapSettingsUpdateDate(date){
+    this.date = date;
+    updateMapCircles(this.g, this.sources, abbreviations, date, this.region)
+  }
+
+}

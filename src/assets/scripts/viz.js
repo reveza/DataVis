@@ -4,6 +4,8 @@
  * File used to define a visualization section.
  */
 
+const { map } = require("core-js/fn/array");
+
 
 /**
  * Initializes the visualization
@@ -11,9 +13,24 @@
  * @returns {Promise<*>}  A promise that contains a list of callbacks.
  */
 async function initialize(L, d3, topojson, localization){
+  "use strict";
   
   const dates = await d3.csv('./data/dates.csv');
-  dateIndex = 0;
+  let dateIndex = 0
+
+  mapSettings = new mapSettings(L, d3, "20/04/26", "canada");
+  mapSettings.mapSettingsInitViz();
+  await mapSettings.mapSettingsCreateSources();
+  mapSettings.mapSettingsInitMap();
+  mapSettings.mapSettingsCreateTooltip();
+  
+
+
+
+
+
+
+  
 
   const config = {
     height: 500,
@@ -50,11 +67,17 @@ async function initialize(L, d3, topojson, localization){
   return dates.map(d => {
 
     return direction => {
-      if (direction == "up")
-      {
-       
+      if (direction == "up"){
+        dateIndex = dateIndex >= dates.length-1 ? dates.length-1 : dateIndex + 1
+        // dateIndex += 1;
       }
-      console.log(direction); // Log the current scroll direction.
+      else{
+        dateIndex = dateIndex <= 0 ? 0 : dateIndex - 1
+        // dateIndex -= 1;
+      }
+      // console.log(dates.length)
+      // console.log(dateIndex); // Log the current scroll direction.
+      mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])
     }
   });
   return 
