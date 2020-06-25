@@ -16,7 +16,10 @@
   var height = 600 - margin.top - margin.bottom;
 
   /***** Scales *****/
-  var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+  //var colors = ["#2ca02c","#ff7f0e","#d62728","#9467bd"]
+  var status=setStatus();
+  var color =domainColor(status);
   var x = d3.scaleBand().range([0, width]).padding(0.1);
   var y = d3.scaleLinear().range([height, 0]);
   var r = 5;
@@ -43,71 +46,23 @@
 
       /***** Data preprocessing *****/
       results.forEach(function (data) {
-        dataset=initializeData(data);
-        data.sort(function(a, b) {
-          return d3.ascending(a.date, b.date);
+      dataset=initializeData(data);
+      dataset.sort(function(a, b) {
+          return status.indexOf(a.status)-status.indexOf(b.status);
         })
       });
-      //console.log(dataset)
     
       domainX(x);
       domainY(y);
-      //domainColor(color, currentData);
-      //domainRadius(r, currentData);
+      domainColor(color);
 
       /***** Creation of the bubble chart *****/
       createAxes(bubbleChartGroup, xAxis, yAxis, height, width);
       createBarChart(bubbleChartGroup, dataset, x, y, r, color, tip);
 
-      /***** Transitions between the year 2000 and 2014. *****/
-      var toggleButtons = d3.selectAll(".toggle-buttons > button");
-      toggleButtons.on("click", function(d, i) {
-          currentYear = d3.select(this).text();
-          currentData = dataset[i];
-          toggleButtons.classed("active", function() {
-            return currentYear === d3.select(this).text();
-          });
-
-          domainRadius(r, currentData);
-          transition(bubbleChartGroup, currentData, x, y, r);
-        });
-
-      // Adding event handler for the input search bar and its associated button. 
-      var searchBarInput = d3.select("#search-bar input");
-      searchBarInput.on("keydown", function () {
-        if (d3.event.key === "Enter") {
-          validateInput();
-        } else {
-          reset(bubbleChartGroup);
-          searchBarInput.classed("error", false);
-        }
-      });
-      d3.select("#search-bar button")
-        .on("click", validateInput);
-
-      /**
-       * Validates the input in the search bar and does a search.
-       */
-      function validateInput() {
-        function normalize(str) {
-          return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        }
-        var value = searchBarInput.node().value.toLowerCase();
-        if (!value) {
-          return;
-        }
-        var currentValue = normalize(value);
-        const countryFound = currentData.find(function(zone) {
-          return normalize(zone.name.toLowerCase()) === currentValue;
-        });
-        if (countryFound) {
-          search(countryFound.name, bubbleChartGroup);
-        } else {
-          reset(bubbleChartGroup);
-          searchBarInput.classed("error", true);
-        }
-      }
-
+      /***** Creation of the legend *****/
+      legend(svg, dataset, color);
+      
       /***** Creation of the tooltip *****/
       tip.html(function(d) {
         return getToolTipText.call(this, d, localization.getFormattedNumber)

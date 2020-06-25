@@ -25,14 +25,6 @@ function createAxes(g, xAxis, yAxis, height, width) {
     .text("Groupe d'âge")
     //Theres probably a better way to do this than just hardcode it
     .attr("transform", "translate(" + (width - 50) + "," + (height + 30) +")");
-  /*g.append("g")
-    .attr("class","y axis")
-    .call(yAxis);
-  g.append("text")
-    .attr("class","y label")
-    .text("Nombre d'individus")
-    //Same here
-    .attr("transform","translate(" + 17 + "," + 100 + "), rotate(-90)");*/
 }
 
 /**
@@ -46,13 +38,12 @@ function createAxes(g, xAxis, yAxis, height, width) {
  * @param color   Scale for the circles' color.
  * @param tip     Tooltip to show when a circle is hovered.
  */
-
   
     function createBarChart(g, data, x, y, r, color, tip) {
       var y_iterators= [0,0,0,0,0,0,0]
       var x_iterators= [0,0,0,0,0,0,0]
       var maxCircle=0
-      var bars=g.selectAll(".bar,.label")
+      g.selectAll(".bar,.label")
       .data(data)
       .enter()
       .append("circle")
@@ -66,30 +57,66 @@ function createAxes(g, xAxis, yAxis, height, width) {
         }
         else{
           maxCircle=x_iterators[index];
-          x_iterators[index]=0;
+          x_iterators[index]=1;
           return x(d.ageGroup);
         }
       })
-      //.attr("height", x.bandwidth())
       .attr("cy",function (d) {
         var index=x.domain().findIndex(function(n){return n==d.ageGroup})
-        var position = 2*r*Math.floor(y_iterators[index]/(maxCircle+1));
+        var position = 2*r*Math.floor(y_iterators[index]/(maxCircle));
         y_iterators[index]+=1
         return y(position+r);
       })
       .attr("r",r)
       .style("fill",function(d){
           return color(d.status);
-      });
-    //Add percentage to the right of each bars
-    /*bars.append("text")
-      .attr("class", "label")
-      .attr("cy", function (d) {
-        return 10;
       })
-      .attr("x", function (d) {
-        return 10 + 3;
+      .on("mouseover", function(d) {
+        tip.show(d);
+      })
+      .on("mouseout", function(d) {
+        tip.hide();
       });
-*/
+    }
 
+
+      /**
+   * Create a legend from the given source.
+   *
+   * @param svg       SVG element to use in order to create the legend.
+   * @param sources   Data sorted by street name and by date.
+   * @param color     The 10-color scale to use.
+   */
+    function legend(svg, sources, color) {
+      var boxSize = 12;
+      var spaceBetweenBoxes = 10;
+      var xLegend = 80;
+      var yLegend = 20;
+
+      var legend = svg.selectAll(".legend")
+        .data(Object.keys(color))
+        .enter()
+        .append("g")
+          .attr("class", "legend");
+      // Add rectangle boxes
+      legend.append("rect")
+          .attr("name", d => color.domain())
+          .attr("x", xLegend)
+          .attr("y", function(d, i) {return yLegend + i * (boxSize + spaceBetweenBoxes)})
+          .attr("width", boxSize)
+          .attr("height", boxSize)
+          .style("fill", d => color(d))
+          .attr("stroke", "#000000") // black stroke, stroke-width = 1 by default
+          .attr("visible", "true");
+     
+      
+      // Add legend text description
+      legend.append("text")
+          .attr("x", xLegend + 25)
+          .attr("y", function(d, i) {return yLegend + 7 + i * (boxSize + spaceBetweenBoxes)}) // offset to center text
+          .text(function(d,i){
+            return color.domain()[i];
+          })
+          .style("fill", d => color(d))
+          .style("alignment-baseline", "middle");
     }

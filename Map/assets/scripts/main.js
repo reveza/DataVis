@@ -15,7 +15,7 @@
   var region = "canada"
   var map = L.map('map', {
     'worldCopyJump': true,
-    'scrollWheelZoom': false
+    // 'scrollWheelZoom': false
   });
   var tip = d3.tip()
         .attr('class', 'd3-tip')
