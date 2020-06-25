@@ -13,8 +13,11 @@
  */
 function getToolTipText(d) {
   var tooltipText = 
- "Country: "+d.id +
- "<br>Gender: "+ d.gender +
- "<br>Date: "+ d.date ;
+  '<span class="name">Date de l\'épisode: </span><span class="value">' +
+  d.date +
+  '</span><br/>' +
+  '<span class="name">Genre: </span><span class="value">' +
+  d.gender +
+  '</span><br/>'
  return (tooltipText);
 }
