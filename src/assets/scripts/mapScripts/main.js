@@ -144,6 +144,7 @@ class mapSettings{
     let mtlAConfirmer = cases['montreal'].pop()['caseDates'];
     let data = mapCreateProportions(cases, populations);
     this.sources = mapCreateSources(data)
+    console.log(this.sources)
   }
 
   /***** Map initialization *****/

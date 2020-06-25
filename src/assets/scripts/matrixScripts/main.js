@@ -12,20 +12,17 @@
     bottom: 50,
     left: 80
   };
-  var width = 1000 - margin.left - margin.right;
-  var height = 600 - margin.top - margin.bottom;
+  var width = 1300 - margin.left - margin.right;
+  var height = 800 - margin.top - margin.bottom;
 
   /***** Scales *****/
-
-  //var colors = ["#2ca02c","#ff7f0e","#d62728","#9467bd"]
-  var status=setStatus();
-  var color =domainColor(status);
+  var color = d3.scaleOrdinal();
   var x = d3.scaleBand().range([0, width]).padding(0.1);
-  var y = d3.scaleLinear().range([height, 0]);
+  var y = d3.scaleBand().range([height, 0]).padding(0.1);
   var r = 5;
 
   var xAxis = d3.axisBottom(x);
-  var yAxis = d3.axisLeft(y).tickFormat(localization.getFormattedNumber);
+  var yAxis = d3.axisLeft(y);
 
   /***** Creation of the required svg elements *****/
   var svg = d3.select("body")
@@ -33,7 +30,7 @@
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
-  var bubbleChartGroup = svg.append("g")
+  var matrixChartGroup = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var files = ["./data/Stats_de_nerds.csv"]
@@ -43,31 +40,29 @@
       var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0]);
-
+      console.log(results[0]);
       /***** Data preprocessing *****/
       results.forEach(function (data) {
-      dataset=initializeData(data);
-      dataset.sort(function(a, b) {
-          return status.indexOf(a.status)-status.indexOf(b.status);
+        dataset = initializeData(data);
+        data.sort(function(a, b) {
+          return d3.ascending(a.date, b.date);
         })
       });
-
+    
       domainX(x);
       domainY(y);
-      domainColor(color);
-
+      domainColor(color, results, null);
+      //domainRadius(r, currentData);
       /***** Creation of the bubble chart *****/
-      createAxes(bubbleChartGroup, xAxis, yAxis, height, width);
-      createBarChart(bubbleChartGroup, dataset, x, y, r, color, tip);
-
-      /***** Creation of the legend *****/
-      legend(svg, dataset, color);
+      // createAxes(matrixChartGroup, xAxis, yAxis, height, width);
+      getLegend(matrixChartGroup, width, height, color, results, null);
+      createBubbleMatrix(matrixChartGroup, dataset, width, height, r, color, tip, x.domain(), y.domain());
       
       /***** Creation of the tooltip *****/
       tip.html(function(d) {
-        return getToolTipText.call(this, d, localization.getFormattedNumber)
+        return getToolTipText.call(this, d)
       });
-      bubbleChartGroup.call(tip);
+      matrixChartGroup.call(tip);
     });
 
 })(d3, localization);

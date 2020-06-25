@@ -25,13 +25,6 @@ async function initialize(L, d3, topojson, localization){
   mapSettings.mapSettingsCreateTooltip();
   
 
-
-
-
-
-
-  
-
   const config = {
     height: 500,
     margin: {
@@ -58,12 +51,6 @@ async function initialize(L, d3, topojson, localization){
     .attr('width', config.width)
     .attr('height', config.height)
 
-  // console.log(myMap)  
-  // const rect = g.append('rect')
-  //   .attr('width', config.width)
-  //   .attr('height', config.height)
-  //   .style('fill', 'green');
-
   return dates.map(d => {
 
     return direction => {
@@ -75,8 +62,9 @@ async function initialize(L, d3, topojson, localization){
         dateIndex = dateIndex <= 0 ? 0 : dateIndex - 1
         // dateIndex -= 1;
       }
+      console.log(dates)
       // console.log(dates.length)
-      // console.log(dateIndex); // Log the current scroll direction.
+      console.log(dateIndex); // Log the current scroll direction.
       mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])
     }
   });

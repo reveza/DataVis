@@ -58,7 +58,6 @@ function updateMapCircles(g, sources, abbreviations, date, region){
       else
         zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
       let result = Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*200;
-      console.log(result)
       return result
     })
 }
