@@ -13,11 +13,10 @@
  */
 function getToolTipText(d, formatNumber) {
   var tooltipText = 
- "Country: "+d.name.bold() +
- "<br>Life expentancy: "+ formatNumber(d.lifeExpectancy).bold()+ " years"+
- "<br>Income: "+ formatNumber(d.income).bold()+ " USD"+
- "<br>Population: "+ formatNumber(d.population).bold()+ " habitants"+
- "<br>World region: "+ d.zone.bold();
+ "Date: "+d.date.bold() +
+ "<br>Groupe d'âge: "+ d.ageGroup.bold()+" ans"+
+ "<br>Genre: "+ d.gender.bold()+
+ "<br>État de santé: "+ d.status.bold();
  
  return (tooltipText);
 }

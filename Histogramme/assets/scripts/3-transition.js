@@ -1,5 +1,9 @@
 "use strict";
 
+
+/////////////////////////////////////
+//// A adapter, fait rien en ce moment
+/////////////////////////////////////
 /**
 * File managing the transitions between the various data.
 */

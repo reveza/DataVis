@@ -24,22 +24,21 @@ function initializeData(data) {
           "status": "unknown"
       }
       if (row["Statut"]=="1"){
-        person.status="deceased"
+        person.status="Décédé"
       }
       else if (row["L'unité de soins intensifs"]=="oui"){
-        person.status="intensiveCare"
+        person.status="Soins Intensifs"
       }
       else if (row["Hospitalisation "]=="oui"){
-        person.status="hospitalization"
+        person.status="Hospitalisation"
       }
       else if (row["Hospitalisation "]=="non"){
-        person.status="healthy"
+        person.status="En santé"
       }
       if (person.status !="unknown" && person.ageGroup !="non déclaré"){
         dataset.push(person);
       }
     });
-    //console.log(dataset);
     return dataset;
   
 }
@@ -63,24 +62,20 @@ function domainY(y) {
   y.domain([0, 500]);
 }
 
+
+function setStatus() {
+  return ["En santé","Hospitalisation","Soins Intensifs","Décédé"];
+}
+
 /**
  * Set the color scale domain for the colors. Each value of the scale is used to distinguish each world region.
  *
  * @param color   Color scale.
  * @param data    Data that comes from a CSV file
  */
-function domainColor(color, data) {
-  var worldRegions = [...new Set(data.map(x => x.status))];
-  color = d3.scaleOrdinal(d3.SchemeCategory + worldRegions.size);
-  // color.domain(worldRegions);
+function domainColor(status) {
+  var colorArray = ["#1f77b4", "#2ca02c","#ff7f0e", "#d62728"]
+  return d3.scaleOrdinal(colorArray).domain(status);
+
 }
 
-/**
- * Set the domain scale for the circles' radiuses that are used to represent the countries' population.
- *
- * @param r       Scale of the circles radiuses.
- * @param data    Data that comes from a CSV file
- */
-function domainRadius(r, data) {
-  r.domain(d3.extent(data, d => d.population));
-}
