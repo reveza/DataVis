@@ -11,7 +11,7 @@
  * @param formatNumber    Function that allows you to correctly format numbers.
  * @return {string}       The text to show in the tooltip.
  */
-function getToolTipText(d) {
+function matrixGetToolTipText(d) {
   var tooltipText = 
   '<span class="name">Date de l\'épisode: </span><span class="value">' +
   d.date +

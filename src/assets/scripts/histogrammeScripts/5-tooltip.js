@@ -11,7 +11,7 @@
  * @param formatNumber    Function that allows you to correctly format numbers.
  * @return {string}       The text to show in the tooltip.
  */
-function getToolTipText(d, formatNumber) {
+function histGetToolTipText(d, formatNumber) {
   var tooltipText = 
  "Date: "+d.date.bold() +
  "<br>Groupe d'âge: "+ d.ageGroup.bold()+" ans"+

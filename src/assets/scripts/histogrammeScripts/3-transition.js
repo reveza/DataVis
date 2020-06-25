@@ -17,7 +17,7 @@
  * @param y       Scale for the Y axis.
  * @param r       Scale to use for the circles' radiuses.
  */
-function transition(g, data, x, y, r) {
+function histTransition(g, data, x, y, r) {
   g.selectAll("circle")
     .data(data)
     .transition().duration(1000) // 1 second transition

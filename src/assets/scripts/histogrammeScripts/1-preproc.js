@@ -11,7 +11,7 @@
  *
  * @param data    Data that comes from a CSV file
  */
-function initializeData(data) {
+function histInitializeData(data) {
   var dateParser = d3.timeParse("%m/%d/%Y");
   var dateFormatter = d3.timeFormat("%Y-%m-%d");
   var dataset = [];
@@ -48,7 +48,7 @@ function initializeData(data) {
  *
  * @param x     X scale to use.
  */
-function domainX(x) {
+function histDomainX(x) {
   var ageBracket = ["0-19","20-39","40-49","50-59","60-69","70-79","80+"]
   x.domain(ageBracket);
 }
@@ -58,12 +58,12 @@ function domainX(x) {
  *
  * @param y     Y scale to use.
  */
-function domainY(y) {
+function histDomainY(y) {
   y.domain([0, 500]);
 }
 
 
-function setStatus() {
+function histSetStatus() {
   return ["En santé","Hospitalisation","Soins Intensifs","Décédé"];
 }
 
@@ -73,7 +73,7 @@ function setStatus() {
  * @param color   Color scale.
  * @param data    Data that comes from a CSV file
  */
-function domainColor(status) {
+function histDomainColor(status) {
   var colorArray = ["#1f77b4", "#2ca02c","#ff7f0e", "#d62728"]
   return d3.scaleOrdinal(colorArray).domain(status);
 

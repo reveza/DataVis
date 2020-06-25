@@ -11,7 +11,7 @@
  *
  * @param data    Data that comes from a CSV file
  */
-function initializeData(data) {
+function matrixInitializeData(data) {
   var dateParser = d3.timeParse("%m/%d/%Y");
   var dateFormatter = d3.timeFormat("%Y-%m-%d");
   var dataset = [];
@@ -57,7 +57,7 @@ function initializeData(data) {
  *
  * @param x     X scale to use.
  */
-function domainX(x) {
+function matrixDomainX(x) {
   var ageBracket = ["0-19","20-39","40-49","50-59","60-69","70-79","80+"]
   // var ageBracket = ["0-19","20-39","40-59","60-79","80+"]
   x.domain(ageBracket);
@@ -68,7 +68,7 @@ function domainX(x) {
  *
  * @param y     Y scale to use.
  */
-function domainY(y) {
+function matrixDomainY(y) {
   var transmissionTypes = ["Exposition communautaire", "Exposition au voyage"]
   y.domain(transmissionTypes);
 }
@@ -81,7 +81,7 @@ function domainY(y) {
  */
 
 // Type = [status, gender] if we want to have the possibility of different color types
-function domainColor(color, data, type) {
+function matrixDomainColor(color, data, type) {
   // var statusTypes = [...new Set(data.map(d => d.status))];
   // color = d3.scaleOrdinal(d3.SchemeCategory + statusTypes.size);
   // console.log(color);

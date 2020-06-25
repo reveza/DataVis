@@ -14,7 +14,7 @@
  * @param domainY Domain of y -> transmission type
  */
 
-function createBubbleMatrix(g, data, width, height, r, color, tip, domainX , domainY){
+function matrixCreateBubbleMatrix(g, data, width, height, r, color, tip, domainX , domainY){
   
   //Location to move the cicrcles towards
   var ageTTCenters = {}
@@ -34,20 +34,21 @@ function createBubbleMatrix(g, data, width, height, r, color, tip, domainX , dom
     .data(domainY)
     .enter()
     .append('text')
-    .attr('class', 'transmission')
+    .attr('class', 'transmissionTitle')
+    .attr("opacity",1)
     .attr('x', 0)
     .attr('y', function(d){ return titlesPosition[d]})
     .text(function (d) { return d;})
     .attr("transform", "translate(0, -80)");
-  g.selectAll('.titles')
-    .data(domainX)
-    .enter()
-    .append('text')
-    .attr('class', 'age')
-    .attr('x', function(d){ return titlesPosition[d]})
-    .attr('y', height)
-    .text(function (d) { return d;})
-    .attr("transform", "translate(-20,10)");
+  // g.selectAll('.titles')
+  //   .data(domainX)
+  //   .enter()
+  //   .append('text')
+  //   .attr('class', 'age')
+  //   .attr('x', function(d){ return titlesPosition[d]})
+  //   .attr('y', height)
+  //   .text(function (d) { return d;})
+  //   .attr("transform", "translate(-20,10)");
 
   //Force applied to each node for it to go to its respective positions
   var forceStrength = 0.03;
@@ -57,26 +58,17 @@ function createBubbleMatrix(g, data, width, height, r, color, tip, domainX , dom
     .force('x', d3.forceX().x(d => nodePosition(d).x))
     .force('y', d3.forceY().y(d => nodePosition(d).y))
     .force('collision', d3.forceCollide().radius(r))
-    // .force('charge', d3.forceManyBody().strength(-2*r/3))
-      //   function(d){
-    //     if(d.status == "deceased"){ return r}
-    //     if(d.status == "intensiveCare"){ return 0}
-    //     if(d.status == "hospitalization"){return -1*r/5}
-    //     else { return -1*r}  
-    // }
+    .force('charge', d3.forceManyBody().strength(-1))
     .on('tick', ticked);
 
   
   function ticked() {
     var bubbles = g.selectAll("circle").data(data);
     bubbles
-      .enter()
-      .append("circle")
-      .classed('bubble', true)
       .attr('r', r)
       .on('mouseover', function(d){ tip.show(d);})
       .on('mouseout', function(d) { tip.hide();})
-      .merge(bubbles)
+      // .merge(bubbles)
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
       .attr("fill",function(d){return color(d.status);});
@@ -87,33 +79,12 @@ function createBubbleMatrix(g, data, width, height, r, color, tip, domainX , dom
   function nodePosition(d){
     return ageTTCenters[d.ageGroup.concat(d.transmission)];
   }
-
+  
+  return simulation;
 }
 
-//add option = [gender, state] for color ?
-function getLegend(g, width, height, color, option){
-  var boxSize = 10;
-  var spaceBetweenBoxes = 10;
-  var xLegend = width - 100;
-  var yLegend = 20;
-  var legend = g.selectAll('.legend')
-    .data(["deceased", "healthy", "hospitalization", "intensiveCare"])
-    .enter()
-    .append('g')
-    .attr('class','legend');
-  legend.append("rect")
-    .attr("name", d => d)
-    .attr("x", xLegend)
-    .attr("y", function(d,i) { return yLegend + i * (boxSize + spaceBetweenBoxes)})
-    .attr("width", boxSize)
-    .attr("height", boxSize)
-    .attr("fill", d=> color(d))
-  legend.append("text")
-    .attr("x", xLegend + 20)
-    .attr("y", function(d,i){return yLegend + 8 + i * (boxSize + spaceBetweenBoxes)})
-    .text(d => d)
-    .style("fill", d => color(d))
-    .style("alignement-baseline", "middle");
-}
+
+
+
 
 

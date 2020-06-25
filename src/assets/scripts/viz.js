@@ -17,14 +17,23 @@ async function initialize(L, d3, topojson, localization){
   
   const dates = await d3.csv('./data/dates.csv');
   let dateIndex = 0
+  const startDate = "20/04/26";
+  const startRegion = "canada";
 
-  mapSettings = new mapSettings(L, d3, "20/04/26", "canada");
+  /***** Creation of map *****/
+  mapSettings = new mapSettings(L, d3, startDate, startRegion);
   mapSettings.mapSettingsInitViz();
   await mapSettings.mapSettingsCreateSources();
   mapSettings.mapSettingsInitMap();
   mapSettings.mapSettingsCreateTooltip();
   
+  /***** Creation of histogram *****/
+  histogramSettings = new histogramSettings(d3, localization, startDate);
+  histogramSettings.configHistogram();
 
+
+
+  /***** Initialize viz *****/
   const config = {
     height: 500,
     margin: {
