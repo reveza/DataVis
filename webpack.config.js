@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
       port: 8080
     },
     devtool: argv.mode === 'development' ? 'inline-source-map' : 'none',
-    entry: ['core-js/stable', 'regenerator-runtime/runtime', './src/app/app.js'],
+    entry: ['core-js/stable', 'regenerator-runtime/runtime', './src/assets/scripts/app.js'],
     module: {
       rules: [
         {
