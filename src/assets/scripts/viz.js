@@ -3,8 +3,8 @@
  * =======
  * File used to define a visualization section.
  */
+// const { map } = require("core-js/fn/array");
 
-const { map } = require("core-js/fn/array");
 
 
 /**
@@ -30,8 +30,21 @@ async function initialize(L, d3, localization){
   /***** Creation of histogram *****/
   histogramSettings = new histogramSettings(d3, localization, startDate);
   histogramSettings.configHistogram();
+  histogramSettings.setScales();
+  histogramSettings.createHistSvg();
+  await histogramSettings.histCreateDataset();
+  histogramSettings.initHistTip();
+  histogramSettings.histCreateVisualisation();
 
-
+  /***** Creation of matrix *****/
+  matrixSettings = new matrixSettings(d3, localization, startDate);
+  matrixSettings.configMatrix();
+  matrixSettings.setScales();
+  matrixSettings.createMatrixSvg();
+  await matrixSettings.matrixCreateDataset();
+  matrixSettings.initMatrixTip();
+  matrixSettings.matrixSetupToggleButton();
+  matrixSettings.matrixCreateVisualisation();
 
   /***** Initialize viz *****/
   const config = {
@@ -55,10 +68,6 @@ async function initialize(L, d3, localization){
     .attr('preserveAspectRatio', 'xMidYMid');
   const g = svg.append('g')
     .attr('transform', `translate(${config.margin.left}, ${config.margin.top})`);
-  
-  const myMap = g.append('map')
-    .attr('width', config.width)
-    .attr('height', config.height)
 
   return dates.map(d => {
 
@@ -71,7 +80,6 @@ async function initialize(L, d3, localization){
         dateIndex = dateIndex <= 0 ? 0 : dateIndex - 1
         // dateIndex -= 1;
       }
-      console.log(dates)
       // console.log(dates.length)
       console.log(dateIndex); // Log the current scroll direction.
       mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])

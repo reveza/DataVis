@@ -38,80 +38,119 @@ class histogramSettings{
   createHistSvg(){    
     this.svg = d3.select("body")
     .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+    .attr("width", this.width + this.margin.left + this.margin.right)
+    .attr("height", this.height + this.margin.top + this.margin.bottom);
  
-    this.bubbleChartGroup = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    this.bubbleChartGroup = this.svg.append("g")
+    .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+  }
+
+  /***** Loading of data *****/
+  async histCreateDataset(){
+    var files = ["./data/Stats_de_nerds.csv"]
+    var results =  await Promise.all(files.map(url => d3.csv(url)));
+    results.forEach((data) => {
+      this.dataset=histInitializeData(data);
+      this.dataset.sort((a,b) => {
+          return this.status.indexOf(a.status)-this.status.indexOf(b.status);
+        })
+      });
+    histDomainX(this.x);
+    histDomainY(this.y);
+    histDomainColor(this.color);
+  }
+  
+  histCreateVisualisation(){
+
+    /***** Creation of the bubble chart *****/
+    histCreateAxes(this.bubbleChartGroup, this.xAxis, this.yAxis, this.height, this.width);
+    histCreateBarChart(this.bubbleChartGroup, this.dataset, this.x, this.y, this.r, this.color, this.tip);
+    
+    /***** Creation of the legend *****/
+    histLegend(this.svg, this.dataset, this.color);
+  }
+
+
+  /***** Creation and initialization of tip *****/
+  initHistTip() {
+    this.tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0]);
+
+    this.tip.html(function(d) {
+      return histGetToolTipText.call(this, d, localization.getFormattedNumber)
+    });
+    this.bubbleChartGroup.call(this.tip);
   }
 }
 
-(function (d3, localization) {
-  "use strict";
+// (function (d3, localization) {
+//   "use strict";
 
-  /***** Configuration *****/
-  var margin = {
-    top: 50,
-    right: 50,
-    bottom: 50,
-    left: 80
-  };
-  var width = 1000 - margin.left - margin.right;
-  var height = 600 - margin.top - margin.bottom;
+//   /***** Configuration *****/
+//   var margin = {
+//     top: 50,
+//     right: 50,
+//     bottom: 50,
+//     left: 80
+//   };
+//   var width = 1000 - margin.left - margin.right;
+//   var height = 600 - margin.top - margin.bottom;
 
-  /***** Scales *****/
+//   /***** Scales *****/
 
-  //var colors = ["#2ca02c","#ff7f0e","#d62728","#9467bd"]
-  var status=histSetStatus();
-  var color =histDomainColor(status);
-  var x = d3.scaleBand().range([0, width]).padding(0.1);
-  var y = d3.scaleLinear().range([height, 0]);
-  var r = 5;
+//   //var colors = ["#2ca02c","#ff7f0e","#d62728","#9467bd"]
+//   var status=histSetStatus();
+//   var color =histDomainColor(status);
+//   var x = d3.scaleBand().range([0, width]).padding(0.1);
+//   var y = d3.scaleLinear().range([height, 0]);
+//   var r = 5;
 
-  var xAxis = d3.axisBottom(x);
-  var yAxis = d3.axisLeft(y).tickFormat(localization.getFormattedNumber);
+//   var xAxis = d3.axisBottom(x);
+//   var yAxis = d3.axisLeft(y).tickFormat(localization.getFormattedNumber);
 
-  /***** Creation of the required svg elements *****/
-  var svg = d3.select("body")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+//   /***** Creation of the required svg elements *****/
+//   var svg = d3.select("body")
+//     .append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom);
 
-  var bubbleChartGroup = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+//   var bubbleChartGroup = svg.append("g")
+//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var files = ["./data/Stats_de_nerds.csv"]
-  var dataset=[];
-  /***** Data loading *****/
-  Promise.all(files.map(url => d3.csv(url))).then(function (results) {
-      var tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 0]);
+//   var files = ["./data/Stats_de_nerds.csv"]
+//   var dataset=[];
+//   /***** Data loading *****/
+//   Promise.all(files.map(url => d3.csv(url))).then(function (results) {
+//       console.log(results)
+//       var tip = d3.tip()
+//         .attr('class', 'd3-tip')
+//         .offset([-10, 0]);
 
-      /***** Data preprocessing *****/
-      results.forEach(function (data) {
-      dataset=histInitializeData(data);
-      dataset.sort(function(a, b) {
-          return status.indexOf(a.status)-status.indexOf(b.status);
-        })
-      });
+//       /***** Data preprocessing *****/
+//       results.forEach(function (data) {
+//       dataset=histInitializeData(data);
+//       dataset.sort(function(a, b) {
+//           return status.indexOf(a.status)-status.indexOf(b.status);
+//         })
+//       });
 
-      histDomainX(x);
-      histDomainY(y);
-      histDomainColor(color);
+//       histDomainX(x);
+//       histDomainY(y);
+//       histDomainColor(color);
 
-      /***** Creation of the bubble chart *****/
-      histCreateAxes(bubbleChartGroup, xAxis, yAxis, height, width);
-      histCreateBarChart(bubbleChartGroup, dataset, x, y, r, color, tip);
+//       /***** Creation of the bubble chart *****/
+//       histCreateAxes(bubbleChartGroup, xAxis, yAxis, height, width);
+//       histCreateBarChart(bubbleChartGroup, dataset, x, y, r, color, tip);
 
-      /***** Creation of the legend *****/
-      histLegend(svg, dataset, color);
+//       /***** Creation of the legend *****/
+//       histLegend(svg, dataset, color);
       
-      /***** Creation of the tooltip *****/
-      tip.html(function(d) {
-        return histGetToolTipText.call(this, d, localization.getFormattedNumber)
-      });
-      bubbleChartGroup.call(tip);
-    });
+//       /***** Creation of the tooltip *****/
+//       tip.html(function(d) {
+//         return histGetToolTipText.call(this, d, localization.getFormattedNumber)
+//       });
+//       bubbleChartGroup.call(tip);
+//     });
 
-})(d3, localization);
+// })(d3, localization);

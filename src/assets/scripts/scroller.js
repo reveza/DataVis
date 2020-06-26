@@ -88,7 +88,6 @@ function scroller(callbacks) {
   let viz = [];
   let visibleSteps = [];
   const vizSections = document.querySelectorAll('.viz-section');
-  console.log(vizSections)
   if (vizSections.length !== callbacks.length) {
     throw new Error(`The number of viz sections (${vizSections.length}) mismatch with the length of the first ` +
       `dimension of the callbacks array (${callbacks.length}). Please, be sure that the two elements ` +
