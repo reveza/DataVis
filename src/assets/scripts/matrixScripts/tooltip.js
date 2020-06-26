@@ -13,11 +13,7 @@
  */
 function matrixGetToolTipText(d) {
   var tooltipText = 
-  '<span class="name">Date de l\'épisode: </span><span class="value">' +
-  d.date +
-  '</span><br/>' +
-  '<span class="name">Genre: </span><span class="value">' +
-  d.gender +
-  '</span><br/>'
+    '<span class="name">Date de l\'épisode: </span><span class="value">' + d.date + '</span><br/>' +
+    '<span class="name">Genre: </span><span class="value">' + d.gender + '</span><br/>';
  return (tooltipText);
 }

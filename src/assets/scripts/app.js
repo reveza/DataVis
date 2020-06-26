@@ -6,14 +6,8 @@
 
 'use strict';
 
-// import '../styles/style.scss';
-
-// import { scroller } from './scroller';
-// import stickyBits from 'stickybits'
-// import { initialize as v1 } from './viz';
-
 // Fallback for old browsers to support sticky positioning.
-(function(L, d3, topojson, localization){
+(function(L, d3, topojson, localization) {
   let elements = [];
   ['.viz'].forEach(selector => {
     elements = elements.concat(Array.from(document.querySelectorAll(selector)));
@@ -26,4 +20,4 @@
       .initialize(L, d3, topojson, localization);
   });
 
-})(L, d3, topojson, localization);
+}) (L, d3, topojson, localization);

@@ -1,7 +1,6 @@
 
 
-function matrixCreateBubbles(g, data, r, color, tip){
-
+function matrixCreateBubbles(g, data, r, color, tip ){
     g.selectAll("circle")
       .data(data)
       .enter()

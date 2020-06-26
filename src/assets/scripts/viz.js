@@ -4,19 +4,17 @@
  * File used to define a visualization section.
  */
 
-const { map } = require("core-js/fn/array");
-
-
 /**
  * Initializes the visualization
  *
  * @returns {Promise<*>}  A promise that contains a list of callbacks.
  */
-async function initialize(L, d3, topojson, localization){
+async function initialize(L, d3, topojson, localization) {
   "use strict";
-  
-  const dates = await d3.csv('./data/dates.csv');
+
   let dateIndex = 0
+
+  const dates = await d3.csv('./data/dates.csv');
   const startDate = "20/04/26";
   const startRegion = "canada";
 
@@ -31,8 +29,6 @@ async function initialize(L, d3, topojson, localization){
   histogramSettings = new histogramSettings(d3, localization, startDate);
   histogramSettings.configHistogram();
 
-
-
   /***** Initialize viz *****/
   const config = {
     height: 500,
@@ -44,10 +40,10 @@ async function initialize(L, d3, topojson, localization){
     },
     width: 500
   }
+
   const fullWidth = config.margin.left + config.width + config.margin.right;
   const fullHeight = config.margin.top + config.height + config.margin.bottom;
   
-  // const visContainer = d3.select('#viz');
   const mapContainer = d3.select('#map');
 
   const svg = mapContainer.append('svg')
@@ -61,19 +57,12 @@ async function initialize(L, d3, topojson, localization){
     .attr('height', config.height)
 
   return dates.map(d => {
-
     return direction => {
-      if (direction == "up"){
-        dateIndex = dateIndex >= dates.length-1 ? dates.length-1 : dateIndex + 1
-        // dateIndex += 1;
-      }
-      else{
+      if (direction == "up") {
+        dateIndex = dateIndex >= dates.length - 1 ? dates.length - 1 : dateIndex + 1
+      } else {
         dateIndex = dateIndex <= 0 ? 0 : dateIndex - 1
-        // dateIndex -= 1;
       }
-      console.log(dates)
-      // console.log(dates.length)
-      console.log(dateIndex); // Log the current scroll direction.
       mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])
     }
   });

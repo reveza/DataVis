@@ -33,7 +33,8 @@
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var files = ["./data/Stats_de_nerds.csv"]
-  var dataset=[];
+  var dataset = [];
+
   /***** Data loading *****/
   Promise.all(files.map(url => d3.csv(url))).then(function (results) {
       var currentViz = "Histogram"
@@ -75,17 +76,17 @@
             return currentViz === d3.select(this).text();
           });
 
-          if(currentViz == "Histogram"){            
+          if (currentViz == "Histogram") {            
             matrixCreateHistogram(vizChartGroup, dataset, x, y, r,color, tip);
             d3.selectAll("text.transmissionTitle").attr("opacity", 0);
-            if(simulationForce != null){ simulationForce.alpha(0)}
+            if (simulationForce != null) { 
+              simulationForce.alpha(0)
+            }
           } else {
             d3.selectAll("text.transmissionTitle").attr("opacity", 1);
             simulationForce = matrixCreateBubbleMatrix(vizChartGroup, dataset, width, height, r, color, tip, x.domain(), y.domain());
           }
         });
-      
-
       
       /***** Creation of the tooltip *****/
       tip.html(function(d) {
@@ -94,4 +95,4 @@
       vizChartGroup.call(tip);
     });
 
-})(d3, localization);
+}) (d3, localization);

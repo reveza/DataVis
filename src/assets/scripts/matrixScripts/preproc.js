@@ -26,25 +26,18 @@ function matrixInitializeData(data) {
           "cx": 0,
           "cy": 0
         }
-        // if(person.ageGroup == "40-49" || person.ageGroup == "50-59"){
-        //   person.ageGroup="40-59"
-        // }
-        // if(person.ageGroup == "60-69" || person.ageGroup == "70-79"){
-        //   person.ageGroup="60-79"
-        // }
-        if (row["Statut"]=="1"){
+
+        if (row["Statut"] == "1") {
           person.status="deceased"
-        }
-        else if (row["L'unité de soins intensifs"]=="oui"){
+        } else if (row["L'unité de soins intensifs"] == "oui") {
           person.status="intensiveCare"
-        }
-        else if (row["Hospitalisation "]=="oui"){
+        } else if (row["Hospitalisation "] == "oui") {
           person.status="hospitalization"
-        }
-        else if (row["Hospitalisation "]=="non"){
+        } else if (row["Hospitalisation "] == "non") {
           person.status="healthy"
         }
-        if (person.status !="unknown" && person.ageGroup !="non déclaré" && person.transmission != "non déclaré" && person.transmission != "En attente"){
+        
+        if (person.status != "unknown" && person.ageGroup != "non déclaré" && person.transmission != "non déclaré" && person.transmission != "En attente") {
           dataset.push(person);
         }
     });

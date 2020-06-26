@@ -14,22 +14,25 @@
  * @param domainY Domain of y -> transmission type
  */
 
-function matrixCreateBubbleMatrix(g, data, width, height, r, color, tip, domainX , domainY){
+function matrixCreateBubbleMatrix(g, data, width, height, r, color, tip, domainX , domainY) {
   
-  //Location to move the cicrcles towards
+  // Location to move the cicrcles towards
   var ageTTCenters = {}
   var sizeXgroup = width / (domainX.length + 1);
   var sizeYgroup = height / (domainY.length + 1);
   var titlesPosition ={}
-  domainY.forEach((y,j) => (
-    titlesPosition[y] = (j+1)*sizeYgroup,
-    domainX.forEach((x,i) => (
-      titlesPosition[x] = (i+1)*sizeXgroup,
-      ageTTCenters[x.concat(y)] = {"x":(i+1)*sizeXgroup, "y":(j+1)*sizeYgroup})))
-  );
-    
 
-  //Show titles according to bubbles positions
+  domainY.forEach((y,j) => (
+    titlesPosition[y] = (j + 1) * sizeYgroup,
+    domainX.forEach((x,i) => (
+      titlesPosition[x] = (i+1) * sizeXgroup,
+      ageTTCenters[x.concat(y)] =  {
+        "x": (i + 1) * sizeXgroup, 
+        "y": (j + 1) * sizeYgroup 
+      })))
+  );
+
+  // Show titles according to bubbles positions
   g.selectAll('.titles')
     .data(domainY)
     .enter()
@@ -40,17 +43,8 @@ function matrixCreateBubbleMatrix(g, data, width, height, r, color, tip, domainX
     .attr('y', function(d){ return titlesPosition[d]})
     .text(function (d) { return d;})
     .attr("transform", "translate(0, -80)");
-  // g.selectAll('.titles')
-  //   .data(domainX)
-  //   .enter()
-  //   .append('text')
-  //   .attr('class', 'age')
-  //   .attr('x', function(d){ return titlesPosition[d]})
-  //   .attr('y', height)
-  //   .text(function (d) { return d;})
-  //   .attr("transform", "translate(-20,10)");
 
-  //Force applied to each node for it to go to its respective positions
+  // Force applied to each node for it to go to its respective positions
   var forceStrength = 0.03;
   var charge = -Math.pow(r, 2.0) * forceStrength;
   var simulation = d3.forceSimulation(data)
@@ -63,28 +57,21 @@ function matrixCreateBubbleMatrix(g, data, width, height, r, color, tip, domainX
 
   
   function ticked() {
-    var bubbles = g.selectAll("circle").data(data);
-    bubbles
+    var bubbles = g.selectAll("circle").data(data)
       .attr('r', r)
       .on('mouseover', function(d){ tip.show(d);})
       .on('mouseout', function(d) { tip.hide();})
       // .merge(bubbles)
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
-      .attr("fill",function(d){return color(d.status);});
+      .attr("fill", function(d) { return color(d.status); });
 
     bubbles.exit().remove();
   }
 
-  function nodePosition(d){
+  function nodePosition(d) {
     return ageTTCenters[d.ageGroup.concat(d.transmission)];
   }
   
   return simulation;
 }
-
-
-
-
-
-
