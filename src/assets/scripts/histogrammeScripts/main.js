@@ -44,6 +44,32 @@ class histogramSettings{
     this.bubbleChartGroup = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   }
+
+  /***** Loading of data *****/
+  async histCreateDataset(){
+    var files = ["./data/Stats_de_nerds.csv"]
+    var results =  await Promise.all(files.map(url => d3.csv(url)));
+    results.forEach((data) => {
+      this.dataset=histInitializeData(data);
+      console.log(this.dataset)
+      this.dataset.sort((a,b) => {
+          
+          return this.status.indexOf(a.status)-this.status.indexOf(b.status);
+        })
+      });
+  }
+
+  /***** Creation and initialization of tip *****/
+  initHistTip() {
+    this.tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0]);
+
+    this.tip.html(function(d) {
+      return histGetToolTipText.call(this, d, localization.getFormattedNumber)
+    });
+    this.bubbleChartGroup.call(this.tip);
+  }
 }
 
 (function (d3, localization) {
@@ -84,6 +110,7 @@ class histogramSettings{
   var dataset=[];
   /***** Data loading *****/
   Promise.all(files.map(url => d3.csv(url))).then(function (results) {
+      console.log(results)
       var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0]);

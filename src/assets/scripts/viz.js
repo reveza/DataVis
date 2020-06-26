@@ -30,7 +30,7 @@ async function initialize(L, d3, topojson, localization){
   /***** Creation of histogram *****/
   histogramSettings = new histogramSettings(d3, localization, startDate);
   histogramSettings.configHistogram();
-
+  await histogramSettings.histCreateDataset();
 
 
   /***** Initialize viz *****/
@@ -71,7 +71,6 @@ async function initialize(L, d3, topojson, localization){
         dateIndex = dateIndex <= 0 ? 0 : dateIndex - 1
         // dateIndex -= 1;
       }
-      console.log(dates)
       // console.log(dates.length)
       console.log(dateIndex); // Log the current scroll direction.
       mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])
