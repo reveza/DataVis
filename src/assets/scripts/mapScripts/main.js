@@ -33,7 +33,10 @@ class mapSettings{
 
     this.map = L.map('map', {
       'worldCopyJump': true,
-      'scrollWheelZoom': false
+      'scrollWheelZoom': false,
+      'zoomControl': false,
+      'dragging': false,
+      'doubleClickZoom': false
     });
     this.tip = d3.tip()
           .attr('class', 'd3-tip')
@@ -69,6 +72,14 @@ class mapSettings{
     this.canadaBorders = await promises[6];
     this.quebecBorders = await promises[7];
     this.montrealBorders = await promises[8];
+    
+    if(this.region === 'canada'){
+      this.borders = this.canadaBorders;
+    } else if(this.region === 'quebec'){
+      this.borders = this.quebecBorders;
+    } else {
+      this.borders = this.montrealBorders;
+    } 
 
     this.abbreviations = await promises[9]
 
@@ -81,34 +92,30 @@ class mapSettings{
 
   /***** Map initialization *****/
   mapSettingsInitMap(){
-    this.mapSvg = initMap(this.L, this.map);
+    this.mapSvg = initMap(this.L, this.map, this.region);
     this.g = undefined;
     if (this.mapSvg) {
       this.g = this.mapSvg.select("g");
     }
     this.path = this.createPath();
     
-
-    createMapBorders(this.g, this.path, this.canadaBorders);
-    createMapCircles(this.g, this.canadaBorders, this.sources, this.path, this.abbreviations, this.date, this.tip, this.region);
-    this.map.on("moveend", () => {
-      updateMap(this.mapSvg, this.g, this.path, this.canadaBorders);
-    });
-    updateMap(this.mapSvg, this.g, this.path, this.canadaBorders);
+    createMapBorders(this.g, this.path, this.borders);
+    createMapCircles(this.g, this.borders, this.sources, this.path, this.abbreviations, this.date, this.tip, this.region);
+    updateMap(this.mapSvg, this.g, this.path, this.borders);
   }
 
   mapSettingsCreateTooltip(){
     let region = this.region;
     let date = this.date;
-    let sources= this.sources;
+    let sources = this.sources;
+    let abbreviations = this.abbreviations;
 
     this.tip.html(function(d) {
       var zoneName;
-
       if(region == "montreal")
-        zoneName = this.abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
+        zoneName = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
       else
-        zoneName = this.abbreviations.find(zone => zone.name == d.properties['name']).abbreviation;
+        zoneName = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
       var zone = sources[date].find(variable => variable['name'] == zoneName);
       return showZoneInfo.call(this, zone)
     });
@@ -118,6 +125,6 @@ class mapSettings{
   mapSettingsUpdateDate(date){
     this.date = date;
     updateMapCircles(this.g, this.sources, this.abbreviations, date, this.region)
+    this.mapSettingsCreateTooltip();
   }
-
 }

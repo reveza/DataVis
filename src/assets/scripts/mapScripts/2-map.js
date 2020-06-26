@@ -1,12 +1,17 @@
 "use strict";
 
-function initMap(L, map) {
+function initMap(L, map, region) {
   L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-      maxZoom: 12,
-      minZoom: 2
   }).addTo(map);
-  map.setView([63, -97], 4);
+
+  if(region === 'canada'){
+    map.setView([63, -96.3], 4);
+  } else if(region === 'quebec'){
+    map.setView([55, -67], 5);
+  } else {
+    map.setView([45.55, -73.72], 11);
+  }
 
   let svg = d3.select(map.getPanes().overlayPane).append("svg");
   svg.append("g").attr("class", "leaflet-zoom-hide");
@@ -22,7 +27,6 @@ function createMapBorders(g, path, borders) {
       .attr('d', path)
       .attr('class', 'district')
       .style('fill', '#C0E2FA')
-      
 }
 
 function createMapCircles(g, borders, sources, path, abbreviations, date, tip, region) {
@@ -36,8 +40,7 @@ function createMapCircles(g, borders, sources, path, abbreviations, date, tip, r
           zone = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
         else
           zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
-        
-        return Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*200;
+        return Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*1000;
       })
       .attr('class', 'district')
       .attr('cx', function(d) {return path.centroid(d)[0];})
@@ -52,12 +55,11 @@ function updateMapCircles(g, sources, abbreviations, date, region){
   g.selectAll('circle')
     .attr('r', function(d) {
       var zone;
-      // console.log(d)
       if(region == "montreal")
         zone = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
       else
         zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
-      let result = Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*200;
+      let result = Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*1000;
       return result
     })
 }

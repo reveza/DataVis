@@ -17,7 +17,7 @@ async function initialize(L, d3, localization){
   
   const dates = await d3.csv('./data/dates.csv');
   let dateIndex = 0
-  const startDate = "20/04/26";
+  const startDate = "20/01/26";
   const startRegion = "canada";
 
   /***** Creation of map *****/
@@ -74,13 +74,10 @@ async function initialize(L, d3, localization){
     return direction => {
       if (direction == "up"){
         dateIndex = dateIndex >= dates.length-1 ? dates.length-1 : dateIndex + 1
-        // dateIndex += 1;
       }
       else{
         dateIndex = dateIndex <= 0 ? 0 : dateIndex - 1
-        // dateIndex -= 1;
       }
-      // console.log(dates.length)
       console.log(dateIndex); // Log the current scroll direction.
       mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])
     }

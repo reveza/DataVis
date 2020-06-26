@@ -91,7 +91,7 @@
         if(region == "montreal")
           zoneName = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
         else
-          zoneName = abbreviations.find(zone => zone.name == d.properties['name']).abbreviation;
+          zoneName = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
         var zone = sources[date].find(variable => variable['name'] == zoneName);
         return showZoneInfo.call(this, zone)
       });
