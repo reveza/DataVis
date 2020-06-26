@@ -12,7 +12,7 @@ const { map } = require("core-js/fn/array");
  *
  * @returns {Promise<*>}  A promise that contains a list of callbacks.
  */
-async function initialize(L, d3, topojson, localization){
+async function initialize(L, d3, localization){
   "use strict";
   
   const dates = await d3.csv('./data/dates.csv');
@@ -77,5 +77,4 @@ async function initialize(L, d3, topojson, localization){
       mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])
     }
   });
-  return 
 };
