@@ -49,11 +49,11 @@ export function testCreateBarChart(g, data, r) {
   // return barChart;
 }
 
-export function histCreateBarChart(g, data, x, y, r, color, tip) {
+/*export function histCreateBarChart(g, data, x, y, r, color, tip) {
   var y_iterators = [0,0,0,0,0,0,0];
   var x_iterators = [0,0,0,0,0,0,0];
   var maxCircle = 0;
-
+ console.log(data)
   var barChart = g.selectAll(".bar,.label")
     .data(data)
     .enter()
@@ -91,7 +91,7 @@ export function histCreateBarChart(g, data, x, y, r, color, tip) {
   
   return barChart; 
 }
-
+*/
 
 /**
  * Create a legend from the given source.

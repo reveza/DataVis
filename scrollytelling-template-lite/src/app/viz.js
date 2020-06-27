@@ -6,8 +6,8 @@
 
 import * as d3 from 'd3';
 import { initializeHistogram, histCreateDataset } from './histogrammeScripts/main';
-import { histInitializeData, histDomainX, histDomainY, histSetStatus, histDomainColor } from './histogrammeScripts/preprocessing';
-import { histCreateAxes, histCreateBarChart, histLegend } from './histogrammeScripts/chart';
+import { histInitializeData, histDomainX, histDomainY, histSetStatus, histDomainColor} from './histogrammeScripts/preprocessing';
+import { histCreateAxes, histCreateBarChart, histLegend} from './histogrammeScripts/chart';
 
 var dateParser = d3.timeParse("%Y-%m-%d");
 
@@ -73,19 +73,18 @@ export async function initialize() {
   histDomainY(y);
   histDomainColor(color);
   histCreateAxes(g, xAxis, yAxis, height, width);
+  histLegend(g, histogramDataset, color);
 
-  histCreateBarChart(g, initialDataset, x, y, r, color, tip);
 
  
   return timelineDates.map(d => {
     return direction => {
       var subDataset = filterDatasetBetweenDates(histogramDataset, startDate, d.date);
-
+      sortByStatus(subDataset,status)
       var y_iterators = [0,0,0,0,0,0,0];
       var x_iterators = [0,0,0,0,0,0,0];
       var maxCircle = 0;
-
-      g.selectAll(".bar,.label")
+      g.selectAll(".dot,.label")
         .remove()
         .exit()
         .data(subDataset)
@@ -106,14 +105,23 @@ export async function initialize() {
         })
         .attr("cy", function (d) {
           var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
-          var position = 2 * r * Math.floor(y_iterators[index] / (maxCircle));
+          var position = 0
+          if (maxCircle){
+            position = 2 * r * Math.floor(y_iterators[index] / (maxCircle));
+          }
           y_iterators[index] += 1;
           return y(position + r);
         })
         .attr("r", r)
         .style("fill", function(d) {
             return color(d.status);
+        });
+        /*.on("mouseover", function(d) {
+          tip.show(d);
         })
+        .on("mouseout", function(d) {
+          tip.hide();
+        });*/
         
     }
   });
@@ -125,4 +133,13 @@ function filterDatasetBetweenDates(dataset, startDate, endDate) {
   return dataset.filter(function(row) {
     return dateParser(row.date) >= startDate && dateParser(row.date) <= endDate;
   });
+}
+function sortByStatus(dataset,status)
+{
+  console.log(status)
+  dataset.forEach(function (data) {
+    dataset.sort(function(a, b) {
+        return status.indexOf(a.status)-status.indexOf(b.status);
+      })
+    });
 }
