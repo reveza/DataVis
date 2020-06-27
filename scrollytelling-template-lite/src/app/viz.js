@@ -56,7 +56,7 @@ export async function initialize() {
   var width = config.height;
   var height = config.width;
 
-  var r = 5;
+  var r = 3;
 
   const status = histSetStatus();
   const color = histDomainColor(status);

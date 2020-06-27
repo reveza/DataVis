@@ -39,7 +39,7 @@ export function histCreateAxes(g, xAxis, yAxis, height, width) {
  * @param tip     Tooltip to show when a circle is hovered.
  */
 
-export function testCreateBarChart(g, data, r) {
+/*export function testCreateBarChart(g, data, r) {
   // var barChart = g.selectAll(".bar,.label")
   //   .data(data)
   //   .enter()
@@ -49,7 +49,7 @@ export function testCreateBarChart(g, data, r) {
   // return barChart;
 }
 
-/*export function histCreateBarChart(g, data, x, y, r, color, tip) {
+export function histCreateBarChart(g, data, x, y, r, color, tip) {
   var y_iterators = [0,0,0,0,0,0,0];
   var x_iterators = [0,0,0,0,0,0,0];
   var maxCircle = 0;
@@ -103,8 +103,8 @@ export function testCreateBarChart(g, data, r) {
 export function histLegend(svg, sources, color) {
   var boxSize = 12;
   var spaceBetweenBoxes = 10;
-  var xLegend = 80;
-  var yLegend = 20;
+  var xLegend = 0;
+  var yLegend = 0;
 
   var legend = svg.selectAll(".legend")
     .data(Object.keys(color))
@@ -133,3 +133,4 @@ export function histLegend(svg, sources, color) {
       .style("fill", d => color(d))
       .style("alignment-baseline", "middle");
 }
+
