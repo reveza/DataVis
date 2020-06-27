@@ -48,7 +48,7 @@ function matrixInitializeData(data) {
           dataset.push(person);
         }
     });
-    return dataset;
+    return dataset.slice().sort((a, b) => d3.descending(a.status, b.status));
   
 }
 

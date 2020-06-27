@@ -78,6 +78,7 @@ async function initialize(L, d3, localization){
       else{
         dateIndex = dateIndex <= 0 ? 0 : dateIndex - 1
       }
+      console.log(direction)
       console.log(dateIndex); // Log the current scroll direction.
       mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])
     }
