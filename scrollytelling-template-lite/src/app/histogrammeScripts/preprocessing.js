@@ -77,6 +77,6 @@ export function histSetStatus() {
  * @param data    Data that comes from a CSV file
  */
 export function histDomainColor(status) {
-  var colorArray = ["#1f77b4", "#2ca02c", "#ff7f0e", "#d62728"]
+  var colorArray = ["#1f77b4", "#2ca02c", "#ff7f0e", "#d62728"];
   return d3.scaleOrdinal(colorArray).domain(status);
 }

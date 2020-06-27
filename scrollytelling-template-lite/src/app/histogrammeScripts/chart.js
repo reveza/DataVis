@@ -38,22 +38,32 @@ export function histCreateAxes(g, xAxis, yAxis, height, width) {
  * @param color   Scale for the circles' color.
  * @param tip     Tooltip to show when a circle is hovered.
  */
-  
+
+export function testCreateBarChart(g, data, r) {
+  // var barChart = g.selectAll(".bar,.label")
+  //   .data(data)
+  //   .enter()
+  //   .append("circle")
+  //   .attr("class", "dot")
+  //   .attr("r", r);
+  // return barChart;
+}
+
 export function histCreateBarChart(g, data, x, y, r, color, tip) {
   var y_iterators = [0,0,0,0,0,0,0];
   var x_iterators = [0,0,0,0,0,0,0];
   var maxCircle = 0;
 
-  g.selectAll(".bar,.label")
+  var barChart = g.selectAll(".bar,.label")
     .data(data)
     .enter()
     .append("circle")
-    .attr("class","dot")
-    .attr("cx",function(d){
-      var index=x.domain().findIndex(function(n){return n==d.ageGroup})
+    .attr("class", "dot")
+    .attr("cx", function(d) {
+      var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
       var position = 2 * r * x_iterators[index];
       
-      if (position<x.bandwidth() - 10) {
+      if (position < x.bandwidth() - 10) {
         x_iterators[index] += 1;
         return x(d.ageGroup) + position;
       } else {
@@ -62,7 +72,7 @@ export function histCreateBarChart(g, data, x, y, r, color, tip) {
         return x(d.ageGroup);
       }
     })
-    .attr("cy",function (d) {
+    .attr("cy", function (d) {
       var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
       var position = 2 * r * Math.floor(y_iterators[index] / (maxCircle));
       y_iterators[index] += 1;
@@ -72,12 +82,14 @@ export function histCreateBarChart(g, data, x, y, r, color, tip) {
     .style("fill", function(d) {
         return color(d.status);
     })
-    .on("mouseover", function(d) {
-      tip.show(d);
-    })
-    .on("mouseout", function(d) {
-      tip.hide();
-    });
+    // .on("mouseover", function(d) {
+    //   tip.show(d);
+    // })
+    // .on("mouseout", function(d) {
+    //   tip.hide();
+    // });
+  
+  return barChart; 
 }
 
 

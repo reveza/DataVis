@@ -5,9 +5,11 @@
  */
 
 import * as d3 from 'd3';
-import histogramSettings from './histogrammeScripts/main';
-import testRectangle from './testRect'
+import { initializeHistogram, histCreateDataset } from './histogrammeScripts/main';
+import { histInitializeData, histDomainX, histDomainY, histSetStatus, histDomainColor } from './histogrammeScripts/preprocessing';
+import { histCreateAxes, histCreateBarChart, histLegend } from './histogrammeScripts/chart';
 
+var dateParser = d3.timeParse("%Y-%m-%d");
 
 const config = {
   height: 500,
@@ -32,42 +34,95 @@ const svg = visContainer.append('svg')
 const g = svg.append('g')
   .attr('transform', `translate(${config.margin.left}, ${config.margin.top})`);
 
-
-const startDate = "20/01/26";
-
 /**
  * Initializes the visualization
  *
  * @returns {Promise<*>}  A promise that contains a list of callbacks.
  */ 
 export async function initialize() {
-  // const data = await d3.csv('./data/data.csv');
-  const data = await d3.csv('./data/dates.csv'); 
- 
+  // Dates used for Timeline
+  const timelineDates = await d3.csv('./data/dates.csv');
+
+  // Dataset for Histogram (Bubble Bar Chart)
+  var filepath = "./data/Stats_de_nerds.csv";
+  const rawDataset = await d3.csv(filepath);
+  var histogramDataset = histInitializeData(rawDataset);
+
+  // Initialize Histogram
+  var startDate = "2020-01-15";
+  var initialDataset = filterDatasetBetweenDates(histogramDataset, startDate, "2020-01-15");
+  // initializeHistogram(g, config, initialDataset);
+
+  var width = config.height;
+  var height = config.width;
+
+  var r = 5;
+
+  const status = histSetStatus();
+  const color = histDomainColor(status);
+
+  var x = d3.scaleBand().range([0, width]).padding(0.1);
+  var y = d3.scaleLinear().range([height, 0]);
   
-  // let histogram = new histogramSettings(d3, startDate);
-  // // histogram.createHistSvg();
-  // histogram.initializeHistogram();
-  // await histogram.histCreateDataset();
-  // console.log(histogram.dataset);
-  // // histogram.initHistTip();
-  // histogram.histCreateVisualisation();
+  var xAxis = d3.axisBottom(x);
+  var yAxis = d3.axisLeft(y);
 
-  // const rect = testRectangle(g);
-  // rect.initializeRect(g);
+  var tip = null; // TODO, reimplement tip
 
-  const rect = g.append('rect')
-    .attr('width', 500)
-    .attr('height', 500)
-    .style('fill', 'green');
+  histDomainX(x);
+  histDomainY(y);
+  histDomainColor(color);
+  histCreateAxes(g, xAxis, yAxis, height, width);
 
-  return data.map(d => {
+  histCreateBarChart(g, initialDataset, x, y, r, color, tip);
+
+ 
+  return timelineDates.map(d => {
     return direction => {
-      console.log(direction); // Log the current scroll direction.
-      console.log(d)
-      // histogram.bubbleChartGroup.transition()
-      //   .duration(300)
-      //   .style('fill', d.color);
+      var subDataset = filterDatasetBetweenDates(histogramDataset, startDate, d.date);
+
+      var y_iterators = [0,0,0,0,0,0,0];
+      var x_iterators = [0,0,0,0,0,0,0];
+      var maxCircle = 0;
+
+      g.selectAll(".bar,.label")
+        .remove()
+        .exit()
+        .data(subDataset)
+        .enter().append("circle")
+        .attr("class", "dot")
+        .attr("cx", function(d) {
+          var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
+          var position = 2 * r * x_iterators[index];
+          
+          if (position < x.bandwidth() - 10) {
+            x_iterators[index] += 1;
+            return x(d.ageGroup) + position;
+          } else {
+            maxCircle = x_iterators[index];
+            x_iterators[index] = 1;
+            return x(d.ageGroup);
+          }
+        })
+        .attr("cy", function (d) {
+          var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
+          var position = 2 * r * Math.floor(y_iterators[index] / (maxCircle));
+          y_iterators[index] += 1;
+          return y(position + r);
+        })
+        .attr("r", r)
+        .style("fill", function(d) {
+            return color(d.status);
+        })
+        
     }
+  });
+}
+
+function filterDatasetBetweenDates(dataset, startDate, endDate) {
+  startDate = dateParser(startDate);
+  endDate = dateParser(endDate);
+  return dataset.filter(function(row) {
+    return dateParser(row.date) >= startDate && dateParser(row.date) <= endDate;
   });
 }
