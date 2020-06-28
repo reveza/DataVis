@@ -2,15 +2,14 @@
 "use strict";
 
 import * as d3 from "d3";
-import * as L from 'leaflet';
-import d3Tip from "d3-tip";
+import d3Tip from "d3-tip"
 
 import {mapConvertNumbers, mapCreateProportions, mapCreateSources} from "./1-preproc.js";
 import {initMap, createMapBorders, createMapCircles, updateMap, updateMapCircles} from "./2-map.js";
 import {showZoneInfo, reset} from "./3-hover.js";
 
-import { filterDatasetBetweenDates } from "./utils.js"
-
+import {filterDatasetBetweenDates} from "./utils.js"
+import * as L from 'leaflet';
 import * as localization from '../../assets/libs/localization-fr.js';
 
 const config = {
@@ -27,7 +26,7 @@ const config = {
 const fullWidth = config.margin.left + config.width + config.margin.right;
 const fullHeight = config.margin.top + config.height + config.margin.bottom;
 
-const visContainer = d3.select('#viz3');
+const visContainer = d3.select('#viz2');
 
 const map = L.map('map', {
   'worldCopyJump': true,
@@ -46,9 +45,9 @@ export async function initialize() {
   
 
   let date = "2020-04-26";
-  let region = "canada"
+  const region = "quebec"
   let dateIndex = 0;
-
+  
   L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
   }).addTo(map);
@@ -135,9 +134,9 @@ export async function initialize() {
   let abbreviations = results[9];
 
   let borders;
-  if (region === 'canada') {
+  if(region === 'canada'){
     borders = canadaBorders;
-  } else if (region === 'quebec') {
+  } else if(region === 'quebec'){
     borders = quebecBorders;
   } else {
     borders = montrealBorders;
@@ -156,9 +155,6 @@ export async function initialize() {
   var path = createPath();
 
   createMapBorders(g, path, borders);
-
-
-
   createMapCircles(g, borders, sources, path, abbreviations, date, tip, region)
   map.on("moveend", function () {
     updateMap(svg, g, path, borders);
@@ -190,6 +186,7 @@ export async function initialize() {
       borders = montrealBorders;
       map.setView([45.55, -73.72], 11);
     } 
+  });
 
     createMapBorders(g, path, borders);
 
@@ -200,9 +197,6 @@ export async function initialize() {
     updateMap(svg, g, path, borders);
 
   
- 
-  });
-
   /***** Creation of the tooltip *****/
   tip.html(function(d) {
     var zoneName;

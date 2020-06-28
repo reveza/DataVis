@@ -8,9 +8,9 @@
 #mapwrapper {
   position: absolute;
   top: 10%;
-  bottom: 10%;
+  left: 30%;
   height: 80%;
-  width: 100%;
+  width: 60%;
   resize: both;
 }
 
@@ -31,6 +31,8 @@
 .toggle-buttons {
   display: flex;
 }
+
+
 
 .toggle-buttons > button {
   flex: 1;
@@ -55,7 +57,7 @@
 
 /***** SVG *****/
 svg {
-  /* background-color: white; */
+  background-color: white;
 }
 
 .axis {

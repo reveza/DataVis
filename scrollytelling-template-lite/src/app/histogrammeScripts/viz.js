@@ -9,7 +9,7 @@ import * as d3 from 'd3';
 import HistogramSettings from './histogramSettings'
 import { histInitializeData, histSetStatus } from './preprocessing';
 import { filterDatasetBetweenDates, sortByStatus } from './utils'
-import { histCreateAxes, histLegend, createOrUpdateHistogram} from './chart';
+import { histCreateAxes, histLegend, createOrUpdateHistogram, createOrUpdateMatrixChart, createBubbles} from './chart';
 
 const config = {
   height: 500,
@@ -54,8 +54,7 @@ export async function initialize() {
   var width = config.height;
   var height = config.width;
   var histogramSettings = new HistogramSettings(width, height, r);
-  var status = histSetStatus()
-
+  var status = histSetStatus();
 
   var startDate = "2020-01-15";
   var initialDataset = filterDatasetBetweenDates(histogramDataset, startDate, "2020-01-15");
@@ -63,18 +62,63 @@ export async function initialize() {
 
   histCreateAxes(g, histogramSettings.xAxis, histogramSettings.yAxis, histogramSettings.height, histogramSettings.width);
   histLegend(g, histogramDataset, histogramSettings.color);
-  
+  var currentViz = "Histogram";
+  var toggleButtons = d3.selectAll(".toggle-buttons > button");
+  toggleButtons.on("click", function(d, i) {
+    currentViz = d3.select(this).text();
+    toggleButtons.classed("active", function() {
+      return currentViz === d3.select(this).text();
+    });
+  });
+
+  var positions = {}
+  var newPositions ={}
+  histogramDataset.forEach(function(d){
+    positions[d.id] = {x:0, y:0}
+    newPositions[d.id] = {x:0, y:0}
+  });
   return timelineDates.map(d => {
     return direction => {
       // We update the histogram with the dataset for the given dates
       var subDataset = filterDatasetBetweenDates(histogramDataset, startDate, d.date);
-      sortByStatus(subDataset, status)
-      createOrUpdateHistogram(g, 
-        subDataset, 
-        histogramSettings.x, 
-        histogramSettings.y,
-        histogramSettings.r,
-        histogramSettings.color)
+      sortByStatus(subDataset, status);
+      
+      createBubbles(g, subDataset);
+
+      if(currentViz == "Histogram"){
+        newPositions = createOrUpdateHistogram(g, 
+          subDataset, 
+          histogramSettings.x, 
+          histogramSettings.y, 
+          histogramSettings.r,
+          histogramSettings.color,
+          positions)
+        positions = newPositions;
+        d3.selectAll("text.transmissionTitle").attr("opacity", 0);
+      } else{
+        newPositions = createOrUpdateMatrixChart(g, 
+          subDataset, 
+          histogramSettings.x, 
+          histogramSettings.y,
+          histogramSettings.width, 
+          histogramSettings.height, 
+          histogramSettings.r,
+          histogramSettings.color,
+          positions
+          )
+        positions = newPositions;
+        d3.selectAll("text.transmissionTitle").attr("opacity", 1);
+      }
+
+      // createOrUpdateBubbleMatrix(g, 
+      //   subDataset, 
+      //   histogramSettings.width, 
+      //   histogramSettings.height, 
+      //   histogramSettings.r, 
+      //   histogramSettings.color, 
+      //   // tip, 
+      //   histogramSettings.domainX, 
+      //   histogramSettings.domainY)
     }
   });
 }

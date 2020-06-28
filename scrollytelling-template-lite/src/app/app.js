@@ -8,11 +8,11 @@
 
 import '../assets/styles/style.scss';
 
-import stickyBits from 'stickybits'
 import { scroller } from './scroller';
-import { initialize as histogramVisualization } from './histogrammeScripts/viz';
-import { initialize as mapVisualization } from './mapScripts/viz.js';
-import { initialize as matrixVisualizatiom } from './matrixScripts/viz.js';
+import stickyBits from 'stickybits'
+import { initialize as v1 } from './histogrammeScripts/viz.js';
+import { initialize as v2 } from './mapScripts/viz.js';
+import { initialize as v3 } from './matrixScripts/viz.js';
 
 // Fallback for old browsers to support sticky positioning.
 let elements = [];
@@ -22,16 +22,16 @@ let elements = [];
 stickyBits(elements, { stickyBitStickyOffset: 0 });
 
 // Initializes the scroller and the visualizations.
-Promise.all([histogramVisualization(), mapVisualization()]).then(([callbacksV1, callbacksV2]) => {
-  scroller([callbacksV1, callbacksV2])
+Promise.all([v1()]).then(([callbacksV1]) => {
+  scroller([callbacksV1])
     .initialize();
 });
 
-// // Initializes the scroller and the visualizations.
-// Promise.all([mapVisualization()]).then(([callbacksV2]) => {
-//   scroller([callbacksV2])
-//     .initialize();
-// });
+// Initializes the scroller and the visualizations.
+Promise.all([v2()]).then(([callbacksV2]) => {
+  scroller([callbacksV2])
+    .initialize();
+});
 
 // // Initializes the scroller and the visualizations.
 // Promise.all([v3()]).then(([callbacksV3]) => {
