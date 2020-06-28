@@ -10,7 +10,7 @@ import '../assets/styles/style.scss';
 
 import { scroller } from './scroller';
 import stickyBits from 'stickybits'
-import { initialize as v1 } from './histogrammeScripts/viz';
+import { initialize as v1 } from './histogrammeScripts/viz.js';
 import { initialize as v2 } from './mapScripts/viz.js';
 import { initialize as v3 } from './matrixScripts/viz.js';
 
