@@ -29,7 +29,10 @@ const fullHeight = config.margin.top + config.height + config.margin.bottom;
 
 const map = L.map('map', {
   'worldCopyJump': true,
-  'scrollWheelZoom': false
+  'scrollWheelZoom': false,
+  'zoomControl': false,
+  //'dragging': false,
+  'doubleClickZoom': false
 });
 
 
@@ -129,6 +132,7 @@ export async function initialize() {
       // setInterval(function () {
       //   map.invalidateSize();
       // }, 100);
+      
       /***** Creation of the tooltip *****/
       tip.html(function(d) {
         var zoneName;

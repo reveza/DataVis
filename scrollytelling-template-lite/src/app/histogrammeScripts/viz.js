@@ -7,7 +7,7 @@
 import * as d3 from 'd3';
 
 import HistogramSettings from './histogramSettings'
-import { histInitializeData } from './preprocessing';
+import { histInitializeData, histSetStatus } from './preprocessing';
 import { filterDatasetBetweenDates, sortByStatus } from './utils'
 import { histCreateAxes, histLegend, createOrUpdateHistogram} from './chart';
 
@@ -54,6 +54,7 @@ export async function initialize() {
   var width = config.height;
   var height = config.width;
   var histogramSettings = new HistogramSettings(width, height, r);
+  var status = histSetStatus()
 
 
   var startDate = "2020-01-15";
