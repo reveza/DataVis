@@ -15,7 +15,7 @@ import {mapConvertNumbers, mapCreateProportions, mapCreateSources} from "./1-pre
 import {initMap, createMapBorders, createMapCircles, updateMap, updateMapCircles} from "./2-map.js"
 import {showZoneInfo, reset} from "./3-hover"
 
-export default class MapSettings{
+export default class MapSettings {
   constructor(L, d3, date, region) {
     this.L = L;
     this.d3 = d3;
@@ -25,14 +25,14 @@ export default class MapSettings{
   
   createPath() {
     var map = this.map;
-    var transform = d3.geoTransform({point: function(x,y){
+    var transform = d3.geoTransform({point: function(x,y) {
       var point = map.latLngToLayerPoint(new L.LatLng(y, x));
       this.stream.point(point.x, point.y);
     }});
     return d3.geoPath().projection(transform);
   }
 
-  mapSettingsInitViz(){   
+  mapSettingsInitViz() {   
 
     this.map = L.map('map', {
       'worldCopyJump': true,

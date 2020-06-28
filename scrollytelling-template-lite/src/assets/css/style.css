@@ -8,9 +8,12 @@
 #mapwrapper {
   position: absolute;
   top: 10%;
-  left: 30%;
+<<<<<<< HEAD
+=======
+  bottom: 10%;
+>>>>>>> 07f57ec5395e2a3f013b2beae4fc8fc945251c07
   height: 80%;
-  width: 60%;
+  width: 100%;
   resize: both;
 }
 
@@ -26,13 +29,19 @@
   flex: 1;
 }
 
+.district {
+  fill-opacity: 0.8;
+  stroke: #333;
+}
+
+.circle {
+  color: #C52A0D;
+}
 
 /***** Toggle buttons *****/
 .toggle-buttons {
   display: flex;
 }
-
-
 
 .toggle-buttons > button {
   flex: 1;
@@ -56,9 +65,12 @@
 }
 
 /***** SVG *****/
+<<<<<<< HEAD
+=======
 svg {
-  background-color: white;
+  /* background-color: white; */
 }
+>>>>>>> 07f57ec5395e2a3f013b2beae4fc8fc945251c07
 
 .axis {
   shape-rendering: crispEdges
