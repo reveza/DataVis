@@ -8,9 +8,9 @@
 #mapwrapper {
   position: absolute;
   top: 10%;
-  left: 30%;
+  bottom: 10%;
   height: 80%;
-  width: 60%;
+  width: 100%;
   resize: both;
 }
 
@@ -31,8 +31,6 @@
 .toggle-buttons {
   display: flex;
 }
-
-
 
 .toggle-buttons > button {
   flex: 1;

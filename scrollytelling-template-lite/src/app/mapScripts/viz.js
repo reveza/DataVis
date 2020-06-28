@@ -2,14 +2,15 @@
 "use strict";
 
 import * as d3 from "d3";
-import d3Tip from "d3-tip"
+import * as L from 'leaflet';
+import d3Tip from "d3-tip";
 
 import {mapConvertNumbers, mapCreateProportions, mapCreateSources} from "./1-preproc.js";
 import {initMap, createMapBorders, createMapCircles, updateMap, updateMapCircles} from "./2-map.js";
 import {showZoneInfo, reset} from "./3-hover.js";
 
-import {filterDatasetBetweenDates} from "./utils.js"
-import * as L from 'leaflet';
+import { filterDatasetBetweenDates } from "./utils.js"
+
 import * as localization from '../../assets/libs/localization-fr.js';
 
 const config = {
@@ -26,7 +27,7 @@ const config = {
 const fullWidth = config.margin.left + config.width + config.margin.right;
 const fullHeight = config.margin.top + config.height + config.margin.bottom;
 
-const visContainer = d3.select('#viz2');
+const visContainer = d3.select('#viz3');
 
 const map = L.map('map', {
   'worldCopyJump': true,
@@ -123,9 +124,9 @@ export async function initialize() {
   let abbreviations = results[9];
 
   let borders;
-  if(region === 'canada'){
+  if (region === 'canada') {
     borders = canadaBorders;
-  } else if(region === 'quebec'){
+  } else if (region === 'quebec') {
     borders = quebecBorders;
   } else {
     borders = montrealBorders;
@@ -171,7 +172,7 @@ export async function initialize() {
   return dates.map(d => {
     return direction => {
       
-      if(startDate <= dateParser(d.date) <= endDate)
+      if (startDate <= dateParser(d.date) <= endDate)
         date = d.date
 
       updateMapCircles(g, sources, abbreviations, date, region)
