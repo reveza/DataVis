@@ -5,16 +5,16 @@
  */
 
 import * as d3 from 'd3';
-import { initializeHistogram, histCreateDataset } from './main';
+import HistogramSettings from './histogramSettings'
+import { filterDatasetBetweenDates, sortByStatus } from './utils'
 import { histInitializeData, histDomainX, histDomainY, histSetStatus, histDomainColor} from './preprocessing';
-import { histCreateAxes, histCreateBarChart, histLegend} from './chart';
+import { histCreateAxes, histCreateBarChart, histLegend, createOrUpdateHistogram} from './chart';
 import MapSettings from "../mapScripts/main.js"
 
 import * as L from 'leaflet';
 import * as localization from '../../assets/libs/localization-fr.js';
 import "../../assets/libs/d3-tip.js"
 
-var dateParser = d3.timeParse("%Y-%m-%d");
 const config = {
   height: 500,
   margin: {
@@ -54,31 +54,19 @@ export async function initialize() {
   var histogramDataset = histInitializeData(rawDataset);
 
   // Initialize Histogram
-  var startDate = "2020-01-26";
-  var initialDataset = filterDatasetBetweenDates(histogramDataset, startDate, "2020-01-15");
-  // initializeHistogram(g, config, initialDataset);
-
+  var r = 3;
   var width = config.height;
   var height = config.width;
+  var histogramSettings = new HistogramSettings(width, height, r);
 
-  var r = 3;
 
-  const status = histSetStatus();
-  const color = histDomainColor(status);
-
-  var x = d3.scaleBand().range([0, width]).padding(0.1);
-  var y = d3.scaleLinear().range([height, 0]);
+  var startDate = "2020-01-15";
+  var initialDataset = filterDatasetBetweenDates(histogramDataset, startDate, "2020-01-15");
   
-  var xAxis = d3.axisBottom(x);
-  var yAxis = d3.axisLeft(y);
-
   var tip = null; // TODO, reimplement tip
 
-  histDomainX(x);
-  histDomainY(y);
-  histDomainColor(color);
-  histCreateAxes(g, xAxis, yAxis, height, width);
-  histLegend(g, histogramDataset, color);
+  histCreateAxes(g, histogramSettings.xAxis, histogramSettings.yAxis, histogramSettings.height, histogramSettings.width);
+  histLegend(g, histogramDataset, histogramSettings.color);
 
   // const startDate = "20/01/26";
   const startRegion = "canada";
@@ -94,65 +82,15 @@ export async function initialize() {
   return timelineDates.map(d => {
     return direction => {
       var subDataset = filterDatasetBetweenDates(histogramDataset, startDate, d.date);
-      sortByStatus(subDataset,status)
-      var y_iterators = [0,0,0,0,0,0,0];
-      var x_iterators = [0,0,0,0,0,0,0];
-      var maxCircle = 0;
-      g.selectAll(".dot,.label")
-        .remove()
-        .exit()
-        .data(subDataset)
-        .enter().append("circle")
-        .attr("class", "dot")
-        .attr("cx", function(d) {
-          var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
-          var position = 2 * r * x_iterators[index];
-          
-          if (position < x.bandwidth() - 10) {
-            x_iterators[index] += 1;
-            return x(d.ageGroup) + position;
-          } else {
-            maxCircle = x_iterators[index];
-            x_iterators[index] = 1;
-            return x(d.ageGroup);
-          }
-        })
-        .attr("cy", function (d) {
-          var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
-          var position = 0
-          if (maxCircle){
-            position = 2 * r * Math.floor(y_iterators[index] / (maxCircle));
-          }
-          y_iterators[index] += 1;
-          return y(position + r);
-        })
-        .attr("r", r)
-        .style("fill", function(d) {
-            return color(d.status);
-        });
-        /*.on("mouseover", function(d) {
-          tip.show(d);
-        })
-        .on("mouseout", function(d) {
-          tip.hide();
-        });*/
+      sortByStatus(subDataset, status)
+
+      createOrUpdateHistogram(g, 
+        subDataset, 
+        histogramSettings.x, 
+        histogramSettings.y,
+        histogramSettings.r,
+        histogramSettings.color)
         
     }
   });
-}
-
-function filterDatasetBetweenDates(dataset, startDate, endDate) {
-  startDate = dateParser(startDate);
-  endDate = dateParser(endDate);
-  return dataset.filter(function(row) {
-    return dateParser(row.date) >= startDate && dateParser(row.date) <= endDate;
-  });
-}
-function sortByStatus(dataset,status)
-{
-  dataset.forEach(function (data) {
-    dataset.sort(function(a, b) {
-        return status.indexOf(a.status)-status.indexOf(b.status);
-      })
-    });
 }

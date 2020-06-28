@@ -39,16 +39,51 @@ export function histCreateAxes(g, xAxis, yAxis, height, width) {
  * @param tip     Tooltip to show when a circle is hovered.
  */
 
-/*export function testCreateBarChart(g, data, r) {
-  // var barChart = g.selectAll(".bar,.label")
-  //   .data(data)
-  //   .enter()
-  //   .append("circle")
-  //   .attr("class", "dot")
-  //   .attr("r", r);
-  // return barChart;
+export function createOrUpdateHistogram(g, data, x, y, r, color, tip) {
+  var y_iterators = [0,0,0,0,0,0,0];
+  var x_iterators = [0,0,0,0,0,0,0];
+  var maxCircle = 0;
+  g.selectAll(".dot,.label")
+    .remove()
+    .exit()
+    .data(data)
+    .enter().append("circle")
+    .attr("class", "dot")
+    .attr("cx", function(d) {
+      var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
+      var position = 2 * r * x_iterators[index];
+      
+      if (position < x.bandwidth() - 10) {
+        x_iterators[index] += 1;
+        return x(d.ageGroup) + position;
+      } else {
+        maxCircle = x_iterators[index];
+        x_iterators[index] = 1;
+        return x(d.ageGroup);
+      }
+    })
+    .attr("cy", function (d) {
+      var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
+      var position = 0
+      if (maxCircle) {
+        position = 2 * r * Math.floor(y_iterators[index] / (maxCircle));
+      }
+      y_iterators[index] += 1;
+      return y(position + r);
+    })
+    .attr("r", r)
+    .style("fill", function(d) {
+        return color(d.status);
+    });
+    /*.on("mouseover", function(d) {
+      tip.show(d);
+    })
+    .on("mouseout", function(d) {
+      tip.hide();
+    });*/
 }
 
+/*
 export function histCreateBarChart(g, data, x, y, r, color, tip) {
   var y_iterators = [0,0,0,0,0,0,0];
   var x_iterators = [0,0,0,0,0,0,0];
@@ -110,27 +145,26 @@ export function histLegend(svg, sources, color) {
     .data(Object.keys(color))
     .enter()
     .append("g")
-      .attr("class", "legend");
+    .attr("class", "legend");
+
   // Add rectangle boxes
   legend.append("rect")
       .attr("name", d => color.domain())
       .attr("x", xLegend)
-      .attr("y", function(d, i) {return yLegend + i * (boxSize + spaceBetweenBoxes)})
+      .attr("y", function(d, i) { return yLegend + i * (boxSize + spaceBetweenBoxes) })
       .attr("width", boxSize)
       .attr("height", boxSize)
       .style("fill", d => color(d))
       .attr("stroke", "#000000") // black stroke, stroke-width = 1 by default
       .attr("visible", "true");
   
-  
   // Add legend text description
   legend.append("text")
       .attr("x", xLegend + 25)
-      .attr("y", function(d, i) {return yLegend + 7 + i * (boxSize + spaceBetweenBoxes)}) // offset to center text
-      .text(function(d,i){
+      .attr("y", function(d, i) { return yLegend + 7 + i * (boxSize + spaceBetweenBoxes) }) // offset to center text
+      .text(function(d, i) {
         return color.domain()[i];
       })
       .style("fill", d => color(d))
       .style("alignment-baseline", "middle");
 }
-
