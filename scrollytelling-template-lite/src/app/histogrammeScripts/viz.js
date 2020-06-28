@@ -23,7 +23,7 @@ const config = {
 }
 
 const fullWidth = config.margin.left + config.width + config.margin.right;
-const fullHeight = config.margin.top + config.height + config.margin.bottom;
+const fullHeight = config.margin.top + config.height + config.margin.bottom + 50;
 
 const visContainer = d3.select('#viz');
   
