@@ -1,14 +1,8 @@
 /***** General style *****/
-body {
-  margin: 20px auto auto;
-  font-family: Arial, sans-serif;
-}
 
 #map {
   height: 100%;
   width: 100%;
-  background-color: #eee;
-  padding: 5px;
 }
 
 #mapwrapper {

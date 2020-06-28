@@ -26,7 +26,7 @@ export function createOrUpdateHistogram(g, data, x, y, r, color) {
 
   var tip = d3Tip()
     .attr('class', 'd3-tip')
-    .offset([-10, 0]);
+    .offset([-10, 100]);
 
   g.selectAll(".dot,.label")
     .remove()
@@ -60,12 +60,8 @@ export function createOrUpdateHistogram(g, data, x, y, r, color) {
     .style("fill", function(d) {
         return color(d.status);
     })
-    .on("mouseover", function(d) {
-      tip.show(d, this);
-    })
-    .on("mouseout", function(d) {
-      tip.hide();
-    });
+    .on("mouseover", tip.show)
+    .on("mouseout", tip.hide);
 
     tip.html(function(d) {
       return histGetToolTipText.call(this, d);
@@ -94,7 +90,6 @@ export function histCreateAxes(g, xAxis, yAxis, height, width) {
     //Theres probably a better way to do this than just hardcode it
     .attr("transform", "translate(" + (width - 50) + "," + (height + 30) +")");
 }
-
 
 /**
  * Create a legend from the given source.
@@ -141,7 +136,6 @@ export function histLegend(svg, sources, color) {
 export function initHistTip() {
     this.tip = d3Tip()
       .attr('class', 'd3-tip')
-      .offset([-10, 0]);
 
     this.tip.html(function(d) {
       return histGetToolTipText.call(this, d);

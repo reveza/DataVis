@@ -44,8 +44,6 @@ export function createMapCircles(g, borders, sources, path, abbreviations, date,
           zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
         return Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*1000;
       })
-
-    
       .attr('class', 'district')
       .attr('cx', function(d) {return path.centroid(d)[0];})
       .attr('cy', function(d) {return path.centroid(d)[1];})
