@@ -13,10 +13,9 @@ export default class HistogramSettings {
     this.status = histSetStatus();
     this.color = histDomainColor(this.status);
     this.x = d3.scaleBand().range([0, width]).padding(0.1);
-    this.y = d3.scaleLinear().range([height, 0]);
+    this.y = d3.scaleBand().range([height, 0]).padding(0.1);
     this.xAxis = d3.axisBottom(this.x);
     this.yAxis = d3.axisLeft(this.y);
-
     histDomainX(this.x);
     histDomainY(this.y);
     histDomainColor(this.color);

@@ -24,6 +24,7 @@ export function histInitializeData(data) {
           "id": row["Numéro d'identification du cas4"],
           "gender": row["Genre"],
           "ageGroup": row["Groupe d'âge"],
+          "transmission": row["Transmission "],
           "date": dateFormatter(dateParser(row["date"])), // format yyyy-MM-dd
           "status": "unknown"
       }
@@ -35,9 +36,8 @@ export function histInitializeData(data) {
         person.status="Hospitalisation"
       } else if (row["Hospitalisation "] == "non") {
         person.status="En santé"
-      } 
-      
-      if (person.status != "unknown" && person.ageGroup != "non déclaré") {
+      }
+      if (person.status !="unknown" && person.ageGroup !="non déclaré" && person.transmission != "non déclaré" && person.transmission != "En attente"){
         dataset.push(person);
       }
 
@@ -62,7 +62,8 @@ export function histDomainX(x) {
  * @param y     Y scale to use.
  */
 export function histDomainY(y) {
-  y.domain([0, 500]);
+  var transmissionTypes = ["Exposition communautaire", "Exposition au voyage"]
+  y.domain(transmissionTypes);
 }
 
 
