@@ -52,7 +52,6 @@ export function createMapCircles(g, borders, sources, path, abbreviations, date,
 }
 
 export function updateMapCircles(g, sources, abbreviations, date, region) {
-  console.log(date)
   g.selectAll('circle')
     .attr('r', function(d) {
       var zone;

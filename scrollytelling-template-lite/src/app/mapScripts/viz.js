@@ -106,6 +106,17 @@ export async function initialize() {
 
 
   let results = await Promise.all(promises)
+  const startDate  = {
+    'montreal': dateParser("2020-03-28"),
+    'quebec': dateParser("2020-02-28"),
+    'canada': dateParser("2020-01-26"),
+  };
+
+  const endDate  = {
+    'montreal': dateParser("2020-04-27"),
+    'quebec': dateParser("2020-04-29"),
+    'canada': dateParser("2020-04-30"),
+  };
 
   let cases = {};
   cases['montreal'] = results[0];
@@ -159,18 +170,27 @@ export async function initialize() {
     g.selectAll("circle")
     .remove()
     .exit()
-    region = d3.select(this).text();
-      toggleButtons.classed("active", function() {
-        return region === d3.select(this).text();
-      });
+    if(startDate[d3.select(this).text()] <= dateParser(date) <= endDate[d3.select(this).text()])
+    {
+      region = d3.select(this).text();
+      console.log(startDate[d3.select(this).text()] <= dateParser(date) <= endDate[d3.select(this).text()])
+    }
+
+    toggleButtons.classed("active", function() {
+      return region === d3.select(this).text();
+    });
 
     if(region === 'canada'){
       borders = canadaBorders;
+      map.setView([63, -96.3], 4);      
     } else if(region === 'quebec'){
       borders = quebecBorders;
+      map.setView([55, -67], 5);
     } else {
       borders = montrealBorders;
+      map.setView([45.55, -73.72], 11);
     } 
+
     createMapBorders(g, path, borders);
 
     createMapCircles(g, borders, sources, path, abbreviations, date, tip, region)
@@ -179,13 +199,6 @@ export async function initialize() {
     });
     updateMap(svg, g, path, borders);
 
-    if (region === 'canada') {
-      map.setView([63, -96.3], 4);
-    } else if (region === 'quebec') {
-      map.setView([55, -67], 5);
-    } else {
-      map.setView([45.55, -73.72], 11);
-    }
   
  
   });
@@ -203,17 +216,17 @@ export async function initialize() {
   g.call(tip);
 
 
-  const startDate = dateParser("2020-01-26");
-  const endDate = dateParser("2020-04-30");
+
   // console.log(startDate, endDate)
   // console.log(sources)
   // Logic to initialize the visualization...
   return dates.map(d => {
     return direction => {
       
-      if (startDate <= dateParser(d.date) <= endDate)
+      if (startDate[region] <= dateParser(d.date) <= endDate[region])
         date = d.date
-
+      
+      console.log(d.date, date)
       updateMapCircles(g, sources, abbreviations, date, region)
       // this.mapSettingsCreateTooltip();
       
