@@ -25,8 +25,8 @@ const config = {
 const fullWidth = config.margin.left + config.width + config.margin.right;
 const fullHeight = config.margin.top + config.height + config.margin.bottom;
 
-const visContainer = d3.select('#charts-viz');
-
+const visContainer = d3.select('#viz');
+  
 const svg = visContainer.append('svg')
   .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
   .attr('preserveAspectRatio', 'xMidYMid');
