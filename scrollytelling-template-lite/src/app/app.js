@@ -14,9 +14,6 @@ import { initialize as v1 } from './histogrammeScripts/viz';
 import { initialize as v2 } from './mapScripts/viz.js';
 import { initialize as v3 } from './matrixScripts/viz.js';
 
-
-
-
 // Fallback for old browsers to support sticky positioning.
 let elements = [];
 ['.viz'].forEach(selector => {

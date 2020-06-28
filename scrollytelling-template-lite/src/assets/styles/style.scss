@@ -99,7 +99,9 @@ main {
     height: $vis-height;
     min-height: $vis-height;
     flex-basis: $vis-width;
+  }
 
+  > #viz {
     svg {
       width: 100%;
       height: 100%;
