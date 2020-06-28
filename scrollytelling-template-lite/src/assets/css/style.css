@@ -8,9 +8,8 @@
 #mapwrapper {
   position: absolute;
   top: 10%;
-  left: 30%;
   height: 80%;
-  width: 60%;
+  width: 100%;
   resize: both;
 }
 
@@ -26,6 +25,14 @@
   flex: 1;
 }
 
+.district {
+  fill-opacity: 0.8;
+  stroke: #333;
+}
+
+.circle {
+  color: #C52A0D;
+}
 
 /***** Toggle buttons *****/
 .toggle-buttons {
@@ -56,9 +63,6 @@
 }
 
 /***** SVG *****/
-svg {
-  background-color: white;
-}
 
 .axis {
   shape-rendering: crispEdges

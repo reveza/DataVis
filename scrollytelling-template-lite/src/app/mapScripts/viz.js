@@ -10,7 +10,6 @@ import {showZoneInfo, reset} from "./3-hover.js";
 
 import {filterDatasetBetweenDates} from "./utils.js"
 import * as L from 'leaflet';
-import * as localization from '../../assets/libs/localization-fr.js';
 
 const config = {
   height: 500,
@@ -45,7 +44,7 @@ export async function initialize() {
   
 
   let date = "2020-04-26";
-  const region = "quebec"
+  const region = "canada"
   let dateIndex = 0;
   
   L.tileLayer(
@@ -165,8 +164,7 @@ export async function initialize() {
 
   const startDate = dateParser("2020-01-26");
   const endDate = dateParser("2020-04-30");
-  // console.log(startDate, endDate)
-  // console.log(sources)
+
   // Logic to initialize the visualization...
   return dates.map(d => {
     return direction => {
