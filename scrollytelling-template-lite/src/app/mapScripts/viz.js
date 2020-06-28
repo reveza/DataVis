@@ -46,15 +46,13 @@ export async function initialize() {
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
   }).addTo(map);
   
-  if(region === 'canada'){
+  if (region === 'canada') {
     map.setView([63, -96.3], 4);
-  } else if(region === 'quebec'){
+  } else if (region === 'quebec') {
     map.setView([55, -67], 5);
   } else {
     map.setView([45.55, -73.72], 11);
   }
-
-  // console.log(visContainer)
 
   const svg = d3.select(map.getPanes().overlayPane).append("svg")
     .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
@@ -134,7 +132,7 @@ export async function initialize() {
       /***** Creation of the tooltip *****/
       tip.html(function(d) {
         var zoneName;
-        if(region == "montreal")
+        if (region == "montreal")
           zoneName = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
         else
           zoneName = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
@@ -148,7 +146,7 @@ export async function initialize() {
 
   return dates.map(d => {
     return direction => {
-      if (direction == "up"){
+      if (direction == "up") {
         dateIndex = dateIndex >= dates.length-1 ? dates.length-1 : dateIndex + 1
       }
       else{
