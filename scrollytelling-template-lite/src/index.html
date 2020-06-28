@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <title>Page title</title>
-  <!-- <link rel="stylesheet" href="assets/css/leaflet.css"> -->
+  <link rel="stylesheet" href="assets/css/leaflet.css">
   <link rel="stylesheet" href="assets/styles/style.scss">
   <link rel="stylesheet" href="assets/css/style.css">
   <meta charset="UTF-8">
@@ -32,9 +32,6 @@
             </div>
             <div class="viz" id="viz"></div>
             <div class="viz" id="viz2">
-                <div id="map"></div>
-            </div>
-            <div class="viz" id="viz3">
                 <div class="row">
                     <div class="col">
                         <div class="toggle-buttons">
@@ -44,8 +41,14 @@
                     </div>
                 </div>
             </div>
+            <div class="viz" id="viz3">
+                <div id="mapwrapper">
+                    <div id="map"></div>
+                </div>
+            </div>
         </section>
     </main>
+    
   <!-- External libraries -->
   <script type="text/javascript" src="assets/libs/d3.js"></script>
   <script type="text/javascript" src="assets/libs/leaflet.js"></script>
