@@ -8,11 +8,11 @@
 
 import '../assets/styles/style.scss';
 
-import { scroller } from './scroller';
 import stickyBits from 'stickybits'
-import { initialize as v1 } from './histogrammeScripts/viz';
-import { initialize as v2 } from './matrixScripts/viz.js';
-import { initialize as v3 } from './mapScripts/viz.js';
+import { scroller } from './scroller';
+import { initialize as histogramVisualization } from './histogrammeScripts/viz';
+import { initialize as mapVisualization } from './mapScripts/viz.js';
+import { initialize as matrixVisualizatiom } from './matrixScripts/viz.js';
 
 // Fallback for old browsers to support sticky positioning.
 let elements = [];

@@ -8,6 +8,10 @@
 #mapwrapper {
   position: absolute;
   top: 10%;
+<<<<<<< HEAD
+=======
+  bottom: 10%;
+>>>>>>> 07f57ec5395e2a3f013b2beae4fc8fc945251c07
   height: 80%;
   width: 100%;
   resize: both;
@@ -39,8 +43,6 @@
   display: flex;
 }
 
-
-
 .toggle-buttons > button {
   flex: 1;
   line-height: 30px;
@@ -63,6 +65,12 @@
 }
 
 /***** SVG *****/
+<<<<<<< HEAD
+=======
+svg {
+  /* background-color: white; */
+}
+>>>>>>> 07f57ec5395e2a3f013b2beae4fc8fc945251c07
 
 .axis {
   shape-rendering: crispEdges
