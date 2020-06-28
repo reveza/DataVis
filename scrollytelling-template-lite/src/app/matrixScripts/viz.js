@@ -38,6 +38,7 @@ const g = svg.append('g')
 
 
 export async function initialize() {
+  console.log(svg)
 /***** Configuration *****/
     var margin = {
         top: 50,
@@ -130,9 +131,9 @@ export async function initialize() {
   // Logic to initialize the visualization...
 
   return [
-    () => console.log('Called when section 1 is visible.'),
-    () => console.log('Called when section 2 is visible.'),
-    () => console.log('Called when section 3 is visible.'),
-    () => console.log('Called when section 4 is visible.')
+    // () => console.log('Called when section 1 is visible.'),
+    // () => console.log('Called when section 2 is visible.'),
+    // () => console.log('Called when section 3 is visible.'),
+    // () => console.log('Called when section 4 is visible.')
   ]
 }
