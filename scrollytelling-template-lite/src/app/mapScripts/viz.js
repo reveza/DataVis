@@ -46,9 +46,9 @@ export async function initialize() {
   
 
   let date = "2020-04-26";
-  const region = "quebec"
+  let region = "canada"
   let dateIndex = 0;
-  
+
   L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
   }).addTo(map);
@@ -145,12 +145,51 @@ export async function initialize() {
   var path = createPath();
 
   createMapBorders(g, path, borders);
+
+
+
   createMapCircles(g, borders, sources, path, abbreviations, date, tip, region)
   map.on("moveend", function () {
     updateMap(svg, g, path, borders);
   });
   updateMap(svg, g, path, borders);
+
+  var toggleButtons = d3.selectAll("#viz3 .toggle-buttons > button");
+  toggleButtons.on("click", function(d, i) {
+    g.selectAll("circle")
+    .remove()
+    .exit()
+    region = d3.select(this).text();
+      toggleButtons.classed("active", function() {
+        return region === d3.select(this).text();
+      });
+
+    if(region === 'canada'){
+      borders = canadaBorders;
+    } else if(region === 'quebec'){
+      borders = quebecBorders;
+    } else {
+      borders = montrealBorders;
+    } 
+    createMapBorders(g, path, borders);
+
+    createMapCircles(g, borders, sources, path, abbreviations, date, tip, region)
+    map.on("moveend", function () {
+      updateMap(svg, g, path, borders);
+    });
+    updateMap(svg, g, path, borders);
+
+    if (region === 'canada') {
+      map.setView([63, -96.3], 4);
+    } else if (region === 'quebec') {
+      map.setView([55, -67], 5);
+    } else {
+      map.setView([45.55, -73.72], 11);
+    }
   
+ 
+  });
+
   /***** Creation of the tooltip *****/
   tip.html(function(d) {
     var zoneName;
