@@ -57,9 +57,14 @@ export async function initialize() {
     map.setView([45.55, -73.72], 11);
   }
 
-  // console.log(visContainer)
-
+  // const mapContainer = d3.select(map.getPanes().overlayPane);
+  // const svg = visContainer.append(mapContainer).append("svg")
+  //   .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
+  //   .attr('preserveAspectRatio', 'xMidYMid');
   const svg = d3.select(map.getPanes().overlayPane).append("svg")
+    .attr('height', 200)
+    .attr('width', 200)
+  console.log(svg)
     // .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
     // .attr('preserveAspectRatio', 'xMidYMid');
 
@@ -131,9 +136,6 @@ export async function initialize() {
         updateMap(svg, g, path, canadaBorders);
       });
       updateMap(svg, g, path, canadaBorders);
-      // setInterval(function () {
-      //   map.invalidateSize();
-      // }, 100);
       
       /***** Creation of the tooltip *****/
       tip.html(function(d) {

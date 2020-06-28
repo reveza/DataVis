@@ -31,7 +31,6 @@ export function createMapBorders(g, path, borders) {
 
 export function createMapCircles(g, borders, sources, path, abbreviations, date, tip, region) {
 
-  console.log(date)
   g.selectAll('circle')
     .data(borders.features)
     .enter()
