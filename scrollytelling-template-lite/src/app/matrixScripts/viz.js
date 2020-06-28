@@ -71,7 +71,6 @@ export async function initialize() {
     Promise.all(files.map(url => d3.csv(url))).then(function (results) {
         var currentViz = "Histogram"
         // var currentData = results[0]
-        console.log(d3Tip)
         var tip = d3Tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0]);
