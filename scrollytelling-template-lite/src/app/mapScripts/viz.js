@@ -25,7 +25,7 @@ const config = {
 const fullWidth = config.margin.left + config.width + config.margin.right;
 const fullHeight = config.margin.top + config.height + config.margin.bottom;
 
-// const visContainer = d3.select('#viz2');
+const visContainer = d3.select('#viz2');
 
 const map = L.map('map', {
   'worldCopyJump': true,
@@ -62,15 +62,14 @@ export async function initialize() {
   //   .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
   //   .attr('preserveAspectRatio', 'xMidYMid');
   const svg = d3.select(map.getPanes().overlayPane).append("svg")
-    .attr('height', 200)
-    .attr('width', 200)
-  console.log(svg)
     // .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
     // .attr('preserveAspectRatio', 'xMidYMid');
 
+  console.log(svg)
+
   const g = svg.append("g")
     .attr("class", "leaflet-zoom-hide")
-    // .attr('transform', `translate(${config.margin.left}, ${config.margin.top})`);
+    .attr('transform', `translate(${config.margin.left}, ${config.margin.top})`);
 
 
   var tip = d3Tip()
