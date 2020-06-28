@@ -38,6 +38,7 @@ const g = svg.append('g')
 
 
 export async function initialize() {
+  console.log(svg)
 /***** Configuration *****/
     var margin = {
         top: 50,

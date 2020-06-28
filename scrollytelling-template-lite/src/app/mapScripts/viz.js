@@ -25,27 +25,27 @@ const config = {
 const fullWidth = config.margin.left + config.width + config.margin.right;
 const fullHeight = config.margin.top + config.height + config.margin.bottom;
 
-const visContainer = d3.select('#viz3');
+// const visContainer = d3.select('#viz2');
+
+const map = L.map('map', {
+  'worldCopyJump': true,
+  'scrollWheelZoom': false
+});
 
 
 
 export async function initialize() {
-  
-  const dates = await d3.csv('./data/dates.csv');
 
+  const dates = await d3.csv('./data/dates.csv');
+  
   const date = "2020-04-26";
   const region = "canada"
   let dateIndex = 0;
-
-  const map = L.map('map', {
-    'worldCopyJump': true,
-    'scrollWheelZoom': false
-  });
-
+  
   L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
   }).addTo(map);
-
+  
   if(region === 'canada'){
     map.setView([63, -96.3], 4);
   } else if(region === 'quebec'){
@@ -54,6 +54,7 @@ export async function initialize() {
     map.setView([45.55, -73.72], 11);
   }
 
+  // console.log(visContainer)
 
   const svg = d3.select(map.getPanes().overlayPane).append("svg")
     .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
@@ -127,7 +128,9 @@ export async function initialize() {
         updateMap(svg, g, path, canadaBorders);
       });
       updateMap(svg, g, path, canadaBorders);
-
+      // setInterval(function () {
+      //   map.invalidateSize();
+      // }, 100);
       /***** Creation of the tooltip *****/
       tip.html(function(d) {
         var zoneName;
@@ -144,7 +147,6 @@ export async function initialize() {
   // Logic to initialize the visualization...
 
   return dates.map(d => {
-
     return direction => {
       if (direction == "up"){
         dateIndex = dateIndex >= dates.length-1 ? dates.length-1 : dateIndex + 1
@@ -152,8 +154,8 @@ export async function initialize() {
       else{
         dateIndex = dateIndex <= 0 ? 0 : dateIndex - 1
       }
-      console.log(direction)
-      console.log(dateIndex); // Log the current scroll direction.
+      // console.log(direction)
+      // console.log(dateIndex); // Log the current scroll direction.
       // mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])
     }
   });
