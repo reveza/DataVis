@@ -2,13 +2,15 @@
 "use strict";
 
 import * as d3 from "d3";
-import * as L from 'leaflet';
-import d3Tip from "d3-tip";
+import d3Tip from "d3-tip"
 
 import {mapConvertNumbers, mapCreateProportions, mapCreateSources} from "./1-preproc.js";
 import {initMap, createMapBorders, createMapCircles, updateMap, updateMapCircles} from "./2-map.js";
 import {showZoneInfo, reset} from "./3-hover.js";
-import { filterDatasetBetweenDates } from "./utils.js"
+
+import {filterDatasetBetweenDates} from "./utils.js"
+import * as L from 'leaflet';
+import * as localization from '../../assets/libs/localization-fr.js';
 
 const config = {
   height: 500,
@@ -24,7 +26,7 @@ const config = {
 const fullWidth = config.margin.left + config.width + config.margin.right;
 const fullHeight = config.margin.top + config.height + config.margin.bottom;
 
-const visContainer = d3.select('#viz3');
+const visContainer = d3.select('#viz2');
 
 const map = L.map('map', {
   'worldCopyJump': true,
@@ -43,9 +45,9 @@ export async function initialize() {
   
 
   let date = "2020-04-26";
-  let region = "canada"
+  const region = "quebec"
   let dateIndex = 0;
-
+  
   L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
   }).addTo(map);
@@ -121,9 +123,9 @@ export async function initialize() {
   let abbreviations = results[9];
 
   let borders;
-  if (region === 'canada') {
+  if(region === 'canada'){
     borders = canadaBorders;
-  } else if (region === 'quebec') {
+  } else if(region === 'quebec'){
     borders = quebecBorders;
   } else {
     borders = montrealBorders;
@@ -142,51 +144,12 @@ export async function initialize() {
   var path = createPath();
 
   createMapBorders(g, path, borders);
-
-
-
   createMapCircles(g, borders, sources, path, abbreviations, date, tip, region)
   map.on("moveend", function () {
     updateMap(svg, g, path, borders);
   });
   updateMap(svg, g, path, borders);
-
-  var toggleButtons = d3.selectAll("#viz3 .toggle-buttons > button");
-  toggleButtons.on("click", function(d, i) {
-    g.selectAll("circle")
-    .remove()
-    .exit()
-    region = d3.select(this).text();
-      toggleButtons.classed("active", function() {
-        return region === d3.select(this).text();
-      });
-
-    if(region === 'canada'){
-      borders = canadaBorders;
-    } else if(region === 'quebec'){
-      borders = quebecBorders;
-    } else {
-      borders = montrealBorders;
-    } 
-    createMapBorders(g, path, borders);
-
-    createMapCircles(g, borders, sources, path, abbreviations, date, tip, region)
-    map.on("moveend", function () {
-      updateMap(svg, g, path, borders);
-    });
-    updateMap(svg, g, path, borders);
-
-    if (region === 'canada') {
-      map.setView([63, -96.3], 4);
-    } else if (region === 'quebec') {
-      map.setView([55, -67], 5);
-    } else {
-      map.setView([45.55, -73.72], 11);
-    }
   
- 
-  });
-
   /***** Creation of the tooltip *****/
   tip.html(function(d) {
     var zoneName;
@@ -202,12 +165,13 @@ export async function initialize() {
 
   const startDate = dateParser("2020-01-26");
   const endDate = dateParser("2020-04-30");
-
+  // console.log(startDate, endDate)
+  // console.log(sources)
   // Logic to initialize the visualization...
   return dates.map(d => {
     return direction => {
       
-      if (startDate <= dateParser(d.date) <= endDate)
+      if(startDate <= dateParser(d.date) <= endDate)
         date = d.date
 
       updateMapCircles(g, sources, abbreviations, date, region)
