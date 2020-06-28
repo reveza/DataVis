@@ -60,7 +60,13 @@ export function createOrUpdateHistogram(g, data, x, y, r, color) {
     .style("fill", function(d) {
         return color(d.status);
     })
-    .on("mouseover", tip.show)
+    .on("mouseover", function(d) {
+      tip.show(d, this);
+      tip.style("position","fixed")
+      tip.style('top', 650+"px");
+      tip.style('left', event.clientX+"px");
+
+    })
     .on("mouseout", tip.hide);
 
     tip.html(function(d) {
