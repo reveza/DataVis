@@ -5,12 +5,16 @@
  */
 
 import * as d3 from 'd3';
-import { initializeHistogram, histCreateDataset } from './histogrammeScripts/main';
-import { histInitializeData, histDomainX, histDomainY, histSetStatus, histDomainColor} from './histogrammeScripts/preprocessing';
-import { histCreateAxes, histCreateBarChart, histLegend} from './histogrammeScripts/chart';
+import { initializeHistogram, histCreateDataset } from './main';
+import { histInitializeData, histDomainX, histDomainY, histSetStatus, histDomainColor} from './preprocessing';
+import { histCreateAxes, histCreateBarChart, histLegend} from './chart';
+import MapSettings from "../mapScripts/main.js"
+
+import * as L from 'leaflet';
+import * as localization from '../../assets/libs/localization-fr.js';
+import "../../assets/libs/d3-tip.js"
 
 var dateParser = d3.timeParse("%Y-%m-%d");
-
 const config = {
   height: 500,
   margin: {
@@ -40,6 +44,7 @@ const g = svg.append('g')
  * @returns {Promise<*>}  A promise that contains a list of callbacks.
  */ 
 export async function initialize() {
+  
   // Dates used for Timeline
   const timelineDates = await d3.csv('./data/dates.csv');
 
@@ -49,7 +54,7 @@ export async function initialize() {
   var histogramDataset = histInitializeData(rawDataset);
 
   // Initialize Histogram
-  var startDate = "2020-01-15";
+  var startDate = "2020-01-26";
   var initialDataset = filterDatasetBetweenDates(histogramDataset, startDate, "2020-01-15");
   // initializeHistogram(g, config, initialDataset);
 
@@ -75,7 +80,16 @@ export async function initialize() {
   histCreateAxes(g, xAxis, yAxis, height, width);
   histLegend(g, histogramDataset, color);
 
+  // const startDate = "20/01/26";
+  const startRegion = "canada";
 
+  /***** Creation of map *****/
+  
+  // let mapSettings = new MapSettings(L, d3, startDate, startRegion);
+  // mapSettings.mapSettingsInitViz();
+  // await mapSettings.mapSettingsCreateSources();
+  // mapSettings.mapSettingsInitMap();
+  // mapSettings.mapSettingsCreateTooltip();
  
   return timelineDates.map(d => {
     return direction => {
@@ -136,7 +150,6 @@ function filterDatasetBetweenDates(dataset, startDate, endDate) {
 }
 function sortByStatus(dataset,status)
 {
-  console.log(status)
   dataset.forEach(function (data) {
     dataset.sort(function(a, b) {
         return status.indexOf(a.status)-status.indexOf(b.status);

@@ -33,16 +33,16 @@
     "stickybits": "^3.7.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/preset-env": "^7.10.2",
-    "@babel/register": "^7.10.1",
-    "@babel/runtime": "^7.10.2",
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/register": "^7.10.3",
+    "@babel/runtime": "^7.10.3",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "^3.6.5",
-    "css-loader": "^3.5.3",
-    "eslint": "^7.2.0",
+    "css-loader": "^3.6.0",
+    "eslint": "^7.3.1",
     "file-loader": "^4.3.0",
     "html-webpack-plugin": "^4.3.0",
     "mini-css-extract-plugin": "^0.9.0",
@@ -53,7 +53,7 @@
     "style-loader": "^1.2.1",
     "url-loader": "^2.3.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   }
 }

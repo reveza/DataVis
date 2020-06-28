@@ -2,122 +2,59 @@
 <html lang="en">
 <head>
   <title>Page title</title>
+  <link rel="stylesheet" href="assets/css/leaflet.css">
+  <link rel="stylesheet" href="assets/styles/style.scss">
+  <link rel="stylesheet" href="assets/css/style.css">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 <body>
-<main>
-  <section class="text-section intro">
-    <h1>Page title</h1>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-  </section>
-  <section class="viz-section">
-    <div class="steps">
-      <section>2020-01-15</section>
-      <section>2020-01-16</section>
-      <section>2020-01-17</section>
-      <section>2020-01-18</section>
-      <section>2020-01-19</section>
-      <section>2020-01-20</section>
-      <section>2020-01-21</section>
-      <section>2020-01-22</section>
-      <section>2020-01-23</section>
-      <section>2020-01-24</section>
-      <section>2020-01-25</section>
-      <section>2020-01-26</section>
-      <section>2020-01-27</section>
-      <section>2020-01-28</section>
-      <section>2020-01-29</section>
-      <section>2020-01-30</section>
-      <section>2020-01-31</section>
-      <section>2020-02-01</section>
-      <section>2020-02-02</section>
-      <section>2020-02-03</section>
-      <section>2020-02-04</section>
-      <section>2020-02-05</section>
-      <section>2020-02-06</section>
-      <section>2020-02-07</section>
-      <section>2020-02-08</section>
-      <section>2020-02-09</section>
-      <section>2020-02-10</section>
-      <section>2020-02-11</section>
-      <section>2020-02-12</section>
-      <section>2020-02-13</section>
-      <section>2020-02-14</section>
-      <section>2020-02-15</section>
-      <section>2020-02-16</section>
-      <section>2020-02-17</section>
-      <section>2020-02-18</section>
-      <section>2020-02-19</section>
-      <section>2020-02-20</section>
-      <section>2020-02-21</section>
-      <section>2020-02-22</section>
-      <section>2020-02-23</section>
-      <section>2020-02-24</section>
-      <section>2020-02-25</section>
-      <section>2020-02-26</section>
-      <section>2020-02-27</section>
-      <section>2020-02-28</section>
-      <section>2020-02-29</section>
-      <section>2020-03-01</section>
-      <section>2020-03-02</section>
-      <section>2020-03-03</section>
-      <section>2020-03-04</section>
-      <section>2020-03-05</section>
-      <section>2020-03-06</section>
-      <section>2020-03-07</section>
-      <section>2020-03-08</section>
-      <section>2020-03-09</section>
-      <section>2020-03-10</section>
-      <section>2020-03-11</section>
-      <section>2020-03-12</section>
-      <section>2020-03-13</section>
-      <section>2020-03-14</section>
-      <section>2020-03-15</section>
-      <section>2020-03-16</section>
-      <section>2020-03-17</section>
-      <section>2020-03-18</section>
-      <section>2020-03-19</section>
-      <section>2020-03-20</section>
-      <section>2020-03-21</section>
-      <section>2020-03-22</section>
-      <section>2020-03-23</section>
-      <section>2020-03-24</section>
-      <section>2020-03-25</section>
-      <section>2020-03-26</section>
-      <section>2020-03-27</section>
-      <section>2020-03-28</section>
-      <section>2020-03-29</section>
-      <section>2020-03-30</section>
-      <section>2020-03-31</section>
-      <section>2020-04-01</section>
-      <section>2020-04-02</section>
-      <section>2020-04-03</section>
-      <section>2020-04-04</section>
-      <section>2020-04-05</section>
-      <section>2020-04-06</section>
-      <section>2020-04-07</section>
-      <section>2020-04-08</section>
-      <section>2020-04-09</section>
-      <section>2020-04-10</section>
-      <section>2020-04-11</section>
-      <section>2020-04-12</section>
-      <section>2020-04-13</section>
-      <section>2020-04-14</section>
-      <section>2020-04-15</section>
-      <section>2020-04-16</section>
-      <section>2020-04-17</section>
-      <section>2020-04-18</section>
-      <section>2020-04-19</section>
-    </div>
-    <div class="viz" id="viz"></div>
-  </section>
-</main>
+    <main>
+        <section class="text-section intro">
+            <h1>Évolution de la COVID-19 au Canada </h1>
+            <p>
+                Depuis le début du confinement au Québec ainsi qu’au Canada, une grande quantité de données est amassée quotidiennement.
+                Que savons-nous réeellement sur le COVID-19 et qu'est-ce que les chiffres nous indiquent?
+                Ces représentations dévoile l'évolution de la pandémie au fil des derniers mois
+
+            </p>
+        </section>
+        <section class="text-section intro">
+            <p>Le jeu de données suivant représente 3093 individus ayant été atteintes par la COVID-19 ainsi que les effets secondaires subi suite à la contraction du virus.</p>
+        </section>
+        <section class="viz-section">
+            <div class="steps">
+                <section>2020-01-16</section>
+                <section>2020-02-16</section>
+                <section>2020-03-16</section>
+                <section>2020-04-16</section>
+            </div>
+            <div class="viz" id="viz">
+                <!-- <div id="mapwrapper">
+              <div id="map" width="200" height="200"></div> -->
+            </div>
+            <!-- <div class="viz" id="viz2">
+          <div id="map" width="200" height="200"></div>
+        </div> -->
+            <div class="viz" id="viz3">
+                <div class="row">
+                    <div class="col">
+                        <div class="toggle-buttons">
+                            <button class="active">Histogram</button>
+                            <button>Bubble Chart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+  <!-- External libraries -->
+  <script type="text/javascript" src="assets/libs/d3.js"></script>
+  <script type="text/javascript" src="assets/libs/leaflet.js"></script>
+  <script type="text/javascript" src="assets/libs/d3-tip.js"></script>
+  <script type="text/javascript" src="assets/libs/topojson.v1.js"></script>
+  <script type="text/javascript" src="assets/libs/localization-fr.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stickybits/3.7.7/stickybits.js"></script>
 </body>
 </html>

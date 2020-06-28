@@ -32,8 +32,7 @@ export async function initializeHistogram(g, config, dataset) {
   histDomainY(y);
   histDomainColor(color);
   histCreateAxes(g, xAxis, yAxis, height, width);
-
-  histCreateBarChart(g, dataset, x, y, r, color, tip);
+  histLegend(g, histogramDataset, color);
 }
 
 function sortDataset(dataset) {
