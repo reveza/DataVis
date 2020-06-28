@@ -71,7 +71,6 @@ export async function initialize() {
     Promise.all(files.map(url => d3.csv(url))).then(function (results) {
         var currentViz = "Histogram"
         // var currentData = results[0]
-        console.log(d3Tip)
         var tip = d3Tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0]);
@@ -131,9 +130,9 @@ export async function initialize() {
   // Logic to initialize the visualization...
 
   return [
-    () => console.log('Called when section 1 is visible.'),
-    () => console.log('Called when section 2 is visible.'),
-    () => console.log('Called when section 3 is visible.'),
-    () => console.log('Called when section 4 is visible.')
+    // () => console.log('Called when section 1 is visible.'),
+    // () => console.log('Called when section 2 is visible.'),
+    // () => console.log('Called when section 3 is visible.'),
+    // () => console.log('Called when section 4 is visible.')
   ]
 }

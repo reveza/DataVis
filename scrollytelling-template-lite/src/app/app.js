@@ -11,7 +11,7 @@ import '../assets/styles/style.scss';
 import { scroller } from './scroller';
 import stickyBits from 'stickybits'
 import { initialize as v1 } from './histogrammeScripts/viz';
-// import { initialize as v2 } from './mapScripts/viz2.js';
+import { initialize as v2 } from './mapScripts/viz.js';
 import { initialize as v3 } from './matrixScripts/viz.js';
 
 
@@ -31,10 +31,10 @@ Promise.all([v1()]).then(([callbacksV1]) => {
 });
 
 // Initializes the scroller and the visualizations.
-// Promise.all([v2()]).then(([callbacksV2]) => {
-//   scroller([callbacksV2])
-//     .initialize();
-// });
+Promise.all([v2()]).then(([callbacksV2]) => {
+  scroller([callbacksV2])
+    .initialize();
+});
 
 // Initializes the scroller and the visualizations.
 Promise.all([v3()]).then(([callbacksV3]) => {
