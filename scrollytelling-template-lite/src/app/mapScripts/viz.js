@@ -52,9 +52,9 @@ export async function initialize() {
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
   }).addTo(map);
   
-  if(region === 'canada'){
+  if (region === 'canada') {
     map.setView([63, -96.3], 4);
-  } else if(region === 'quebec'){
+  } else if (region === 'quebec') {
     map.setView([55, -67], 5);
   } else {
     map.setView([45.55, -73.72], 11);
