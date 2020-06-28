@@ -4,28 +4,8 @@
  * File used to draw the bubble chart.
  */
 
-
-/**
- * Creates the bubble graph axis.
- *
- * @param g       The SVG group in which the bubble chart will be drawn.
- * @param xAxis   The X axis. 
- * @param yAxis   The Y axis.
- * @param height  The graphic's height.
- * @param width   The graphic's width.
- */
-export function histCreateAxes(g, xAxis, yAxis, height, width) {
-  // TODO: Draw the X and Y axes.
-  g.append("g")
-    .attr("class","x axis")
-    .attr("transform", "translate(0," + height + " )")
-    .call(xAxis);
-  g.append("text")
-    .attr("class", "x label")
-    .text("Groupe d'âge")
-    //Theres probably a better way to do this than just hardcode it
-    .attr("transform", "translate(" + (width - 50) + "," + (height + 30) +")");
-}
+import d3Tip from 'd3-tip';
+import { histGetToolTipText } from './tooltip'
 
 /**
  * Crée le graphique à bulles.
@@ -39,10 +19,15 @@ export function histCreateAxes(g, xAxis, yAxis, height, width) {
  * @param tip     Tooltip to show when a circle is hovered.
  */
 
-export function createOrUpdateHistogram(g, data, x, y, r, color, tip) {
+export function createOrUpdateHistogram(g, data, x, y, r, color) {
   var y_iterators = [0,0,0,0,0,0,0];
   var x_iterators = [0,0,0,0,0,0,0];
   var maxCircle = 0;
+
+  var tip = d3Tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0]);
+
   g.selectAll(".dot,.label")
     .remove()
     .exit()
@@ -74,59 +59,42 @@ export function createOrUpdateHistogram(g, data, x, y, r, color, tip) {
     .attr("r", r)
     .style("fill", function(d) {
         return color(d.status);
-    });
-    /*.on("mouseover", function(d) {
-      tip.show(d);
+    })
+    .on("mouseover", function(d) {
+      tip.show(d, this);
     })
     .on("mouseout", function(d) {
       tip.hide();
-    });*/
+    });
+
+    tip.html(function(d) {
+      return histGetToolTipText.call(this, d);
+    });
+  
+    g.call(tip);
 }
 
-/*
-export function histCreateBarChart(g, data, x, y, r, color, tip) {
-  var y_iterators = [0,0,0,0,0,0,0];
-  var x_iterators = [0,0,0,0,0,0,0];
-  var maxCircle = 0;
- console.log(data)
-  var barChart = g.selectAll(".bar,.label")
-    .data(data)
-    .enter()
-    .append("circle")
-    .attr("class", "dot")
-    .attr("cx", function(d) {
-      var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
-      var position = 2 * r * x_iterators[index];
-      
-      if (position < x.bandwidth() - 10) {
-        x_iterators[index] += 1;
-        return x(d.ageGroup) + position;
-      } else {
-        maxCircle = x_iterators[index];
-        x_iterators[index] = 1;
-        return x(d.ageGroup);
-      }
-    })
-    .attr("cy", function (d) {
-      var index = x.domain().findIndex(function(n) { return n == d.ageGroup });
-      var position = 2 * r * Math.floor(y_iterators[index] / (maxCircle));
-      y_iterators[index] += 1;
-      return y(position + r);
-    })
-    .attr("r", r)
-    .style("fill", function(d) {
-        return color(d.status);
-    })
-    // .on("mouseover", function(d) {
-    //   tip.show(d);
-    // })
-    // .on("mouseout", function(d) {
-    //   tip.hide();
-    // });
-  
-  return barChart; 
+/**
+ * Creates the bubble graph axis.
+ *
+ * @param g       The SVG group in which the bubble chart will be drawn.
+ * @param xAxis   The X axis. 
+ * @param yAxis   The Y axis.
+ * @param height  The graphic's height.
+ * @param width   The graphic's width.
+ */
+export function histCreateAxes(g, xAxis, yAxis, height, width) {
+  g.append("g")
+    .attr("class","x axis")
+    .attr("transform", "translate(0," + height + " )")
+    .call(xAxis);
+  g.append("text")
+    .attr("class", "x label")
+    .text("Groupe d'âge")
+    //Theres probably a better way to do this than just hardcode it
+    .attr("transform", "translate(" + (width - 50) + "," + (height + 30) +")");
 }
-*/
+
 
 /**
  * Create a legend from the given source.
@@ -167,4 +135,16 @@ export function histLegend(svg, sources, color) {
       })
       .style("fill", d => color(d))
       .style("alignment-baseline", "middle");
+}
+
+/***** Creation and initialization of tip *****/
+export function initHistTip() {
+    this.tip = d3Tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0]);
+
+    this.tip.html(function(d) {
+      return histGetToolTipText.call(this, d);
+    });
+    this.bubbleChartGroup.call(this.tip);
 }

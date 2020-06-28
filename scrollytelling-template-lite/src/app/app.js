@@ -36,8 +36,8 @@ Promise.all([v2()]).then(([callbacksV2]) => {
     .initialize();
 });
 
-// Initializes the scroller and the visualizations.
-Promise.all([v3()]).then(([callbacksV3]) => {
-  scroller([callbacksV3])
-    .initialize();
-});
+// // Initializes the scroller and the visualizations.
+// Promise.all([v3()]).then(([callbacksV3]) => {
+//   scroller([callbacksV3])
+//     .initialize();
+// });
