@@ -17,10 +17,28 @@ body {
   flex: 1;
 }
 
+#map {
+  height: 100%;
+  width: 100%;
+  background-color: #eee;
+  padding: 5px;
+}
+
+#mapwrapper {
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  height: 80%;
+  width: 60%;
+  resize: both;
+}
+
 /***** Toggle buttons *****/
 .toggle-buttons {
   display: flex;
 }
+
+
 
 .toggle-buttons > button {
   flex: 1;

@@ -57,12 +57,12 @@ export async function initialize() {
   // console.log(visContainer)
 
   const svg = d3.select(map.getPanes().overlayPane).append("svg")
-    .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
-    .attr('preserveAspectRatio', 'xMidYMid');
+    // .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
+    // .attr('preserveAspectRatio', 'xMidYMid');
 
   const g = svg.append("g")
     .attr("class", "leaflet-zoom-hide")
-    .attr('transform', `translate(${config.margin.left}, ${config.margin.top})`);
+    // .attr('transform', `translate(${config.margin.left}, ${config.margin.top})`);
 
 
   var tip = d3Tip()
