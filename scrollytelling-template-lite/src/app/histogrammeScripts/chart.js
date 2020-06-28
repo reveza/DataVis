@@ -25,7 +25,7 @@ export function createOrUpdateHistogram(g, data, x, y, r, color, positions) {
   var maxCircle = 0;
   var tip = d3Tip()
     .attr('class', 'd3-tip')
-    .offset([-10, 0]);
+    .offset([-10, 100]);
 
   g.selectAll("circle")
   .attr("class", "dot")
@@ -98,20 +98,6 @@ export function histCreateAxes(g, xAxis, yAxis, height, width) {
     .attr("transform", "translate(" + (width - 50) + "," + (height + 30) +")");
 }
 
-// export function createYAxis(g, y){
-//         //Show titles according to bubbles positions
-//         g.selectAll('.titles')
-//           .data(y.domain())
-//           .enter()
-//           .append('text')
-//           .attr('class', 'transmissionTitle')
-//           .attr("opacity",1)
-//           .attr('x', 0)
-//           .attr('y', function(d){ return titlesPosition[d]})
-//           .text(function (d) { return d;})
-//           .attr("transform", "translate(0, -80)");
-// }
-
 /**
  * Create a legend from the given source.
  *
@@ -157,7 +143,6 @@ export function histLegend(svg, sources, color) {
 export function initHistTip() {
     this.tip = d3Tip()
       .attr('class', 'd3-tip')
-      .offset([-10, 0]);
 
     this.tip.html(function(d) {
       return histGetToolTipText.call(this, d);

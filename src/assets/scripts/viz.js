@@ -3,9 +3,8 @@
  * =======
  * File used to define a visualization section.
  */
+
 // const { map } = require("core-js/fn/array");
-
-
 
 /**
  * Initializes the visualization
@@ -59,7 +58,7 @@ async function initialize(L, d3, localization){
   }
   const fullWidth = config.margin.left + config.width + config.margin.right;
   const fullHeight = config.margin.top + config.height + config.margin.bottom;
-  
+
   // const visContainer = d3.select('#viz');
   const mapContainer = d3.select('#map');
 
@@ -72,7 +71,7 @@ async function initialize(L, d3, localization){
   return dates.map(d => {
 
     return direction => {
-      if (direction == "up"){
+      if (direction == "down"){
         dateIndex = dateIndex >= dates.length-1 ? dates.length-1 : dateIndex + 1
       }
       else{

@@ -5,9 +5,9 @@ export function initMap(L, map, region) {
     'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
   }).addTo(map);
 
-  if(region === 'canada'){
+  if (region === 'canada') {
     map.setView([63, -96.3], 4);
-  } else if(region === 'quebec'){
+  } else if (region === 'quebec' ){
     map.setView([55, -67], 5);
   } else {
     map.setView([45.55, -73.72], 11);
@@ -31,39 +31,36 @@ export function createMapBorders(g, path, borders) {
 
 export function createMapCircles(g, borders, sources, path, abbreviations, date, tip, region) {
 
-  console.log(date)
   g.selectAll('circle')
     .data(borders.features)
     .enter()
       .append('circle')
       .attr('r', function(d) {
         var zone;
-        if(region == "montreal")
+        if (region == "montreal")
           zone = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
         else
           zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
-        return Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*1000;
+        return Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage']) * 1000;
       })
-
-    
       .attr('class', 'district')
-      .attr('cx', function(d) {return path.centroid(d)[0];})
-      .attr('cy', function(d) {return path.centroid(d)[1];})
+      .attr('cx', function(d) { return path.centroid(d)[0]; })
+      .attr('cy', function(d) { return path.centroid(d)[1]; })
       .style('fill', '#C52A0D')
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide);
 }
 
-export function updateMapCircles(g, sources, abbreviations, date, region){
+export function updateMapCircles(g, sources, abbreviations, date, region) {
   console.log(date)
   g.selectAll('circle')
     .attr('r', function(d) {
       var zone;
-      if(region == "montreal")
+      if (region == "montreal")
         zone = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
       else
         zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
-      let result = Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage'])*1000;
+      let result = Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage']) * 1000;
       return result
     })
 }
@@ -82,8 +79,8 @@ export function updateMap(svg, g, path, borders) {
   .style("top", topBound + "px");
   
   g.selectAll('circle')
-    .attr('cx', function(d) {return path.centroid(d)[0];})
-    .attr('cy', function(d) {return path.centroid(d)[1];})
+    .attr('cx', function(d) { return path.centroid(d)[0]; })
+    .attr('cy', function(d) { return path.centroid(d)[1]; })
 
   g.attr("transform", "translate(" + -leftBound + "," + -topBound + ")");
 

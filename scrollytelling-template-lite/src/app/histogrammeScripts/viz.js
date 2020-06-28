@@ -54,7 +54,7 @@ export async function initialize() {
   var width = config.height;
   var height = config.width;
   var histogramSettings = new HistogramSettings(width, height, r);
-  var status = histSetStatus(histogramDataset);
+  var status = histSetStatus();
 
   var startDate = "2020-01-15";
   var initialDataset = filterDatasetBetweenDates(histogramDataset, startDate, "2020-01-15");
