@@ -3,11 +3,7 @@
  */
 
 import * as d3 from 'd3';
-import * as d3Tip from 'd3-tip';
-import { histInitializeData, histDomainX, histDomainY, histSetStatus, histDomainColor } from './preprocessing';
-import { histCreateAxes, histCreateBarChart, histLegend } from './chart';
-import { histTransition } from './transition';
-import { histGetToolTipText } from './tooltip'
+import { histDomainX, histDomainY, histSetStatus, histDomainColor } from './preprocessing';
 
 export default class HistogramSettings {
   constructor(width, height, r) {
@@ -26,15 +22,3 @@ export default class HistogramSettings {
     histDomainColor(this.color);
   }
 }
-//   /***** Creation and initialization of tip *****/
-//   initHistTip() {
-//     this.tip = d3Tip()
-//       .attr('class', 'd3-tip')
-//       .offset([-10, 0]);
-
-//     this.tip.html(function(d) {
-//       return histGetToolTipText.call(this, d);
-//     });
-//     this.bubbleChartGroup.call(this.tip  );
-//   }
-// }
