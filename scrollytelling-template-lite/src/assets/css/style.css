@@ -74,6 +74,14 @@ svg {
   stroke: black;
   shape-rendering: crispEdges;
 }
+.district {
+  fill-opacity: 0.8;
+  stroke: #333;
+}
+
+.circle {
+  color: #C52A0D;
+}
 
 circle {
   fill-opacity: 0.7;

@@ -29,7 +29,7 @@ export function createMapBorders(g, path, borders) {
       .style('fill', '#C0E2FA')
 }
 
-export function createMapCircles(g, borders, sources, path, abbreviations, date, tip, region) {
+export function createMapCircles(g, borders, sources, path, abbreviations, date, tip, region, coeff) {
 
   g.selectAll('circle')
     .data(borders.features)
@@ -37,11 +37,12 @@ export function createMapCircles(g, borders, sources, path, abbreviations, date,
       .append('circle')
       .attr('r', function(d) {
         var zone;
+        
         if (region == "montreal")
           zone = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
         else
           zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
-        return Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage']) * 1000;
+        return Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage']) * coeff;
       })
       .attr('class', 'district')
       .attr('cx', function(d) { return path.centroid(d)[0]; })
@@ -51,8 +52,7 @@ export function createMapCircles(g, borders, sources, path, abbreviations, date,
       .on("mouseout", tip.hide);
 }
 
-export function updateMapCircles(g, sources, abbreviations, date, region) {
-  console.log(date)
+export function updateMapCircles(g, sources, abbreviations, date, region, coeff) {
   g.selectAll('circle')
     .attr('r', function(d) {
       var zone;
@@ -60,7 +60,7 @@ export function updateMapCircles(g, sources, abbreviations, date, region) {
         zone = abbreviations.find(zone => zone['name'] == d.properties['district']).abbreviation;
       else
         zone = abbreviations.find(zone => zone['name'] == d.properties['name']).abbreviation;
-      let result = Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage']) * 1000;
+      let result = Math.sqrt(sources[date].find(variable => variable['name'] == zone)['percentage']) * coeff;
       return result
     })
 }
