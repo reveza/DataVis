@@ -1,16 +1,7 @@
-/* Note:
- * Le Nunavik et Terres-Cries-de-la-Baie-James ne sont pas identifiées dans les zones de la carte.
- * Dans nos données, la Mauricie et le centre du Québec partagent les mêmes données alors
- * qu'elles sont séparées sur la carte.
-*/
-
-/* Note:
- * L'île Dorval n'est pas présente dans les zones géographiques de la carte.
-*/
-
 /**
  * Main file for the map.
  */
+
 import {mapConvertNumbers, mapCreateProportions, mapCreateSources} from "./1-preproc.js"
 import {initMap, createMapBorders, createMapCircles, updateMap, updateMapCircles} from "./2-map.js"
 import {showZoneInfo, reset} from "./3-hover"
@@ -45,7 +36,6 @@ export default class MapSettings {
           .attr('class', 'd3-tip')
           .offset([-10, 0]);
   }
-
 
   async mapSettingsCreateSources(){
     /***** Loading data *****/

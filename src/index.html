@@ -3,7 +3,7 @@
 <head>
   <title>Page title</title>
   <link rel="stylesheet" href="assets/css/leaflet.css">
-  <!-- <link rel="stylesheet" href="assets/styles/style.scss"> -->
+  <link rel="stylesheet" href="assets/styles/style.scss">
   <link rel="stylesheet" href="assets/css/style.css">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,56 +22,86 @@
         </section>
         <section class="viz-section">
             <div class="steps">
-                
                 <section>
                     <h1>Mi-janvier</h1>
-                    <p>Date: 2020-01-16</p>
-                    <p>Encore en janvier, il y a très peu de cas au Québec...</p>
-                </section>
-                <section>
-                    <h1>Début février</h1>
-                    <p>Date: 2020-02-01</p>
+                    <p>Date: 2020-01-15</p>
                     <p>
-                        En février, nous ne voyons pas encore l'effet de la pandémie de façon marquée sur la province. Quelques cas commençent à s'accumuler. 
-                    </p>
-                    <p>
-                        La proportion entre le nombre de cas infectés (points bleus) et le nombre d'hospitalisation est haute (points verts) : le Québec ne fait pas encore beaucoup de teste en dehors
-                        des hopitaux.
+                        L’agence de la santé publique du Canada active le Centre des opérations d’urgence afin de démarrer l’intervention du Canada face au virus du COVID-19.
                     </p>
                 </section>
                 <section>
-                    <h1>Premier quart de février</h1>
-                    <p>Date: 2020-02-07</p>
-                    <p>Les cas se font encore bas et le système de santé ne ressent toujours pas la pression comme l'Italie et l'Espagne.</p>
+                    <h1 style="color:red;">Premier cas confirmé au Canada</h1>
+                    <p>Date: 2020-01-25</p>
+                    <p>Le Canada confirme le premier cas de COVID-19 lié à un voyage à Wuhan en Chine.
+                        (Les analyses faites à posteriori montrent plus de cas)
+                    </p>
                 </section>
                 <section>
-                    <h1>Mi-février</h1>
-                    <p>Date: 2020-02-16</p>
-                    
+                    <h1>Déclaration de l'OMS</h1>
+                    <p>Date: 2020-01-30</p>
+                    <p>
+                        L’OMS déclare la propagation du COVID-19 comme étant une urgence santé publique de portée internationale.
+                    </p>
                 </section>
                 <section>
-                    <h1>Trois-quarts de février</h1>
-                    <p>Date: 2020-02-23</p>
+                    <h1>Premier cas provenant hors de la Chine</h1>
+                    <p>Date: 2020-02-20</p>
+                    <p>
+                        Le premier cas de COVID-19 lié à un voyage hors de la Chine est confirmé au Canada.
+                    </p>
                 </section>
                 <section>
-                    <h1>Début mars</h1>
-                    <p>Date: 2020-03-01</p>
+                    <h1></h1>
+                    <p>Date: 2020-03-09</p>
+                    <p>Le premier décès lié à la COVID-19 est déclaré au Canada.</p>
                 </section>
                 <section>
-                    <h1>Mi-mars</h1>
-                    <p>Date: 2020-03-16</p>
+                    <h1 style="color: red;">Pandémie déclarée!</h1>
+                    <p>Date: 2020-03-11</p>
+                    <p>
+                        OMS déclare la COVID-19 comme étant une pandémie.
+                    </p>
                 </section>
                 <section>
-                    <h1>Trois-quarts de mars</h1>
-                    <p>Date: 2020-03-25</p>
+                    <h1>Le Canada conseille d’éviter les voyages non essentiel.</h1>
+                    <p>Date: 2020-03-13</p>
+                    <p style="color:red;">Mise en place de la Quarantaine au Québec</p>
                 </section>
                 <section>
-                    <h1>Début avril</h1>
-                    <p>Date: 2020-04-01</p>
+                    <h1>Mi-mars - Fermeture historique des frontières</h1>
+                    <p>Date: 2020-03-18</p>
+                    <p>
+                        Le Canada ferme ses frontières aux États-Unis.
+                    </p>
+                    <p>
+                        De l’aide financière sera mise en place pour aider les Canada pour les 4 prochains mois : la PCU.
+                    </p>
                 </section>
                 <section>
-                    <h1>Mi-avril</h1>
-                    <p>Date: 2020-04-16</p>
+                    <h1>Financement du matériel de depistage</h1>
+                    <p>Date: 2020-03-31</p>
+                    <p>Le gouvernement canadien finance 2 milliards de dollars pour acheter le matériel nécessaire tel que des respirateurs et matériel de protection individuelle, ainsi que les tests de dépistage.
+                    </p>
+                </section>
+                <section>
+                    <h1>Plus de 10 000 cas confirmés au Canada.</h1>
+                    <p>Date: 2020-04-02</p>
+                </section>
+                <section>
+                    <h1>Plus de 20 000 cas confirmés au Canada.</h1>
+                    <p>Date: 2020-04-09</p>
+                </section>
+                <section>
+                    <h1>Plus de 1 000 décès confirmés au Canada.</h1>
+                    <p>Date: 2020-04-15</p>
+                </section>
+                <section>
+                    <h1>Plus de 2 000 décès confirmés au Canada.</h1>
+                    <p>Date: 2020-04-23</p>
+                </section>
+                <section>
+                    <h1>50 000 cas confirmés au Canada.</h1>
+                    <p>Date: 2020-04-28</p>
                 </section>
             </div>
             <div class="viz" id="viz">
@@ -91,16 +121,21 @@
         </section>
         <section class="viz-section">
             <div class="steps">
-                <section>2020-01-16</section>
-                <section>2020-02-01</section>
-                <section>2020-02-07</section>
-                <section>2020-02-16</section>
-                <section>2020-02-23</section>
-                <section>2020-03-01</section>
-                <section>2020-03-16</section>
-                <section>2020-03-25</section>
-                <section>2020-04-01</section>
-                <section>2020-04-16</section>
+                <section>2020-01-15</section>
+                <section>2020-01-25</section>
+                <section>2020-01-30</section>
+                <section>2020-02-20</section>
+                <section>2020-03-09</section>
+                <section>2020-03-11</section>
+                <section>2020-03-13</section>
+                <section>2020-03-18</section>
+                <section>2020-03-31</section> 
+                <section>2020-04-02</section>  
+                <section>2020-04-09</section>
+                <section>2020-04-15</section>
+                <section>2020-04-23</section>
+                <section>2020-04-28</section>
+
             </div>
               <div class="viz" id="viz3">
                 <div id="mapwrapper">
@@ -117,14 +152,18 @@
                 </div>
             </div>
         </section>
+        <section class="text-section">
+            <h1>Références</h1>
+            <li>Données founies par le journal "Le Devoir" (snapshot de la fin avril)</li>
+            <li>Événements clés au Québec : <a href>https://montreal.ctvnews.ca/covid-19-in-quebec-a-timeline-of-key-dates-and-events-1.4892912?cache=yes%3FclipId%3D89619</a></li>
+            <li>Événements clés au Canada : <a href>https://www.canadianhealthcarenetwork.ca/covid-19-a-canadian-timeline</a></li>
+        </section>
     </main>
     
   <!-- External libraries -->
   <script type="text/javascript" src="assets/libs/d3.js"></script>
-  <!-- <script type="text/javascript" src="assets/libs/leaflet.js"></script> -->
+  <script type="text/javascript" src="assets/libs/leaflet.js"></script>
   <script type="text/javascript" src="assets/libs/d3-tip.js"></script>
-  <script type="text/javascript" src="assets/libs/topojson.v1.js"></script>
-  <script type="text/javascript" src="assets/libs/localization-fr.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stickybits/3.7.7/stickybits.js"></script>
 </body>
 </html>
