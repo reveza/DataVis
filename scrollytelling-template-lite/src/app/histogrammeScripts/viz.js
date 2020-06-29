@@ -63,7 +63,7 @@ export async function initialize() {
   histCreateAxes(g, histogramSettings.xAxis, histogramSettings.yAxis, histogramSettings.height, histogramSettings.width);
   histLegend(g, histogramDataset, histogramSettings.color);
   var currentViz = "Histogram";
-  var toggleButtons = d3.selectAll(".toggle-buttons > button");
+  var toggleButtons = d3.selectAll("#viz .toggle-buttons > button");
   toggleButtons.on("click", function(d, i) {
     currentViz = d3.select(this).text();
     toggleButtons.classed("active", function() {
