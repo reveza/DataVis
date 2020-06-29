@@ -26,15 +26,3 @@ Promise.all([histogramVisualization(), mapVisualization()]).then(([callbacksV1, 
   scroller([callbacksV1, callbacksV2])
     .initialize();
 });
-
-// // Initializes the scroller and the visualizations.
-// Promise.all([mapVisualization()]).then(([callbacksV2]) => {
-//   scroller([callbacksV2])
-//     .initialize();
-// });
-
-// // Initializes the scroller and the visualizations.
-// Promise.all([v3()]).then(([callbacksV3]) => {
-//   scroller([callbacksV3])
-//     .initialize();
-// });

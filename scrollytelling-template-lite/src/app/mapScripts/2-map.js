@@ -48,7 +48,12 @@ export function createMapCircles(g, borders, sources, path, abbreviations, date,
       .attr('cx', function(d) { return path.centroid(d)[0]; })
       .attr('cy', function(d) { return path.centroid(d)[1]; })
       .style('fill', '#C52A0D')
-      .on("mouseover", tip.show)
+      .on("mouseover", function(d) {
+        tip.show(d, this);
+        tip.style("position","fixed")
+        tip.style('top', (event.clientY-120)+"px");
+        tip.style('left', (event.clientX)+"px");
+      })
       .on("mouseout", tip.hide);
 }
 
