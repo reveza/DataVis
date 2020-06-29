@@ -1,4 +1,3 @@
-
 "use strict";
 
 import * as d3 from "d3";
@@ -7,11 +6,7 @@ import d3Tip from "d3-tip";
 
 import {mapConvertNumbers, mapCreateProportions, mapCreateSources} from "./1-preproc.js";
 import {initMap, createMapBorders, createMapCircles, updateMap, updateMapCircles} from "./2-map.js";
-import {showZoneInfo, reset} from "./3-hover.js";
-
-import { filterDatasetBetweenDates } from "./utils.js"
-
-import * as localization from '../../assets/libs/localization-fr.js';
+import {showZoneInfo} from "./3-hover.js";
 
 const config = {
   height: 500,
@@ -33,18 +28,16 @@ const map = L.map('map', {
   'worldCopyJump': true,
   'scrollWheelZoom': false,
   'zoomControl': false,
-  //'dragging': false,
+  'dragging': false,
   'doubleClickZoom': false
 });
 
 var dateParser = d3.timeParse("%Y-%m-%d");
 
-
 export async function initialize() {
 
   const dates = await d3.csv('./data/dates.csv');
   
-
   let date = "2020-04-26";
   let region = "canada"
   let dateIndex = 0;
@@ -85,25 +78,15 @@ export async function initialize() {
     map.setView([45.55, -73.72], 11);
   }
 
-  // const mapContainer = d3.select(map.getPanes().overlayPane);
-  // const svg = visContainer.append(mapContainer).append("svg")
-  //   .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
-  //   .attr('preserveAspectRatio', 'xMidYMid');
   const svg = d3.select(map.getPanes().overlayPane).append("svg")
-    // .attr('viewBox', `0 0 ${fullWidth} ${fullHeight}`)
-    // .attr('preserveAspectRatio', 'xMidYMid');
-
-  console.log(svg)
 
   const g = svg.append("g")
     .attr("class", "leaflet-zoom-hide")
     .attr('transform', `translate(${config.margin.left}, ${config.margin.top})`);
 
-
   var tip = d3Tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0]);
-
 
   function projectPoint(x, y) {
     var point = map.latLngToLayerPoint(new L.LatLng(y, x));
@@ -127,7 +110,6 @@ export async function initialize() {
   promises.push(d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/quebec.geojson"));
   promises.push(d3.json("./data/montreal_map.geojson"));
   promises.push(d3.json("./data/abbreviations.json"));
-
 
   let results = await Promise.all(promises)
 
@@ -156,7 +138,6 @@ export async function initialize() {
     borders = montrealBorders;
   } 
 
-
   /***** Data preprocessing *****/
   mapConvertNumbers(cases, populations);
 
@@ -169,8 +150,6 @@ export async function initialize() {
   var path = createPath();
 
   createMapBorders(g, path, borders);
-
-
 
   createMapCircles(g, borders, sources, path, abbreviations, date, tip, region, coeff[region])
   map.on("moveend", function () {
@@ -213,7 +192,6 @@ export async function initialize() {
         map.setView([45.55, -73.72], 11);
       }
     }
- 
   });
 
   /***** Creation of the tooltip *****/
@@ -228,10 +206,6 @@ export async function initialize() {
   });
   g.call(tip);
 
-
-
-  // console.log(startDate, endDate)
-  // console.log(sources)
   // Logic to initialize the visualization...
   return dates.map(d => {
     return direction => {
@@ -239,12 +213,7 @@ export async function initialize() {
       if (startDate[region] <= dateParser(d.date) <= endDate[region])
         date = d.date
       
-      // console.log(d.date, date)
-      console.log(startDate[region], endDate[region], dateParser(d.date), startDate[region] <= dateParser(d.date) <= endDate[region])
       updateMapCircles(g, sources, abbreviations, date, region, coeff[region])
-      // this.mapSettingsCreateTooltip();
-      
-      // mapSettings.mapSettingsUpdateDate(dates[dateIndex]["date"])
     }
   });
 }

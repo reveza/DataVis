@@ -7,11 +7,6 @@ import {initializeData, domainX, domainY, domainColor} from "./preproc"
 import {getToolTipText} from "./tooltip"
 import {createBubbles, getLegend, addXAxis} from "./viz-setup"
 
-
-import * as L from 'leaflet';
-import * as localization from '../../assets/libs/localization-fr.js';
-
-
 var dateParser = d3.timeParse("%Y-%m-%d");
 const config = {
   height: 500,
@@ -63,8 +58,6 @@ export async function initialize() {
     // .append("svg")
     // .attr("width", width + margin.left + margin.right)
     // .attr("height", height + margin.top + margin.bottom);
-
-
 
     var files = ["./data/Stats_de_nerds.csv"]
     var dataset=[];
@@ -118,8 +111,6 @@ export async function initialize() {
             simulationForce = createBubbleMatrix(g, dataset, width, height, r, color, tip, x.domain(), y.domain());
             }
         });
-        
-
         
         /***** Creation of the tooltip *****/
         tip.html(function(d) {
