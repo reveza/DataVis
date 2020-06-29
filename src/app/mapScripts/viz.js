@@ -38,7 +38,7 @@ export async function initialize() {
 
   const dates = await d3.csv('./data/dates.csv');
   
-  let date = "2020-04-26";
+  let date = "2020-01-26";
   let region = "canada"
   let dateIndex = 0;
 

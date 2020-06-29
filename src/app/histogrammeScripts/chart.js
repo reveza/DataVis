@@ -51,7 +51,7 @@ export function createOrUpdateHistogram(g, data, x, y, r, color, positions) {
   .on("mouseover", function(d) {
       tip.show(d, this);
       tip.style("position","fixed")
-      tip.style('top', 400+"px");
+      tip.style('top', 200+"px");
       tip.style('left', event.clientX+"px");
     })
   .on("mouseout", function(d) {
@@ -177,7 +177,7 @@ export function createOrUpdateMatrixChart(g, data, x, y, width, height, r, color
             .on("mouseover", function(d) {
               tip.show(d,this);
               tip.style("position","fixed")
-              tip.style('top', 500+"px");
+              tip.style('top', 325+"px");
               tip.style('left', event.clientX+"px");
             })
             .on('mouseout', function(d) { tip.hide();})
