@@ -239,8 +239,7 @@ export async function initialize() {
       if (startDate[region] <= dateParser(d.date) <= endDate[region])
         date = d.date
       
-      // console.log(d.date, date)
-      console.log(startDate[region], endDate[region], dateParser(d.date), startDate[region] <= dateParser(d.date) <= endDate[region])
+      console.log(d.date)
       updateMapCircles(g, sources, abbreviations, date, region, coeff[region])
       // this.mapSettingsCreateTooltip();
       
