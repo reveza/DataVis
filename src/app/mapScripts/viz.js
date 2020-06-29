@@ -61,7 +61,7 @@ export async function initialize() {
   }
 
   const coeff = {
-    'montreal': 100,
+    'montreal': 200,
     'quebec' : 400,
     'canada' : 1000
   }
@@ -159,7 +159,8 @@ export async function initialize() {
 
   var toggleButtons = d3.selectAll("#viz3 .toggle-buttons > button");
   toggleButtons.on("click", function(d, i) {
-    if(startDate[textToKey[d3.select(this).text()]] <= dateParser(date) <= endDate[textToKey[d3.select(this).text()]])
+    if(startDate[textToKey[d3.select(this).text()]].getTime() <= dateParser(date).getTime() &&
+        dateParser(date).getTime() <= endDate[textToKey[d3.select(this).text()]])
     {
       g.selectAll("circle")
       .remove()
@@ -210,7 +211,8 @@ export async function initialize() {
   return dates.map(d => {
     return direction => {
       
-      if (startDate[region] <= dateParser(d.date) <= endDate[region])
+      if (startDate[region].getTime() <= dateParser(d.date).getTime() &&
+          dateParser(d.date).getTime() <= endDate[region].getTime())
         date = d.date
       
       console.log(d.date)
