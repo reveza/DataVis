@@ -25,7 +25,8 @@ export function createOrUpdateHistogram(g, data, x, y, r, color, positions) {
   var maxCircle = 0;
   var tip = d3Tip()
     .attr('class', 'd3-tip')
-    .offset([-10, 100]);
+
+  d3.selectAll(".d3-tip").remove()
 
   g.selectAll("circle")
   .attr("class", "dot")
@@ -53,15 +54,19 @@ export function createOrUpdateHistogram(g, data, x, y, r, color, positions) {
     }
     y_iterators[index] += 1;
     positions[d.id].y = y("Exposition communautaire") - (position + r) + 240;
-    return y("Exposition communautaire") - (position + r) + 240;
+    return y("Exposition communautaire") - (position + r) + 238;
   })
   .attr("r", r)
   .style("fill", function(d) {
       return color(d.status);
   })
   .on("mouseover", function(d) {
-    tip.show(d, this);
-  })
+      tip.show(d, this);
+      tip.style("position","fixed")
+      tip.style('top', 400+"px");
+      tip.style('left', event.clientX+"px");
+      
+    })
   .on("mouseout", function(d) {
     tip.hide();
   });
@@ -108,8 +113,8 @@ export function histCreateAxes(g, xAxis, yAxis, height, width) {
 export function histLegend(svg, sources, color) {
   var boxSize = 12;
   var spaceBetweenBoxes = 10;
-  var xLegend = 0;
-  var yLegend = 0;
+  var xLegend = 450;
+  var yLegend = 10;
 
   var legend = svg.selectAll(".legend")
     .data(Object.keys(color))
@@ -152,7 +157,10 @@ export function initHistTip() {
 
 
 export function createOrUpdateMatrixChart(g, data, x, y, width, height, r, color, positions){
-        //Location to move the cicrcles towards
+      var tip = d3Tip()
+          .attr('class', 'd3-tip')
+      d3.selectAll(".d3-tip").remove() 
+       //Location to move the cicrcles towards
         var ageTTCenters = {}
         var sizeXgroup = width / (x.domain().length + 1);
         var sizeYgroup = height / (y.domain().length + 1);
@@ -163,7 +171,7 @@ export function createOrUpdateMatrixChart(g, data, x, y, width, height, r, color
             titlesPosition[x] = (i+1)*sizeXgroup,
             ageTTCenters[x.concat(y)] = {"x":(i+1)*sizeXgroup, "y":(j+1)*sizeYgroup})))
         );
-
+        
         g.selectAll('.titles')
           .data(y.domain())
           .enter()
@@ -197,8 +205,13 @@ export function createOrUpdateMatrixChart(g, data, x, y, width, height, r, color
                           .data(data);
           bubbles
             .attr('r', r)
-            // .on('mouseover', function(d){ tip.show(d);})
-            // .on('mouseout', function(d) { tip.hide();})
+            .on("mouseover", function(d) {
+              tip.show(d,this);
+              tip.style("position","fixed")
+              tip.style('top', 500+"px");
+              tip.style('left', event.clientX+"px");
+            })
+            .on('mouseout', function(d) { tip.hide();})
             // .merge(bubbles)
             .attr("cx", d => d.x)
             .attr("cy", d => d.y)
@@ -206,6 +219,11 @@ export function createOrUpdateMatrixChart(g, data, x, y, width, height, r, color
   
           // bubbles.exit().remove();
         }
+        tip.html(function(d) {
+          return histGetToolTipText.call(this, d);
+        });
+      
+        g.call(tip);
 
         function nodePosition(d){
           return ageTTCenters[d.ageGroup.concat(d.transmission)];
