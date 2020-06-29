@@ -45,7 +45,6 @@ export function mapCreateProportions(cases, populations){
   return cases;
 }
 
-
 export function mapCreateSources(data) {
   let ressources = {};
   for(var key in data)

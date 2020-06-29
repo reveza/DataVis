@@ -7,18 +7,6 @@
 import d3Tip from 'd3-tip';
 import { histGetToolTipText } from './tooltip'
 
-/**
- * Crée le graphique à bulles.
- *
- * @param g       The SVG group in which the bubble chart will be drawn.
- * @param data    Data to use.
- * @param x       Scale for the X axis.
- * @param y       Scale for the Y axis.
- * @param r       Scale for the circles' radiuses.
- * @param color   Scale for the circles' color.
- * @param tip     Tooltip to show when a circle is hovered.
- */
-
 export function createOrUpdateHistogram(g, data, x, y, r, color, positions) {
   var y_iterators = [0,0,0,0,0,0,0];
   var x_iterators = [0,0,0,0,0,0,0];
@@ -65,12 +53,10 @@ export function createOrUpdateHistogram(g, data, x, y, r, color, positions) {
       tip.style("position","fixed")
       tip.style('top', 400+"px");
       tip.style('left', event.clientX+"px");
-      
     })
   .on("mouseout", function(d) {
     tip.hide();
   });
-
 
   tip.html(function(d) {
     return histGetToolTipText.call(this, d);
@@ -82,15 +68,6 @@ export function createOrUpdateHistogram(g, data, x, y, r, color, positions) {
 
 }
 
-/**
- * Creates the bubble graph axis.
- *
- * @param g       The SVG group in which the bubble chart will be drawn.
- * @param xAxis   The X axis. 
- * @param yAxis   The Y axis.
- * @param height  The graphic's height.
- * @param width   The graphic's width.
- */
 export function histCreateAxes(g, xAxis, yAxis, height, width) {
   g.append("g")
     .attr("class","x axis")
@@ -103,13 +80,6 @@ export function histCreateAxes(g, xAxis, yAxis, height, width) {
     .attr("transform", "translate(" + (width - 50) + "," + (height + 30) +")");
 }
 
-/**
- * Create a legend from the given source.
- *
- * @param svg       SVG element to use in order to create the legend.
- * @param sources   Data sorted by street name and by date.
- * @param color     The 10-color scale to use.
- */
 export function histLegend(svg, sources, color) {
   var boxSize = 12;
   var spaceBetweenBoxes = 10;
@@ -154,7 +124,6 @@ export function initHistTip() {
     });
     this.bubbleChartGroup.call(this.tip);
 }
-
 
 export function createOrUpdateMatrixChart(g, data, x, y, width, height, r, color, positions){
       var tip = d3Tip()
@@ -232,8 +201,8 @@ export function createOrUpdateMatrixChart(g, data, x, y, width, height, r, color
         data.forEach(function(d) { 
           positions[d.id].x = d.x; 
           positions[d.id].y = d.y});
+
         return positions;
-  
 }
 
 export function createBubbles(g, data){
