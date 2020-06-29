@@ -152,9 +152,6 @@ export async function initialize() {
   createMapBorders(g, path, borders);
 
   createMapCircles(g, borders, sources, path, abbreviations, date, tip, region, coeff[region])
-  map.on("moveend", function () {
-    updateMap(svg, g, path, borders);
-  });
   updateMap(svg, g, path, borders);
 
   var toggleButtons = d3.selectAll("#viz3 .toggle-buttons > button");
@@ -180,9 +177,6 @@ export async function initialize() {
       createMapBorders(g, path, borders);
 
       createMapCircles(g, borders, sources, path, abbreviations, date, tip, region, coeff[region])
-      map.on("moveend", function () {
-        updateMap(svg, g, path, borders);
-      });
       updateMap(svg, g, path, borders);
 
       if (region === 'canada') {
@@ -215,7 +209,6 @@ export async function initialize() {
           dateParser(d.date).getTime() <= endDate[region].getTime())
         date = d.date
       
-      console.log(d.date)
       updateMapCircles(g, sources, abbreviations, date, region, coeff[region])
     }
   });
