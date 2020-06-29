@@ -80,8 +80,6 @@ export async function initialize() {
 
   const svg = d3.select(map.getPanes().overlayPane).append("svg")
 
-  console.log(svg)
-
   const g = svg.append("g")
     .attr("class", "leaflet-zoom-hide")
     .attr('transform', `translate(${config.margin.left}, ${config.margin.top})`);
