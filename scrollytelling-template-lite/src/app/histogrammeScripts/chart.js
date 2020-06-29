@@ -25,7 +25,8 @@ export function createOrUpdateHistogram(g, data, x, y, r, color, positions) {
   var maxCircle = 0;
   var tip = d3Tip()
     .attr('class', 'd3-tip')
-    .offset([-10, 100]);
+
+  d3.selectAll(".d3-tip").remove()
 
   g.selectAll("circle")
   .attr("class", "dot")
@@ -53,15 +54,22 @@ export function createOrUpdateHistogram(g, data, x, y, r, color, positions) {
     }
     y_iterators[index] += 1;
     positions[d.id].y = y("Exposition communautaire") - (position + r) + 240;
-    return y("Exposition communautaire") - (position + r) + 240;
+    return y("Exposition communautaire") - (position + r) + 238;
   })
   .attr("r", r)
   .style("fill", function(d) {
       return color(d.status);
   })
   .on("mouseover", function(d) {
-    tip.show(d, this);
-  })
+      //var scrollTop = parseInt((window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop);
+      //var y=parseInt(this.getAttribute("cy"))//+125
+      //var locationTop=parseInt(scrollTop+y)
+      tip.show(d, this);
+      tip.style("position","fixed")
+      tip.style('top', 400+"px");
+      tip.style('left', event.clientX+"px");
+      
+    })
   .on("mouseout", function(d) {
     tip.hide();
   });
@@ -108,8 +116,8 @@ export function histCreateAxes(g, xAxis, yAxis, height, width) {
 export function histLegend(svg, sources, color) {
   var boxSize = 12;
   var spaceBetweenBoxes = 10;
-  var xLegend = 0;
-  var yLegend = 0;
+  var xLegend = 450;
+  var yLegend = 10;
 
   var legend = svg.selectAll(".legend")
     .data(Object.keys(color))
