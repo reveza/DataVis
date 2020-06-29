@@ -179,8 +179,10 @@ export async function initialize() {
   updateMap(svg, g, path, borders);
 
   var toggleButtons = d3.selectAll("#viz3 .toggle-buttons > button");
+  
   toggleButtons.on("click", function(d, i) {
-    if(startDate[textToKey[d3.select(this).text()]] <= dateParser(date) <= endDate[textToKey[d3.select(this).text()]])
+    if(startDate[textToKey[d3.select(this).text()]].getTime() <= dateParser(date).getTime() && 
+      dateParser(date).getTime() <= endDate[textToKey[d3.select(this).text()]].getTime())
     {
       g.selectAll("circle")
       .remove()
@@ -235,12 +237,12 @@ export async function initialize() {
   // Logic to initialize the visualization...
   return dates.map(d => {
     return direction => {
-      
-      if (startDate[region] <= dateParser(d.date) <= endDate[region])
+      // console.log(startDate[region].getTime())
+      if (startDate[region].getTime() <= dateParser(d.date).getTime() && dateParser(d.date).getTime() <= endDate[region].getTime())
         date = d.date
       
       // console.log(d.date, date)
-      console.log(startDate[region], endDate[region], dateParser(d.date), startDate[region] <= dateParser(d.date) <= endDate[region])
+      
       updateMapCircles(g, sources, abbreviations, date, region, coeff[region])
       // this.mapSettingsCreateTooltip();
       
